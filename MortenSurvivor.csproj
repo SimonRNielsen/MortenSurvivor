@@ -16,10 +16,20 @@
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Commands\States\" />
+    <Folder Include="Content\Music\" />
+    <Folder Include="Content\Sounds\Enemy\" />
+    <Folder Include="Content\Sounds\Misc\" />
+    <Folder Include="Content\Sounds\Player\" />
     <Folder Include="Content\Sprites\Enemy\" />
     <Folder Include="Content\Sprites\Environment\" />
+    <Folder Include="Content\Sprites\Menu\" />
+    <Folder Include="Content\Sprites\DEBUG\" />
+    <Folder Include="Content\Sprites\UI\" />
     <Folder Include="Content\Sprites\Objects\" />
     <Folder Include="Content\Sprites\Player\" />
+    <Folder Include="CreationalPatterns\Factories\" />
+    <Folder Include="CreationalPatterns\Pools\" />
   </ItemGroup>
   <Target Name="RestoreDotnetTools" BeforeTargets="Restore">
     <Message Text="Restoring dotnet tools" Importance="High" />
