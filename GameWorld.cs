@@ -17,6 +17,8 @@ namespace MortenSurvivor
     public class GameWorld : Game
     {
 
+        #region Fields & SingleTon
+
         private static GameWorld instance;
 
 
@@ -33,18 +35,37 @@ namespace MortenSurvivor
 
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        public static Dictionary<Enum, Texture2D[]> Sprites = new Dictionary<Enum, Texture2D[]>();
-        public static Dictionary<Sound, SoundEffect> Sounds = new Dictionary<Sound, SoundEffect>();
-        public static Dictionary<MusicTrack, Song> Music = new Dictionary<MusicTrack, Song>();
 
+        public Dictionary<Enum, Texture2D[]> Sprites = new Dictionary<Enum, Texture2D[]>();
+        public Dictionary<Sound, SoundEffect> Sounds = new Dictionary<Sound, SoundEffect>();
+        public Dictionary<MusicTrack, Song> Music = new Dictionary<MusicTrack, Song>();
+        public Vector2 Screensize = new Vector2(1920, 1080);
+
+        private List<GameObject> gameObjects = new List<GameObject>();
+        private List<GameObject> newGameObjects = new List<GameObject>();
+
+        private float deltaTime;
+
+        #endregion
+        #region Properties
+
+
+        public float DeltaTime { get => deltaTime; set => deltaTime = value; }
+
+        #endregion
+        #region Constructor
 
         private GameWorld()
         {
+
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+
         }
 
+        #endregion
+        #region Methods
 
         protected override void Initialize()
         {
@@ -52,6 +73,7 @@ namespace MortenSurvivor
             LoadSprites();
             LoadSounds();
             LoadMusic();
+            SetScreenSize(Screensize);
 
             base.Initialize();
 
@@ -60,30 +82,47 @@ namespace MortenSurvivor
 
         protected override void LoadContent()
         {
+
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+            foreach (GameObject gameObject in gameObjects)
+                gameObject.Load();
+
         }
 
 
         protected override void Update(GameTime gameTime)
         {
+
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
+            deltaTime = (float)gameTime.TotalGameTime.TotalSeconds;
+
+            foreach (GameObject gameObject in gameObjects)
+                gameObject.Update(gameTime);
+
+            CleanUp();
 
             base.Update(gameTime);
+
         }
 
 
         protected override void Draw(GameTime gameTime)
         {
+
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+            _spriteBatch.Begin(/*transformMatrix: Camera.GetTransformation(),*/ samplerState: SamplerState.PointClamp, sortMode: SpriteSortMode.FrontToBack);
+
+            foreach (GameObject gameObject in gameObjects)
+                gameObject.Draw(_spriteBatch);
+
+            _spriteBatch.End();
 
             base.Draw(gameTime);
+
         }
 
         #region LoadAssets
@@ -108,6 +147,7 @@ namespace MortenSurvivor
                 walkingGoose[i] = Content.Load<Texture2D>($"Sprites\\Enemy\\gooseWalk{i}");
             }
             Sprites.Add(EnemyType.Slow, walkingGoose);
+            Sprites.Add(EnemyType.SlowChampion, walkingGoose);
 
             Texture2D[] fastGoose = new Texture2D[8];
             for (int i = 0; i < fastGoose.Length; i++)
@@ -115,6 +155,7 @@ namespace MortenSurvivor
                 fastGoose[i] = Content.Load<Texture2D>($"Sprites\\Enemy\\aggro{i}");
             }
             Sprites.Add(EnemyType.Fast, fastGoose);
+            Sprites.Add(EnemyType.FastChampion, fastGoose);
 
             Texture2D[] goosifer = new Texture2D[3];
             for (int i = 0; i < goosifer.Length; i++)
@@ -148,6 +189,10 @@ namespace MortenSurvivor
             stackableButton[0] = Content.Load<Texture2D>("Sprites\\Menu\\menuButton");
             Sprites.Add(MenuItem.StackableButton, stackableButton);
 
+            Texture2D[] mouseCursor = new Texture2D[1];
+            mouseCursor[0] = Content.Load<Texture2D>("Sprites\\Menu\\sword");
+            Sprites.Add(MenuItem.MouseCursor, mouseCursor);
+
             #endregion
             #region Objects
 
@@ -179,7 +224,7 @@ namespace MortenSurvivor
             {
                 playerWalk[i] = Content.Load<Texture2D>($"Sprites\\Player\\underCoverMortenSling{i}");
             }
-            Sprites.Add(PlayerType.UndercoverMorten, playerWalk);
+            Sprites.Add(PlayerType.UndercoverMortenWalk, playerWalk);
 
             #endregion
 
@@ -210,6 +255,48 @@ namespace MortenSurvivor
 
             Music.Add(MusicTrack.BattleMusic, Content.Load<Song>("Music\\battleMusic"));
             Music.Add(MusicTrack.BackgroundMusic, Content.Load<Song>("Music\\bgMusic"));
+
+        }
+
+        #endregion
+
+        private void SetScreenSize(Vector2 screenSize)
+        {
+
+            _graphics.PreferredBackBufferWidth = (int)screenSize.X;
+            _graphics.PreferredBackBufferHeight = (int)screenSize.Y;
+            _graphics.ApplyChanges();
+
+        }
+
+
+        public void SpawnObject(GameObject gameObject)
+        {
+
+            newGameObjects.Add(gameObject);
+            Debug.WriteLine(gameObject.ToString() + " added to spawnlist");
+
+        }
+
+
+        private void CleanUp()
+        {
+
+            int remove = gameObjects.RemoveAll(x => !x.IsAlive);
+            if (remove > 0)
+                Debug.WriteLine($"{remove} objects removed from gameObjects");
+            
+            if (newGameObjects.Count > 0)
+            {
+
+                foreach (GameObject gameObject in newGameObjects)
+                    gameObject.Load();
+
+                gameObjects.AddRange(newGameObjects);
+                Debug.WriteLine($"{newGameObjects.Count} objects added to gameObjects");
+                newGameObjects.Clear();
+
+            }
 
         }
 

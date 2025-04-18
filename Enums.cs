@@ -56,7 +56,7 @@
     public enum PlayerType
     {
 
-        UndercoverMorten
+        UndercoverMortenWalk
 
     }
 
@@ -121,7 +121,8 @@
     {
 
         StackableButton,
-        SingleButton
+        SingleButton,
+        MouseCursor
 
     }
 
