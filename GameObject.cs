@@ -99,7 +99,12 @@ namespace MortenSurvivor
         #region Methods
 
 
-        public virtual void Load() { }
+        public virtual void Load()
+        {
+
+            isAlive = true;
+
+        }
 
 
         public virtual void Update(GameTime gameTime) { }
