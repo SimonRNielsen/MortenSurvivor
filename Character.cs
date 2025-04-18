@@ -16,5 +16,8 @@ namespace MortenSurvivor
 {
     public abstract class Character : GameObject
     {
+        protected Character(Enum type, Vector2 spawnPos) : base(type, spawnPos)
+        {
+        }
     }
 }

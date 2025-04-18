@@ -16,5 +16,8 @@ namespace MortenSurvivor
 {
     public class Player : Character
     {
+        public Player(Enum type, Vector2 spawnPos) : base(type, spawnPos)
+        {
+        }
     }
 }

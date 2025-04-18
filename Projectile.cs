@@ -16,5 +16,8 @@ namespace MortenSurvivor
 {
     public class Projectile : GameObject, IState<Projectile>
     {
+        public Projectile(Enum type, Vector2 spawnPos) : base(type, spawnPos)
+        {
+        }
     }
 }

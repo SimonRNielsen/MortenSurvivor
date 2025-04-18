@@ -102,7 +102,10 @@ namespace MortenSurvivor
             deltaTime = (float)gameTime.TotalGameTime.TotalSeconds;
 
             foreach (GameObject gameObject in gameObjects)
+            {
                 gameObject.Update(gameTime);
+                DoCollisionCheck(gameObject);
+            }
 
             CleanUp();
 
@@ -287,7 +290,7 @@ namespace MortenSurvivor
             int remove = gameObjects.RemoveAll(x => !x.IsAlive);
             if (remove > 0)
                 Debug.WriteLine($"{remove} objects removed from gameObjects");
-            
+
             if (newGameObjects.Count > 0)
             {
 
@@ -297,6 +300,33 @@ namespace MortenSurvivor
                 gameObjects.AddRange(newGameObjects);
                 Debug.WriteLine($"{newGameObjects.Count} objects added to gameObjects");
                 newGameObjects.Clear();
+
+            }
+
+        }
+
+
+        private void DoCollisionCheck(GameObject gameObject)
+        {
+
+            HashSet<(GameObject, GameObject)> collisions = new HashSet<(GameObject, GameObject)>();
+
+            foreach (GameObject other in gameObjects)
+            {
+
+                if (gameObject == other || collisions.Contains((gameObject, other)))
+                    continue;
+
+                if (((gameObject is Player || gameObject is Projectile) && (other is Enemy)) || (gameObject is Player) && (other is Item))
+                {
+                    if (gameObject.CollisionBox.Intersects(other.CollisionBox))
+                    {
+                        //Pixelperfect goes here
+                        gameObject.OnCollision(other);
+                        other.OnCollision(gameObject);
+                        collisions.Add((gameObject, other));
+                    }
+                }
 
             }
 

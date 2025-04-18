@@ -16,5 +16,8 @@ namespace MortenSurvivor
 {
     public class Environment : GameObject
     {
+        public Environment(Enum type, Vector2 spawnPos) : base(type, spawnPos)
+        {
+        }
     }
 }

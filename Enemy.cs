@@ -16,5 +16,8 @@ namespace MortenSurvivor
 {
     public class Enemy : Character, IState<Enemy>
     {
+        public Enemy(Enum type, Vector2 spawnPos) : base(type, spawnPos)
+        {
+        }
     }
 }

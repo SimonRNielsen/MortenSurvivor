@@ -19,16 +19,16 @@ namespace MortenSurvivor
 
         #region Fields
 
-        private bool isAlive = true;
-        private float rotation = 0;
+        protected Color drawColor = Color.White;
+        protected SpriteEffects spriteEffect = SpriteEffects.None;
+        protected Enum type;
         protected float scale = 1f;
         protected float layer = 0.5f;
-        protected Enum type;
+        private float rotation = 0f;
+        private bool isAlive = true;
         private Texture2D sprite;
         private Vector2 position;
         private Vector2 origin;
-        protected Color drawColor = Color.White;
-        protected SpriteEffects spriteEffect = SpriteEffects.None;
 
         #endregion
         #region Propertitties
@@ -57,19 +57,33 @@ namespace MortenSurvivor
 
         public float Rotation { get => rotation; set => rotation = value; }
 
+
+        public virtual Rectangle CollisionBox
+        {
+
+            get 
+            { 
+
+                return new Rectangle((int)(Position.X - (Sprite.Width / 2) * scale), (int)(Position.Y - (Sprite.Height / 2) * scale), (int)(Sprite.Width * scale), (int)(Sprite.Height * scale)); 
+
+            }
+
+        }
+
         #endregion
         #region Constructor
 
 
-        public GameObject(Enum type)
+        public GameObject(Enum type, Vector2 spawnPos)
         {
 
             this.type = type;
+            position = spawnPos;
 
             try
             {
-                sprite = GameWorld.Instance.Sprites[(type as Enum)][0];
-                origin = new Vector2(sprite.Width / 2, sprite.Height / 2);
+                Sprite = GameWorld.Instance.Sprites[(type as Enum)][0];
+                origin = new Vector2(Sprite.Width / 2, Sprite.Height / 2);
             }
             catch (Exception e)
             {
@@ -82,20 +96,10 @@ namespace MortenSurvivor
         #region Methods
 
 
-        public virtual void Load()
-        {
+        public virtual void Load() { }
 
 
-
-        }
-
-
-        public virtual void Update(GameTime gameTime)
-        {
-
-
-
-        }
+        public virtual void Update(GameTime gameTime) { }
 
 
         public virtual void Draw(SpriteBatch spriteBatch)
@@ -112,9 +116,6 @@ namespace MortenSurvivor
             return type.ToString();
 
         }
-
-
-        public virtual void CheckCollision(GameObject other) { }
 
 
         public virtual void OnCollision(GameObject other) { }
