@@ -61,10 +61,13 @@ namespace MortenSurvivor
         public virtual Rectangle CollisionBox
         {
 
-            get 
-            { 
+            get
+            {
 
-                return new Rectangle((int)(Position.X - (Sprite.Width / 2) * scale), (int)(Position.Y - (Sprite.Height / 2) * scale), (int)(Sprite.Width * scale), (int)(Sprite.Height * scale)); 
+                if (sprite != null && (this is Player || this is Enemy || this is Projectile || this is Item))
+                    return new Rectangle((int)(Position.X - (Sprite.Width / 2) * scale), (int)(Position.Y - (Sprite.Height / 2) * scale), (int)(Sprite.Width * scale), (int)(Sprite.Height * scale));
+                else
+                    return new Rectangle();
 
             }
 
@@ -105,7 +108,8 @@ namespace MortenSurvivor
         public virtual void Draw(SpriteBatch spriteBatch)
         {
 
-            spriteBatch.Draw(Sprite, Position, null, drawColor, Rotation, origin, scale, spriteEffect, layer);
+            if (sprite != null)
+                spriteBatch.Draw(Sprite, Position, null, drawColor, Rotation, origin, scale, spriteEffect, layer);
 
         }
 

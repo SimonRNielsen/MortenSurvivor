@@ -317,7 +317,7 @@ namespace MortenSurvivor
                 if (gameObject == other || collisions.Contains((gameObject, other)))
                     continue;
 
-                if (((gameObject is Player || gameObject is Projectile) && (other is Enemy)) || (gameObject is Player) && (other is Item))
+                if (((gameObject is Player || gameObject is Projectile) && other is Enemy) || (gameObject is Player && other is Item))
                 {
                     if (gameObject.CollisionBox.Intersects(other.CollisionBox))
                     {
