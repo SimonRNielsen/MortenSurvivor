@@ -1,11 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MortenSurvivor
+﻿namespace MortenSurvivor
 {
+
+
+    public enum MusicTrack
+    {
+
+        BattleMusic,
+        BackgroundMusic
+
+    }
+
+
+    public enum Sound
+    {
+
+        PlayerWalk1,
+        PlayerWalk2,
+        PlayerShoot,
+        PlayerTakeDamage,
+        PlayerHeal,
+        EnemyHonk,
+        ProjectileSmashed,
+        MagicShoot,
+        PowerUpSound
+
+    }
 
 
     public enum UpgradeType
@@ -63,7 +82,9 @@ namespace MortenSurvivor
         Right,
         BottomLeft,
         Bottom,
-        BottomRight
+        BottomRight,
+        AvSurface,
+        Room
 
     }
 
@@ -84,6 +105,23 @@ namespace MortenSurvivor
         Fast,
         FastChampion,
         Goosifer
+
+    }
+
+
+    public enum DEBUGItem
+    {
+
+        DEBUGPixel
+
+    }
+
+
+    public enum MenuItem
+    {
+
+        StackableButton,
+        SingleButton
 
     }
 

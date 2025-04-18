@@ -1,3 +1,3 @@
-﻿
-using var game = new MortenSurvivor.GameWorld();
-game.Run();
+﻿using MortenSurvivor;
+
+GameWorld.Instance.Run();
