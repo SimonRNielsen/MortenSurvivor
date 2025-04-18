@@ -39,6 +39,7 @@ namespace MortenSurvivor
         public Dictionary<Enum, Texture2D[]> Sprites = new Dictionary<Enum, Texture2D[]>();
         public Dictionary<Sound, SoundEffect> Sounds = new Dictionary<Sound, SoundEffect>();
         public Dictionary<MusicTrack, Song> Music = new Dictionary<MusicTrack, Song>();
+        public SpriteFont GameFont;
         public Vector2 Screensize = new Vector2(1920, 1080);
 
         private List<GameObject> gameObjects = new List<GameObject>();
@@ -73,6 +74,7 @@ namespace MortenSurvivor
             LoadSprites();
             LoadSounds();
             LoadMusic();
+            GameFont = Content.Load<SpriteFont>("gameFont");
             SetScreenSize(Screensize);
 
             base.Initialize();
