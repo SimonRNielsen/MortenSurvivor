@@ -146,8 +146,7 @@ namespace MortenSurvivor
 #if DEBUG 
             #region DEBUGITEMS
 
-            Texture2D[] debug = new Texture2D[1];
-            debug[0] = Content.Load<Texture2D>("Sprites\\DEBUG\\pixel");
+            Texture2D[] debug = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\DEBUG\\pixel") };
             Sprites.Add(DEBUGItem.DEBUGPixel, debug);
 
             #endregion
@@ -155,18 +154,14 @@ namespace MortenSurvivor
             #region Enemy
 
             Texture2D[] walkingGoose = new Texture2D[8];
-            for (int i = 0; i < walkingGoose.Length; i++)
+            Texture2D[] fastGoose = new Texture2D[8];
+            for (int i = 0; i < 8; i++)
             {
                 walkingGoose[i] = Content.Load<Texture2D>($"Sprites\\Enemy\\gooseWalk{i}");
+                fastGoose[i] = Content.Load<Texture2D>($"Sprites\\Enemy\\aggro{i}");
             }
             Sprites.Add(EnemyType.Slow, walkingGoose);
             Sprites.Add(EnemyType.SlowChampion, walkingGoose);
-
-            Texture2D[] fastGoose = new Texture2D[8];
-            for (int i = 0; i < fastGoose.Length; i++)
-            {
-                fastGoose[i] = Content.Load<Texture2D>($"Sprites\\Enemy\\aggro{i}");
-            }
             Sprites.Add(EnemyType.Fast, fastGoose);
             Sprites.Add(EnemyType.FastChampion, fastGoose);
 
@@ -187,46 +182,37 @@ namespace MortenSurvivor
             }
             Sprites.Add(EnvironmentTile.AvSurface, avSurface);
 
-            Texture2D[] room = new Texture2D[1];
-            room[0] = Content.Load<Texture2D>("Sprites\\Environment\\room_single");
+            Texture2D[] room = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\room_single") };
             Sprites.Add(EnvironmentTile.Room, room);
 
             #endregion
             #region Menu
 
-            Texture2D[] button = new Texture2D[1];
-            button[0] = Content.Load<Texture2D>("Sprites\\Menu\\button");
+            Texture2D[] button = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Menu\\button") };
             Sprites.Add(MenuItem.SingleButton, button);
 
-            Texture2D[] stackableButton = new Texture2D[1];
-            stackableButton[0] = Content.Load<Texture2D>("Sprites\\Menu\\menuButton");
+            Texture2D[] stackableButton = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Menu\\menuButton") };
             Sprites.Add(MenuItem.StackableButton, stackableButton);
 
-            Texture2D[] mouseCursor = new Texture2D[1];
-            mouseCursor[0] = Content.Load<Texture2D>("Sprites\\Menu\\sword");
+            Texture2D[] mouseCursor = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Menu\\sword") };
             Sprites.Add(MenuItem.MouseCursor, mouseCursor);
 
             #endregion
             #region Objects
 
-            Texture2D[] bible = new Texture2D[1];
-            bible[0] = Content.Load<Texture2D>("Sprites\\Objects\\bible");
+            Texture2D[] bible = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Objects\\bible") };
             Sprites.Add(UpgradeType.Bible, bible);
 
-            Texture2D[] mitre = new Texture2D[1];
-            mitre[0] = Content.Load<Texture2D>("Sprites\\Objects\\mitre");
+            Texture2D[] mitre = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Objects\\mitre") };
             Sprites.Add(UpgradeType.Mitre, mitre);
 
-            Texture2D[] healBoost = new Texture2D[1];
-            healBoost[0] = Content.Load<Texture2D>("Sprites\\Objects\\potion");
+            Texture2D[] healBoost = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Objects\\potion") };
             Sprites.Add(ItemType.HealBoost, healBoost);
 
-            Texture2D[] rosary = new Texture2D[1];
-            rosary[0] = Content.Load<Texture2D>("Sprites\\Objects\\rosary");
+            Texture2D[] rosary = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Objects\\rosary") };
             Sprites.Add(UpgradeType.Rosary, rosary);
 
-            Texture2D[] scepter = new Texture2D[1];
-            scepter[0] = Content.Load<Texture2D>("Sprites\\Objects\\scepter");
+            Texture2D[] scepter = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Objects\\scepter") };
             Sprites.Add(UpgradeType.PopeStaff, scepter);
 
             #endregion
