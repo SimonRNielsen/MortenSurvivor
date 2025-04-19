@@ -16,8 +16,33 @@ namespace MortenSurvivor
 {
     public class Environment : GameObject
     {
+
+        #region Fields
+
+        private EnvironmentTile tileType;
+
+        #endregion
+        #region Properties
+
+
+
+        #endregion
+        #region Constructor
+
+
         public Environment(Enum type, Vector2 spawnPos) : base(type, spawnPos)
         {
+
+            tileType = (EnvironmentTile)type;
+
         }
+
+        #endregion
+        #region Methods
+
+
+
+        #endregion
+
     }
 }

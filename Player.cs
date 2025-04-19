@@ -16,8 +16,75 @@ namespace MortenSurvivor
 {
     public class Player : Character
     {
-        public Player(Enum type, Vector2 spawnPos) : base(type, spawnPos)
+
+        #region Fields & SingleTon
+
+        #region SingleTon
+
+        private static Player instance;
+        public static Player Instance
+        {
+            get
+            {
+                if (instance == null)
+                    instance = new Player(PlayerType.UndercoverMortenWalk, GameWorld.Instance.Screensize / 2);
+
+                return instance;
+            }
+        }
+
+        #endregion
+        private Weapon weapon;
+
+        #endregion
+        #region Properties
+
+
+
+        #endregion
+        #region Constructor
+
+
+        private Player(Enum type, Vector2 spawnPos) : base(type, spawnPos)
         {
         }
+
+        #endregion
+        #region Methods
+
+
+        public void Move(Vector2 spawnPos)
+        {
+
+
+
+        }
+
+
+        public void Shoot()
+        {
+
+
+
+        }
+
+
+        public override void Update(GameTime gameTime)
+        {
+
+            base.Update(gameTime); //Skal blive for at animationen kører
+
+        }
+
+
+        public override void OnCollision(GameObject other)
+        {
+
+            base.OnCollision(other);
+
+        }
+
+        #endregion
+
     }
 }

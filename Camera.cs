@@ -16,5 +16,28 @@ namespace MortenSurvivor
 {
     public class Camera
     {
+
+        #region Fields
+
+        private Vector2 position;
+
+        #endregion
+        #region Properties
+
+        
+        public Vector2 Position { get =>  position; set => position = value; }
+
+        #endregion
+        #region Constuctor
+
+
+
+        #endregion
+        #region Methods
+
+
+
+        #endregion
+
     }
 }

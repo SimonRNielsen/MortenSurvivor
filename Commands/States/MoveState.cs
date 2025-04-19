@@ -16,5 +16,19 @@ namespace MortenSurvivor.Commands.States
 {
     public class MoveState : IState<Projectile>
     {
+        public void Enter(Projectile parent)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Execute()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Exit()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

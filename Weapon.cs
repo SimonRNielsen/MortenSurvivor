@@ -16,5 +16,27 @@ namespace MortenSurvivor
 {
     public class Weapon
     {
+
+        #region Fields
+
+        private int damage;
+
+        #endregion
+        #region Properties
+
+
+
+        #endregion
+        #region Constructor
+
+        public Weapon(WeaponType type) { }
+
+        #endregion
+        #region Methods
+
+
+
+        #endregion
+
     }
 }

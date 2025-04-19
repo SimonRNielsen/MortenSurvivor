@@ -14,7 +14,7 @@ using MortenSurvivor.ObserverPattern;
 
 namespace MortenSurvivor.Commands
 {
-    public class InputHandler : ICommand
+    public class InputHandler
     {
     }
 }

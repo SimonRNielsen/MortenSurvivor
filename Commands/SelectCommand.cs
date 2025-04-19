@@ -16,5 +16,9 @@ namespace MortenSurvivor.Commands
 {
     public class SelectCommand : ICommand
     {
+        public void Execute()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

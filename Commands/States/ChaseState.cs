@@ -16,5 +16,19 @@ namespace MortenSurvivor.Commands.States
 {
     public class ChaseState : IState<Enemy>
     {
+        public void Enter(Enemy parent)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Execute()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Exit()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

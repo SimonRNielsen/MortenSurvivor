@@ -16,5 +16,9 @@ namespace MortenSurvivor.Commands
 {
     public class PauseCommand : ICommand
     {
+        public void Execute()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

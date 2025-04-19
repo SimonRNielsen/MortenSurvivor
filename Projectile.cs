@@ -14,10 +14,68 @@ using MortenSurvivor.ObserverPattern;
 
 namespace MortenSurvivor
 {
-    public class Projectile : GameObject, IState<Projectile>
+    public class Projectile : GameObject
     {
+
+        #region Fields
+
+        private Vector2 velocity;
+        private float speed;
+        private HashSet<GameObject> collidedWith = new HashSet<GameObject>();
+        private IState<Projectile> currentState;
+
+        #endregion
+        #region Properties
+
+        
+        public float Speed { get => speed; }
+
+
+        public Vector2 Velocity { get => velocity; }
+
+        #endregion
+        #region Constuctor
+
+
         public Projectile(Enum type, Vector2 spawnPos) : base(type, spawnPos)
         {
         }
+
+        #endregion
+        #region Methods
+
+
+        public override void Load()
+        {
+
+            collidedWith.Clear();
+
+            currentState = new MoveState();
+
+            base.Load();
+
+        }
+
+
+        public override void OnCollision(GameObject other)
+        {
+
+            base.OnCollision(other);
+
+        }
+
+
+        public override void Update(GameTime gameTime)
+        {
+
+            if (currentState != null)
+                currentState.Execute();
+
+            base.Update(gameTime);
+
+        }
+
+        #endregion
+
     }
 }

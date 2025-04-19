@@ -77,6 +77,9 @@ namespace MortenSurvivor
             GameFont = Content.Load<SpriteFont>("gameFont");
             SetScreenSize(Screensize);
 
+            gameObjects.Add(new Enemy(EnemyType.Slow, Screensize / 3));
+            gameObjects.Add(Player.Instance);
+
             base.Initialize();
 
         }
@@ -99,7 +102,7 @@ namespace MortenSurvivor
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            deltaTime = (float)gameTime.TotalGameTime.TotalSeconds;
+            deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             foreach (GameObject gameObject in gameObjects)
             {

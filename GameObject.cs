@@ -19,8 +19,9 @@ namespace MortenSurvivor
 
         #region Fields
 
-        protected Color drawColor = Color.White;
         protected SpriteEffects spriteEffect = SpriteEffects.None;
+        protected Color drawColor = Color.White;
+        protected Vector2 origin;
         protected Enum type;
         protected float scale = 1f;
         protected float layer = 0.5f;
@@ -28,7 +29,6 @@ namespace MortenSurvivor
         private bool isAlive = true;
         private Texture2D sprite;
         private Vector2 position;
-        private Vector2 origin;
 
         #endregion
         #region Propertitties
