@@ -31,7 +31,9 @@ namespace MortenSurvivor
         #endregion
         #region Properties
 
-
+        /// <summary>
+        /// Håndterer automatisk at objektet bliver fjernet efter at nå 0 eller under i liv
+        /// </summary>
         public int CurrentHealth
         {
             get => currentHealth;
@@ -55,7 +57,12 @@ namespace MortenSurvivor
         #endregion
         #region Constructor
 
-
+        /// <summary>
+        /// Sætter automatisk sprites
+        /// </summary>
+        /// <param name="type">Bruges til at angive hvilke sprites der skal vises for objektet</param>
+        /// <param name="spawnPos">Angiver startposition for objektet</param>
+        /// <exception cref="Exception">Giver fejlmeddelelse hvis det ikke lykkedes at finde sprites</exception>
         protected Character(Enum type, Vector2 spawnPos) : base(type, spawnPos)
         {
 
@@ -73,7 +80,9 @@ namespace MortenSurvivor
         #endregion
         #region Methods
 
-
+        /// <summary>
+        /// Står for at nulstille/klargøre objektets primære parametre
+        /// </summary>
         public override void Load()
         {
 
@@ -83,18 +92,23 @@ namespace MortenSurvivor
 
         }
 
-
+        /// <summary>
+        /// Står for animeringsprocessen og generel opdaterings-logik
+        /// </summary>
+        /// <param name="gameTime"></param>
         public override void Update(GameTime gameTime)
         {
 
-            Animate(gameTime);
+            Animate();
 
             base.Update(gameTime);
 
         }
 
-
-        public virtual void Animate(GameTime gameTime)
+        /// <summary>
+        /// Håndterer hvilken sprite i sprites der skal illustreres
+        /// </summary>
+        protected virtual void Animate()
         {
 
             //Restart the animation
@@ -110,7 +124,10 @@ namespace MortenSurvivor
 
         }
 
-
+        /// <summary>
+        /// Håndterer visning af sprite(s)
+        /// </summary>
+        /// <param name="spriteBatch">Game-logic</param>
         public override void Draw(SpriteBatch spriteBatch)
         {
 

@@ -50,7 +50,9 @@ namespace MortenSurvivor
         #endregion
         #region Properties
 
-
+        /// <summary>
+        /// Angiver tid passeret siden sidste update-loop
+        /// </summary>
         public float DeltaTime { get => deltaTime; set => deltaTime = value; }
 
         #endregion
@@ -135,6 +137,9 @@ namespace MortenSurvivor
 
         #region LoadAssets
 
+        /// <summary>
+        /// Tilføjer alle sprites til Sprites dictionary
+        /// </summary>
         private void LoadSprites()
         {
 
@@ -238,7 +243,9 @@ namespace MortenSurvivor
 
         }
 
-
+        /// <summary>
+        /// Tilføjer alle lyde til Sounds dictionary
+        /// </summary>
         private void LoadSounds()
         {
 
@@ -257,7 +264,9 @@ namespace MortenSurvivor
 
         }
 
-
+        /// <summary>
+        /// Tilføjer alt musik til Music dictionary
+        /// </summary>
         private void LoadMusic()
         {
 
@@ -268,6 +277,10 @@ namespace MortenSurvivor
 
         #endregion
 
+        /// <summary>
+        /// Sætter skærmstørrelsen til at være de angivne dimensioner i vektor'en
+        /// </summary>
+        /// <param name="screenSize">Angiver skærmstørrelse i form af x- og y-akser</param>
         private void SetScreenSize(Vector2 screenSize)
         {
 
@@ -277,7 +290,10 @@ namespace MortenSurvivor
 
         }
 
-
+        /// <summary>
+        /// Bruges eksternt som "GameWorld.Instance.SpawnObject(obj)" til at tilføje nye aktive objekter, og udskriver til Debugkonsollen hvad der er blevet tilføjet ud fra enum'et der er anvendt i konstruktøren
+        /// </summary>
+        /// <param name="gameObject"></param>
         public void SpawnObject(GameObject gameObject)
         {
 
@@ -286,7 +302,9 @@ namespace MortenSurvivor
 
         }
 
-
+        /// <summary>
+        /// Fjerner først objekter fra "gameobjects" hvor "IsAlive" er "false", skriver hvor mange der er det ud til Debug-konsollen, og tilføjer derefter alle objekter i "newGameObjects" efter at have kørt deres "Load" metode, og skriver hvor mange der er tilføjet i Debug-konsollen
+        /// </summary>
         private void CleanUp()
         {
 
@@ -308,7 +326,10 @@ namespace MortenSurvivor
 
         }
 
-
+        /// <summary>
+        /// Sørger for at tjekke om det primære objekt har en kollision med øvrige objekter
+        /// </summary>
+        /// <param name="gameObject">Primære objekt der skal tjekkes op mod</param>
         private void DoCollisionCheck(GameObject gameObject)
         {
 
