@@ -111,12 +111,6 @@ namespace MortenSurvivor
         protected virtual void Animate()
         {
 
-            //Restart the animation
-            if (currentIndex >= sprites.Length - 1)
-            {
-                currentIndex = 0;
-            }
-
             //Adding the time which has passed since the last update
             elapsedTime += GameWorld.Instance.DeltaTime;
 
