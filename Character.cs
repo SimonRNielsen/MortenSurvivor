@@ -125,10 +125,12 @@ namespace MortenSurvivor
         public override void Draw(SpriteBatch spriteBatch)
         {
 
-            if (sprites != null)
+            if (sprites != null /*&& velocity != Vector2.Zero*/)
                 spriteBatch.Draw(sprites[currentIndex], Position, null, drawColor, Rotation, origin, scale, spriteEffect, layer);
             else if (Sprite != null)
                 spriteBatch.Draw(Sprite, Position, null, drawColor, Rotation, origin, scale, spriteEffect, layer);
+
+            //velocity = Vector2.Zero
 
         }
 
