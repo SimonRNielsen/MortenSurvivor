@@ -11,6 +11,7 @@ using MortenSurvivor.Commands.States;
 using MortenSurvivor.CreationalPatterns.Factories;
 using MortenSurvivor.CreationalPatterns.Pools;
 using MortenSurvivor.ObserverPattern;
+using SharpDX.Direct3D9;
 
 namespace MortenSurvivor
 {
@@ -21,7 +22,7 @@ namespace MortenSurvivor
 
         protected SpriteEffects spriteEffect = SpriteEffects.None;
         protected Color drawColor = Color.White;
-        protected Vector2 origin;
+        protected Vector2 origin = Vector2.Zero;
         protected Enum type;
         protected float scale = 1f;
         protected float layer = 0.5f;
@@ -83,22 +84,19 @@ namespace MortenSurvivor
         /// </summary>
         /// <param name="type">Bruges til at angive hvilke sprites der skal vises for objektet</param>
         /// <param name="spawnPos">Angiver startposition for objektet</param>
-        /// <exception cref="Exception">Giver fejlmeddelelse hvis det ikke lykkedes at finde sprites</exception>
         public GameObject(Enum type, Vector2 spawnPos)
         {
 
             this.type = type;
             position = spawnPos;
 
-            try
-            {
-                Sprite = GameWorld.Instance.Sprites[type][0];
+            if (GameWorld.Instance.Sprites.TryGetValue(type, out var sprites))
+                Sprite = sprites[0];
+            else
+                Debug.WriteLine("Kunne ikke sætte sprite for " + ToString());
+
+            if (sprite != null)
                 origin = new Vector2(Sprite.Width / 2, Sprite.Height / 2);
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
 
         }
 

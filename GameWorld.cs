@@ -36,7 +36,8 @@ namespace MortenSurvivor
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private Camera camera;
-
+        private Random random;
+        
         public Dictionary<Enum, Texture2D[]> Sprites = new Dictionary<Enum, Texture2D[]>();
         public Dictionary<Sound, SoundEffect> Sounds = new Dictionary<Sound, SoundEffect>();
         public Dictionary<MusicTrack, Song> Music = new Dictionary<MusicTrack, Song>();
@@ -63,6 +64,9 @@ namespace MortenSurvivor
 
         public Camera Camera { get => camera; }
 
+
+        public Random Random { get  => random; }
+
         #endregion
         #region Constructor
 
@@ -87,8 +91,10 @@ namespace MortenSurvivor
             GameFont = Content.Load<SpriteFont>("gameFont");
             SetScreenSize(Screensize);
             camera = new Camera(GraphicsDevice, Screensize / 2);
+            random = new Random();
 
-            gameObjects.Add(new Enemy(EnemyType.Slow, Screensize / 3));
+            gameObjects.Add(new Enemy(EnemyType.Slow, Screensize / 1.1f));
+            gameObjects.Add(new Enemy(EnemyType.Slow, Screensize / 8f));
             gameObjects.Add(Player.Instance);
 
             base.Initialize();
@@ -112,6 +118,10 @@ namespace MortenSurvivor
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+
+            if (Keyboard.GetState().IsKeyDown(Keys.Space))
+                SpawnObject(new Projectile(ProjectileType.Eggs, Player.Instance.Position, 300, 0)); //Test til at se om projektiler flyver mod musen fra deres startpunkt
+                //    Player.Instance.Position = new Vector2(random.Next(0, (int)Screensize.X), random.Next(0, (int)Screensize.Y)); //Test til at se om gæs følger Mortens alt efter hans position
 
             deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
@@ -223,6 +233,12 @@ namespace MortenSurvivor
 
             Texture2D[] scepter = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Objects\\scepter") };
             Sprites.Add(UpgradeType.PopeStaff, scepter);
+
+            Texture2D[] egg = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Objects\\egg1") };
+            Sprites.Add(ProjectileType.Eggs, egg);
+
+            Texture2D[] geasterEgg = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Objects\\egg2") };
+            Sprites.Add(ProjectileType.GeasterEgg, geasterEgg);
 
             #endregion
             #region Player

@@ -62,18 +62,12 @@ namespace MortenSurvivor
         /// </summary>
         /// <param name="type">Bruges til at angive hvilke sprites der skal vises for objektet</param>
         /// <param name="spawnPos">Angiver startposition for objektet</param>
-        /// <exception cref="Exception">Giver fejlmeddelelse hvis det ikke lykkedes at finde sprites</exception>
         protected Character(Enum type, Vector2 spawnPos) : base(type, spawnPos)
         {
 
-            try
-            {
-                sprites = GameWorld.Instance.Sprites[type];
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
+            if (GameWorld.Instance.Sprites.TryGetValue(type, out sprites)) { }
+            else
+                Debug.WriteLine("Kunne ikke sætte sprite for " + ToString());
 
         }
 
@@ -125,12 +119,12 @@ namespace MortenSurvivor
         public override void Draw(SpriteBatch spriteBatch)
         {
 
-            if (sprites != null /*&& velocity != Vector2.Zero*/)
+            if (sprites != null && velocity != Vector2.Zero)
                 spriteBatch.Draw(sprites[currentIndex], Position, null, drawColor, Rotation, origin, scale, spriteEffect, layer);
             else if (Sprite != null)
                 spriteBatch.Draw(Sprite, Position, null, drawColor, Rotation, origin, scale, spriteEffect, layer);
 
-            //velocity = Vector2.Zero
+            velocity = Vector2.Zero;
 
         }
 

@@ -23,6 +23,7 @@ namespace MortenSurvivor
         private int damage;
         private float damageTimer;
         private float damageGracePeriod;
+        private Color originalColor;
 
         #endregion
         #region Properties
@@ -36,29 +37,55 @@ namespace MortenSurvivor
 
         public float DamageGracePeriod { get => damageGracePeriod; }
 
+        /// <summary>
+        /// Bruges til at ændre CurrentState fra ConfusedState og FleeState
+        /// </summary>
+        public IState<Enemy> CurrentState { set => currentState = value; }
+
+        /// <summary>
+        /// Bruges til at ændre farven for visuel representation af effekter
+        /// </summary>
+        public Color DrawColor { get => drawColor; set => drawColor = value; }
+
+        /// <summary>
+        /// Returnerer originalColor
+        /// </summary>
+        public Color OriginalColor { get => originalColor; }
+
         #endregion
         #region Constructor
 
-
+        /// <summary>
+        /// Laver en instans af en fjende og ændrer på attributter ud fra hvilken type det er. Sprites sættes i base-konstruktørerne (Sprites i Character, Sprite i GameObject)
+        /// </summary>
+        /// <param name="type">Enum af tyoeb EnemyType</param>
+        /// <param name="spawnPos">Startposition for fjenden</param>
         public Enemy(Enum type, Vector2 spawnPos) : base(type, spawnPos)
         {
 
-            switch (type) //Sprites bliver sat i Character
+            currentState = new ChaseState(this);
+
+            switch (type)
             {
                 case EnemyType.Slow:
-                    
+                    speed = 125f;
+                    originalColor = Color.White;
                     break;
                 case EnemyType.SlowChampion:
-
+                    speed = 125f;
+                    originalColor = Color.Beige;
                     break;
                 case EnemyType.Fast:
-
+                    speed = 200f;
+                    originalColor = Color.White;
                     break;
                 case EnemyType.FastChampion:
-
+                    speed = 200f;
+                    originalColor = Color.Beige;
                     break;
                 case EnemyType.Goosifer:
-
+                    speed = 165f;
+                    originalColor = Color.White;
                     break;
                 default:
                     break;
@@ -69,22 +96,44 @@ namespace MortenSurvivor
         #endregion
         #region Methods
 
-
+        /// <summary>
+        /// Kører State's "Execute" metode og base.Update der står for animation
+        /// </summary>
+        /// <param name="gameTime">Game Logic</param>
         public override void Update(GameTime gameTime)
         {
 
             if (currentState != null)
                 currentState.Execute();
 
-            base.Update(gameTime); //Skal blive for at animationen kører
+            base.Update(gameTime);
 
         }
 
-
-        public void Move(Vector2 velocity)
+        /// <summary>
+        /// Står for at bevæge fjenden alt efter hvilken Vector den modtager, håndterer også SpriteEffects ud fra det
+        /// </summary>
+        /// <param name="direction">Retningen fjenden skal bevæge sig</param>
+        public void Move(Vector2 direction)
         {
 
+            velocity = direction; //Fortæller draw om fjenden har bevæget sig
 
+            if (Vector2.Distance(Position, Player.Instance.Position) < 10)
+                velocity = Vector2.Zero; //Fortæller draw at den ikke skal animere fjenden
+            else
+            {
+                Position += (direction * GameWorld.Instance.DeltaTime * speed);
+                switch (direction.X)
+                {
+                    case > 0:
+                        spriteEffect = SpriteEffects.FlipHorizontally;
+                        break;
+                    default:
+                        spriteEffect = SpriteEffects.None;
+                        break;
+                }
+            }
 
         }
 

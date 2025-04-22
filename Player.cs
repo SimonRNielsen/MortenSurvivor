@@ -47,6 +47,9 @@ namespace MortenSurvivor
 
         private Player(Enum type, Vector2 spawnPos) : base(type, spawnPos)
         {
+
+            velocity = Vector2.One; //Til at bevare animation indtil anden form implementeres
+
         }
 
         #endregion
