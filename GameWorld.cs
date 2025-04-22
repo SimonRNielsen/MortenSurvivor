@@ -35,6 +35,7 @@ namespace MortenSurvivor
 
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        private Camera camera;
 
         public Dictionary<Enum, Texture2D[]> Sprites = new Dictionary<Enum, Texture2D[]>();
         public Dictionary<Sound, SoundEffect> Sounds = new Dictionary<Sound, SoundEffect>();
@@ -46,6 +47,7 @@ namespace MortenSurvivor
         private List<GameObject> newGameObjects = new List<GameObject>();
 
         private float deltaTime;
+        private bool gamePaused = false;
 
         #endregion
         #region Properties
@@ -54,6 +56,12 @@ namespace MortenSurvivor
         /// Angiver tid passeret siden sidste update-loop
         /// </summary>
         public float DeltaTime { get => deltaTime; set => deltaTime = value; }
+
+
+        public bool GamePaused { get => gamePaused; set => gamePaused = value; }
+
+
+        public Camera Camera { get => camera; }
 
         #endregion
         #region Constructor
@@ -78,6 +86,7 @@ namespace MortenSurvivor
             LoadMusic();
             GameFont = Content.Load<SpriteFont>("gameFont");
             SetScreenSize(Screensize);
+            camera = new Camera(GraphicsDevice, Screensize / 2);
 
             gameObjects.Add(new Enemy(EnemyType.Slow, Screensize / 3));
             gameObjects.Add(Player.Instance);
@@ -124,7 +133,7 @@ namespace MortenSurvivor
 
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            _spriteBatch.Begin(/*transformMatrix: Camera.GetTransformation(),*/ samplerState: SamplerState.PointClamp, sortMode: SpriteSortMode.FrontToBack);
+            _spriteBatch.Begin(transformMatrix: Camera.GetTransformation(), samplerState: SamplerState.PointClamp, sortMode: SpriteSortMode.FrontToBack);
 
             foreach (GameObject gameObject in gameObjects)
                 gameObject.Draw(_spriteBatch);

@@ -21,6 +21,7 @@ namespace MortenSurvivor
 
         private Vector2 velocity;
         private float speed;
+        private int damage;
         private HashSet<GameObject> collidedWith = new HashSet<GameObject>();
         private IState<Projectile> currentState;
 
@@ -28,7 +29,10 @@ namespace MortenSurvivor
         #region Properties
 
         
-        public float Speed { get => speed; }
+        public float Speed { get => speed; set => speed = value; }
+
+
+        public int Damage { get => damage; set => damage = value; }
 
 
         public Vector2 Velocity { get => velocity; }
