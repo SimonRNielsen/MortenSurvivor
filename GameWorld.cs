@@ -119,9 +119,9 @@ namespace MortenSurvivor
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Space))
-                SpawnObject(new Projectile(ProjectileType.Eggs, Player.Instance.Position, 300, 0)); //Test til at se om projektiler flyver mod musen fra deres startpunkt
-                //    Player.Instance.Position = new Vector2(random.Next(0, (int)Screensize.X), random.Next(0, (int)Screensize.Y)); //Test til at se om gæs følger Mortens alt efter hans position
+            //if (Keyboard.GetState().IsKeyDown(Keys.Space))
+            //    SpawnObject(new Projectile(ProjectileType.Eggs, Player.Instance.Position, 300, 0)); //Test til at se om projektiler flyver mod musen fra deres startpunkt
+            //    Player.Instance.Position = new Vector2(random.Next(0, (int)Screensize.X), random.Next(0, (int)Screensize.Y)); //Test til at se om gæs følger Mortens alt efter hans position
 
             deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
