@@ -27,7 +27,7 @@ namespace MortenSurvivor.Commands
         private List<MouseKeys> previousPressedMouseKeys;
 
         private float timeElapsed;
-        private float Countdown = 1;
+        private float countdown = 1;
 
         public static InputHandler Instance
         {
@@ -81,7 +81,7 @@ namespace MortenSurvivor.Commands
         /// </summary>
         /// <param name="mouseState">the current mousestate</param>
         /// <returns></returns>
-        public List<MouseKeys> getPressedMouseKeys(MouseState mouseState)
+        public List<MouseKeys> GetPressedMouseKeys(MouseState mouseState)
         {
             List<MouseKeys> pressedKeys = new List<MouseKeys>();
             if (mouseState.LeftButton == ButtonState.Pressed)
@@ -113,7 +113,7 @@ namespace MortenSurvivor.Commands
         {
             KeyboardState keyboardState = Keyboard.GetState();
             MouseState mouseState = Mouse.GetState();
-            List<MouseKeys> pressedMouseKeys = getPressedMouseKeys(mouseState);
+            List<MouseKeys> pressedMouseKeys = GetPressedMouseKeys(mouseState);
             timeElapsed += GameWorld.Instance.DeltaTime;
             foreach (var pressedKey in keyboardState.GetPressedKeys())
             {
@@ -128,7 +128,7 @@ namespace MortenSurvivor.Commands
                         commandButtonDown.Execute();
                     }
                 }
-                if (timeElapsed > Countdown)
+                if (timeElapsed > countdown)
                 {
                     if (keyBindsOncePerCountdown.TryGetValue(pressedKey, out ICommand commandCountdown))
                     {
@@ -154,7 +154,7 @@ namespace MortenSurvivor.Commands
                         commandButtonDown.Execute();
                     }
                 }
-                if (timeElapsed > Countdown)
+                if (timeElapsed > countdown)
                 {
                     if (mouseKeybindsOncePerCoundown.TryGetValue(mouseKey, out ICommand commandCountdown))
                     {
