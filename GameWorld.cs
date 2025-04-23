@@ -145,6 +145,29 @@ namespace MortenSurvivor
                 DoCollisionCheck(gameObject);
             }
 
+            /*Lappeløsning*/
+
+            List<GameObject> identicals = new List<GameObject>();
+
+            for (int i = 0; i < gameObjects.Count; i++)
+            {
+                for (int j = 0; j < gameObjects.Count; j++)
+                {
+
+                    if (i == j)
+                        continue;
+
+                    if (gameObjects[i] == gameObjects[j] && !identicals.Contains(gameObjects[i]))
+                        identicals.Add(gameObjects[i]);
+
+                }
+            }
+
+            foreach (GameObject entry in identicals)
+            {
+                gameObjects.Remove(entry);
+            }
+
             //Spawne nye gæs
 
             SpawnEnemies();
@@ -376,10 +399,10 @@ namespace MortenSurvivor
                     {
 
                         bool handledCollision = false;
-                        if (gameObject is Character)
+                        if (gameObject is Player)
                             foreach (RectangleData rect1 in ((Character)gameObject).Rectangles)
                             {
-                                if (other is Character)
+                                if (other is Enemy)
                                     foreach (RectangleData rect2 in ((Character)other).Rectangles)
                                     {
                                         if (rect1.Rectangle.Intersects(rect2.Rectangle))
