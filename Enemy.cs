@@ -29,9 +29,7 @@ namespace MortenSurvivor
         #endregion
         #region Properties
 
-
         public int Damage { get => damage; }
-
 
         public float DamageTimer { get => damageTimer; set => damageTimer = value; }
 

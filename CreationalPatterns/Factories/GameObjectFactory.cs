@@ -14,7 +14,23 @@ using MortenSurvivor.ObserverPattern;
 
 namespace MortenSurvivor.CreationalPatterns.Factories
 {
-    public class GameObjectFactory
+    public abstract class GameObjectFactory
     {
+        #region Fields
+
+        #endregion
+
+        #region Properties
+
+        #endregion
+
+        #region Constructor
+
+        #endregion
+
+        #region Method
+
+        #endregion
+
     }
 }

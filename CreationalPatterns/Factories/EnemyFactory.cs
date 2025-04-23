@@ -16,5 +16,20 @@ namespace MortenSurvivor.CreationalPatterns.Factories
 {
     public class EnemyFactory : GameObjectFactory
     {
+        #region Fields
+
+        #endregion
+
+        #region Properties
+
+        #endregion
+
+        #region Constructor
+
+        #endregion
+
+        #region Method
+
+        #endregion
     }
 }
