@@ -17,8 +17,10 @@ namespace MortenSurvivor.Commands
     public class InputHandler
     {
         private InputHandler instance;
+        private Dictionary<Keys, ICommand> keybinds = new Dictionary<Keys, ICommand>();
 
-        public InputHandler Instance { 
+        public InputHandler Instance
+        {
             get
             {
                 if (instance == null)
@@ -33,5 +35,25 @@ namespace MortenSurvivor.Commands
         {
 
         }
+
+
+        public void AddCommand(Keys inputKey, ICommand command)
+        {
+            keybinds.Add(inputKey, command);
+        }
+
+        public void Execute()
+        {
+            KeyboardState keyboardState = Keyboard.GetState();
+            foreach (var pressedKey in keyboardState.GetPressedKeys())
+            {
+                if(keybinds.TryGetValue(pressedKey, out ICommand command))
+                {
+                    command.Execute();
+                }
+
+            }
+        }
+
     }
 }
