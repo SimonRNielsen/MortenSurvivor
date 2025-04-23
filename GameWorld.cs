@@ -99,8 +99,7 @@ namespace MortenSurvivor
             camera = new Camera(GraphicsDevice, Screensize / 2);
             random = new Random();
 
-
-            //gameObjects.Add(new ProjectileFactory().Create());
+            //gameObjects.Add(ProjectileFactory.Instance.Create());
 
 
             gameObjects.Add(Player.Instance);
@@ -258,6 +257,8 @@ namespace MortenSurvivor
             Texture2D[] geasterEgg = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Objects\\egg2") };
             Sprites.Add(ProjectileType.GeasterEgg, geasterEgg);
 
+            Texture2D[] halo = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\objects\\glorie2") };
+            Sprites.Add(ProjectileType.Magic, halo);
             #endregion
             #region Player
 
