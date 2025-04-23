@@ -63,7 +63,6 @@ namespace MortenSurvivor
             {
                 velocity.Normalize();
             }
-            if(velocity)
             Position += velocity * speed *  GameWorld.Instance.DeltaTime;
         }
 
