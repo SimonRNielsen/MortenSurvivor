@@ -94,10 +94,10 @@ namespace MortenSurvivor
             random = new Random();
 
 
-            //gameObjects.Add(new EnemyFactory().Create());
-            //gameObjects.Add(new EnemyFactory().Create());
-            //gameObjects.Add(new EnemyFactory().Create());
-            //gameObjects.Add(new EnemyFactory().Create());
+            gameObjects.Add(new EnemyFactory().Create());
+            gameObjects.Add(new EnemyFactory().Create());
+            gameObjects.Add(new EnemyFactory().Create());
+            gameObjects.Add(new EnemyFactory().Create());
 
             gameObjects.Add(new ProjectileFactory().Create());
 

@@ -16,5 +16,14 @@ namespace MortenSurvivor.CreationalPatterns.Pools
 {
     public class EnemyPool : GameObjectPool
     {
+        protected override void CleanUp(GameObject gameObject)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override GameObject Create()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
