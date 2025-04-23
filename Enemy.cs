@@ -20,6 +20,7 @@ namespace MortenSurvivor
         #region Fields
 
         private IState<Enemy> currentState;
+        private IState<Enemy> originalState;
         private int damage;
         private float damageTimer;
         private float damageGracePeriod;
@@ -43,6 +44,11 @@ namespace MortenSurvivor
         public IState<Enemy> CurrentState { set => currentState = value; }
 
         /// <summary>
+        /// Gemmer den originale ChaseState for optimisering
+        /// </summary>
+        public IState<Enemy> OriginalState { get => originalState; }
+
+        /// <summary>
         /// Bruges til at ændre farven for visuel representation af effekter
         /// </summary>
         public Color DrawColor { get => drawColor; set => drawColor = value; }
@@ -63,7 +69,8 @@ namespace MortenSurvivor
         public Enemy(Enum type, Vector2 spawnPos) : base(type, spawnPos)
         {
 
-            currentState = new ChaseState(this);
+            originalState = new ChaseState(this);
+            currentState = originalState;
 
             switch (type)
             {

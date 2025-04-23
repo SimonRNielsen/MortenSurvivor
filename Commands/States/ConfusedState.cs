@@ -80,7 +80,7 @@ namespace MortenSurvivor.Commands.States
         {
 
             parent.DrawColor = parent.OriginalColor;
-            parent.CurrentState = new ChaseState(parent);
+            parent.CurrentState = parent.OriginalState;
 
         }
 
