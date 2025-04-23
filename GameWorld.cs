@@ -38,7 +38,7 @@ namespace MortenSurvivor
         private SpriteBatch _spriteBatch;
         private Camera camera;
         private Random random;
-        
+
         public Dictionary<Enum, Texture2D[]> Sprites = new Dictionary<Enum, Texture2D[]>();
         public Dictionary<Sound, SoundEffect> Sounds = new Dictionary<Sound, SoundEffect>();
         public Dictionary<MusicTrack, Song> Music = new Dictionary<MusicTrack, Song>();
@@ -71,7 +71,7 @@ namespace MortenSurvivor
         public Camera Camera { get => camera; }
 
 
-        public Random Random { get  => random; }
+        public Random Random { get => random; }
 
         #endregion
         #region Constructor
@@ -368,12 +368,63 @@ namespace MortenSurvivor
                 {
                     if (gameObject.CollisionBox.Intersects(other.CollisionBox))
                     {
-                        //Pixelperfect goes here
-                        gameObject.OnCollision(other);
-                        other.OnCollision(gameObject);
-                        collisions.Add((gameObject, other));
 
-                        EnemyPool.Instance.ReleaseObject(other);
+                        bool handledCollision = false;
+                        if (gameObject is Character)
+                            foreach (RectangleData rect1 in ((Character)gameObject).Rectangles)
+                            {
+                                if (other is Character)
+                                    foreach (RectangleData rect2 in ((Character)other).Rectangles)
+                                    {
+                                        if (rect1.Rectangle.Intersects(rect2.Rectangle))
+                                        {
+                                            handledCollision = true;
+                                            break;
+                                        }
+                                    }
+
+                                if (handledCollision)
+                                    break;
+                            }
+                        else if (gameObject is Projectile && other is Enemy)
+                        {
+                            foreach (RectangleData rect1 in ((Character)other).Rectangles)
+                            {
+                                if (rect1.Rectangle.Intersects(gameObject.CollisionBox))
+                                {
+                                    handledCollision = true;
+                                    break;
+                                }
+                            }
+                        }
+                        else if (gameObject is Player && other is Item)
+                        {
+                            foreach (RectangleData rect1 in ((Character)gameObject).Rectangles)
+                            {
+                                if (rect1.Rectangle.Intersects(other.CollisionBox))
+                                {
+                                    handledCollision = true;
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (handledCollision)
+                        {
+                            gameObject.OnCollision(other);
+                            other.OnCollision(gameObject);
+                            collisions.Add((gameObject, other));
+                        }
+
+
+                        ////////////////////////////////////////////////
+
+                        //gameObject.OnCollision(other);
+                        //other.OnCollision(gameObject);
+                        //collisions.Add((gameObject, other));
+
+                        if (other is Enemy)
+                            EnemyPool.Instance.ReleaseObject(other);
                     }
                 }
 
@@ -392,7 +443,7 @@ namespace MortenSurvivor
             if (lastSpawnEnemy > spawnEnemyTime)
             {
                 //Tilføje en ny enemy til gameObjects
-                gameObjects.Add(EnemyPool.Instance.GetObject());
+                SpawnObject(EnemyPool.Instance.GetObject());
 
                 //Nulstiller timer
                 lastSpawnEnemy = 0f;
@@ -401,7 +452,7 @@ namespace MortenSurvivor
             //Spawner Goosifer med sin egen timer
             if (lastSpawnGoosifer > spawnGoosiferTime)
             {
-                gameObjects.Add(EnemyPool.Instance.CreateGoosifer());
+                SpawnObject(EnemyPool.Instance.CreateGoosifer());
 
                 lastSpawnGoosifer = 0f;
             }

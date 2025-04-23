@@ -27,6 +27,7 @@ namespace MortenSurvivor
         protected int currentIndex;
         protected Vector2 velocity;
         protected Texture2D[] sprites;
+        protected List<RectangleData> rectangles;
 
         #endregion
         #region Properties
@@ -50,6 +51,9 @@ namespace MortenSurvivor
 
 
         public float Speed { get => speed; }
+
+
+        public List<RectangleData> Rectangles { get => rectangles; }
 
 
         public Vector2 Velocity { get => velocity; }
@@ -82,6 +86,8 @@ namespace MortenSurvivor
 
             CurrentHealth = health;
 
+            rectangles = CreateRectangles();
+
             base.Load();
 
         }
@@ -94,6 +100,8 @@ namespace MortenSurvivor
         {
 
             Animate();
+
+            UpdatePixelCollider();
 
             base.Update(gameTime);
 
@@ -125,6 +133,60 @@ namespace MortenSurvivor
                 spriteBatch.Draw(Sprite, Position, null, drawColor, Rotation, origin, scale, spriteEffect, layer);
 
             velocity = Vector2.Zero;
+
+        }
+
+
+        private List<RectangleData> CreateRectangles()
+        {
+
+            List<RectangleData> rectangleList = new List<RectangleData>();
+            List<Color[]> lines = new List<Color[]>();
+
+            for (int i = 0; i < Sprite.Height; i++)
+            {
+
+                Color[] colors = new Color[Sprite.Width];
+                Sprite.GetData(0, new Rectangle(0, i,
+                    Sprite.Width, 1), colors, 0,
+                    Sprite.Width);
+                lines.Add(colors);
+
+            }
+
+            for (int y = 0; y < lines.Count; y++)
+            {
+                for (int x = 0; x < lines[y].Length; x++)
+                {
+
+                    if (lines[y][x].A != 0)
+                        if ((x == 0) ||
+                            (x == lines[y].Length) ||
+                            (x > 0 && lines[y][x - 1].A == 0) ||
+                            (x < lines[y].Length - 1 && lines[y][x + 1].A == 0) ||
+                            (y == 0) || (y > 0 && lines[y - 1][x].A == 0) ||
+                            (y < lines.Count - 1 && lines[y + 1][x].A == 0))
+                        {
+
+                            RectangleData rd = new RectangleData(x, y);
+
+                            rectangleList.Add(rd);
+
+                        }
+
+                }
+            }
+
+            return rectangleList;
+
+        }
+
+
+        private void UpdatePixelCollider()
+        {
+
+            foreach (RectangleData rectangleData in Rectangles)
+                rectangleData.UpdatePosition(this, Sprite.Width, Sprite.Height);
 
         }
 
