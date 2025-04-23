@@ -14,13 +14,63 @@ using MortenSurvivor.ObserverPattern;
 
 namespace MortenSurvivor.ObserverPattern
 {
-    public class Status
+    public class Status : IObserver
     {
-        private int xpCounter;
-        private int enemiesKilled;
-        private int playerHealth;
-        private int upgradeCount;
+        #region Fields
+        private int xpCounter = 0;
+        private int enemiesKilled = 0;
+        private int playerHealth = 0;
+        private int upgradeCount = 0; // Will be implemented if there is time
+        private int statusUI;
+        #endregion
+        #region Properties
+        #endregion
+        #region Constructor
+        #endregion
+        #region Methods
+        public Status() 
+        {
+            GameWorld.Instance.Attach(this);
+           
+        }
 
+        public void XpCounter()
+        { 
+            
+        }
 
-    }
+        public void EnemiesKilled()
+        {
+
+        }
+
+        public void PlayerHealth()
+        {
+
+        }
+
+        public void UpgradeCounter()
+        {
+
+        }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+                spriteBatch.DrawString(GameWorld.GameFont, $"XP: {xpCounter}", new Vector2(-550, -300), Color.White);
+                spriteBatch.DrawString(GameWorld.GameFont, $"Kills: {enemiesKilled}", new Vector2(-550, -270), Color.White);
+                spriteBatch.DrawString(GameWorld.GameFont, $"Health: {playerHealth}", new Vector2(-550, -240), Color.White);
+                spriteBatch.DrawString(GameWorld.GameFont, $"Upgrades: {upgradeCount}", new Vector2(-550, -210), Color.White);
+        }
+
+        public void ObserverUpdate()
+        {
+            xpCounter += 10;
+            enemiesKilled++;
+            playerHealth = 10;
+            upgradeCount++;
+        }
+        #endregion
+
+    } 
+
 }

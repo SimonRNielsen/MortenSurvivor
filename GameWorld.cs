@@ -14,7 +14,7 @@ using MortenSurvivor.ObserverPattern;
 
 namespace MortenSurvivor
 {
-    public class GameWorld : Game
+    public class GameWorld : Game, ISubject
     {
 
         #region Fields & SingleTon
@@ -37,15 +37,17 @@ namespace MortenSurvivor
         private SpriteBatch _spriteBatch;
         private Camera camera;
         private Random random;
-        
+        private Status status;
+
         public Dictionary<Enum, Texture2D[]> Sprites = new Dictionary<Enum, Texture2D[]>();
         public Dictionary<Sound, SoundEffect> Sounds = new Dictionary<Sound, SoundEffect>();
         public Dictionary<MusicTrack, Song> Music = new Dictionary<MusicTrack, Song>();
-        public SpriteFont GameFont;
+        public static SpriteFont GameFont;
         public Vector2 Screensize = new Vector2(1920, 1080);
 
         private List<GameObject> gameObjects = new List<GameObject>();
         private List<GameObject> newGameObjects = new List<GameObject>();
+        private List<IObserver> listeners = new List<IObserver>();
 
         private float deltaTime;
         private bool gamePaused = false;
@@ -96,6 +98,9 @@ namespace MortenSurvivor
             gameObjects.Add(new Enemy(EnemyType.Slow, Screensize / 1.1f));
             gameObjects.Add(new Enemy(EnemyType.Slow, Screensize / 8f));
             gameObjects.Add(Player.Instance);
+
+            status = new Status();
+            Attach(status); //subscribes to observer
 
             base.Initialize();
 
@@ -148,7 +153,10 @@ namespace MortenSurvivor
             foreach (GameObject gameObject in gameObjects)
                 gameObject.Draw(_spriteBatch);
 
+            status.Draw(_spriteBatch);
+
             _spriteBatch.End();
+
 
             base.Draw(gameTime);
 
@@ -307,7 +315,7 @@ namespace MortenSurvivor
         /// <param name="gameObject"></param>
         public void SpawnObject(GameObject gameObject)
         {
-
+            Notify();
             newGameObjects.Add(gameObject);
             Debug.WriteLine(gameObject.ToString() + " added to spawnlist");
 
@@ -366,6 +374,26 @@ namespace MortenSurvivor
             }
 
         }
+
+        #region Observer
+        public void Attach(IObserver observer)
+        {
+            listeners.Add(observer);
+        }
+
+        public void Detach(IObserver observer)
+        {
+            listeners.Remove(observer);
+        }
+
+        public void Notify()
+        {
+            foreach (IObserver observer in listeners)
+            {
+                observer.ObserverUpdate();
+            }
+        }
+        #endregion
 
         #endregion
 
