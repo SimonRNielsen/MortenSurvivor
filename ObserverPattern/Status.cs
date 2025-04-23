@@ -16,5 +16,11 @@ namespace MortenSurvivor.ObserverPattern
 {
     public class Status
     {
+        private int xpCounter;
+        private int enemiesKilled;
+        private int playerHealth;
+        private int upgradeCount;
+
+
     }
 }
