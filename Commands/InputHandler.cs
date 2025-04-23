@@ -16,5 +16,22 @@ namespace MortenSurvivor.Commands
 {
     public class InputHandler
     {
+        private InputHandler instance;
+
+        public InputHandler Instance { 
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new InputHandler();
+                }
+                return instance;
+            }
+        }
+
+        private InputHandler()
+        {
+
+        }
     }
 }
