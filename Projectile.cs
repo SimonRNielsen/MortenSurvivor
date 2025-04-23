@@ -53,7 +53,7 @@ namespace MortenSurvivor
 
             this.damage = damage;
             this.speed = speed;
-            screenHalfs = new Vector2((GameWorld.Instance.Screensize.X / 2 / GameWorld.Instance.Camera.Zoom), (GameWorld.Instance.Screensize.Y / 2 / GameWorld.Instance.Camera.Zoom));
+            screenHalfs = GameWorld.Instance.Screensize / 2 / GameWorld.Instance.Camera.Zoom;
 
         }
 
@@ -102,10 +102,10 @@ namespace MortenSurvivor
         public override void Update(GameTime gameTime)
         {
 
-            if (Position.X < GameWorld.Instance.Camera.Position.X - screenHalfs.X ||
-                Position.X > GameWorld.Instance.Camera.Position.X + screenHalfs.X ||
-                Position.Y < GameWorld.Instance.Camera.Position.Y - screenHalfs.Y ||
-                Position.Y > GameWorld.Instance.Camera.Position.Y + screenHalfs.Y)
+            if (Position.X + Sprite.Width < GameWorld.Instance.Camera.Position.X - screenHalfs.X ||     //Udenfor venstre side
+                Position.X - Sprite.Width > GameWorld.Instance.Camera.Position.X + screenHalfs.X ||     //Udenfor højre side
+                Position.Y + Sprite.Height < GameWorld.Instance.Camera.Position.Y - screenHalfs.Y ||    //Udenfor toppen
+                Position.Y - Sprite.Height > GameWorld.Instance.Camera.Position.Y + screenHalfs.Y)      //Udenfor bunden
                 IsAlive = false;
 
             if (currentState != null)

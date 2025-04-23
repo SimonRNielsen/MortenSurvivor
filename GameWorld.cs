@@ -399,18 +399,18 @@ namespace MortenSurvivor
                     {
 
                         bool handledCollision = false;
-                        if (gameObject is Player)
+                        if (gameObject is Player && other is Enemy)
                             foreach (RectangleData rect1 in ((Character)gameObject).Rectangles)
                             {
-                                if (other is Enemy)
-                                    foreach (RectangleData rect2 in ((Character)other).Rectangles)
+
+                                foreach (RectangleData rect2 in ((Character)other).Rectangles)
+                                {
+                                    if (rect1.Rectangle.Intersects(rect2.Rectangle))
                                     {
-                                        if (rect1.Rectangle.Intersects(rect2.Rectangle))
-                                        {
-                                            handledCollision = true;
-                                            break;
-                                        }
+                                        handledCollision = true;
+                                        break;
                                     }
+                                }
 
                                 if (handledCollision)
                                     break;
@@ -445,15 +445,6 @@ namespace MortenSurvivor
                             collisions.Add((gameObject, other));
                         }
 
-
-                        ////////////////////////////////////////////////
-
-                        //gameObject.OnCollision(other);
-                        //other.OnCollision(gameObject);
-                        //collisions.Add((gameObject, other));
-
-                        if (other is Enemy)
-                            EnemyPool.Instance.ReleaseObject(other);
                     }
                 }
 
