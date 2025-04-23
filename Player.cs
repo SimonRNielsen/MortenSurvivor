@@ -49,6 +49,7 @@ namespace MortenSurvivor
         {
 
             velocity = Vector2.One; //Til at bevare animation indtil anden form implementeres
+            this.speed = 300;
 
         }
 
@@ -56,11 +57,14 @@ namespace MortenSurvivor
         #region Methods
 
 
-        public void Move(Vector2 spawnPos)
+        public void Move(Vector2 velocity)
         {
-
-
-
+            if (velocity != Vector2.Zero)
+            {
+                velocity.Normalize();
+            }
+            if(velocity)
+            Position += velocity * speed *  GameWorld.Instance.DeltaTime;
         }
 
 
@@ -74,7 +78,6 @@ namespace MortenSurvivor
 
         public override void Update(GameTime gameTime)
         {
-
             base.Update(gameTime); //Skal blive for at animationen kører
 
         }

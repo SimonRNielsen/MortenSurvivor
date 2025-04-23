@@ -96,6 +96,10 @@ namespace MortenSurvivor
             gameObjects.Add(new Enemy(EnemyType.Slow, Screensize / 1.1f));
             gameObjects.Add(new Enemy(EnemyType.Slow, Screensize / 8f));
             gameObjects.Add(Player.Instance);
+            InputHandler.Instance.AddCommand(Keys.A, new MoveCommand(Player.Instance, new Vector2(-1, 0))); //Move left
+            InputHandler.Instance.AddCommand(Keys.D, new MoveCommand(Player.Instance, new Vector2(1, 0))); //Move right
+            InputHandler.Instance.AddCommand(Keys.W, new MoveCommand(Player.Instance, new Vector2(0, -1))); //Move  up
+            InputHandler.Instance.AddCommand(Keys.S, new MoveCommand(Player.Instance, new Vector2(0, 1))); //Move down
 
             base.Initialize();
 
@@ -124,6 +128,8 @@ namespace MortenSurvivor
             //    Player.Instance.Position = new Vector2(random.Next(0, (int)Screensize.X), random.Next(0, (int)Screensize.Y)); //Test til at se om gæs følger Mortens alt efter hans position
 
             deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            InputHandler.Instance.Execute();
 
             foreach (GameObject gameObject in gameObjects)
             {

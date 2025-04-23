@@ -16,10 +16,10 @@ namespace MortenSurvivor.Commands
 {
     public class InputHandler
     {
-        private InputHandler instance;
+        private static InputHandler instance;
         private Dictionary<Keys, ICommand> keybinds = new Dictionary<Keys, ICommand>();
 
-        public InputHandler Instance
+        public static InputHandler Instance
         {
             get
             {
