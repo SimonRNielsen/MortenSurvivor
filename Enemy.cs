@@ -29,9 +29,7 @@ namespace MortenSurvivor
         #endregion
         #region Properties
 
-
         public int Damage { get => damage; }
-
 
         public float DamageTimer { get => damageTimer; set => damageTimer = value; }
 
@@ -91,6 +89,7 @@ namespace MortenSurvivor
                     originalColor = Color.Beige;
                     break;
                 case EnemyType.Goosifer:
+                    scale = 0.8f;
                     speed = 165f;
                     originalColor = Color.White;
                     break;

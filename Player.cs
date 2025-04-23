@@ -49,32 +49,47 @@ namespace MortenSurvivor
         {
 
             velocity = Vector2.One; //Til at bevare animation indtil anden form implementeres
+            this.speed = 300;
 
+            layer = 1;
         }
 
         #endregion
         #region Methods
 
 
-        public void Move(Vector2 spawnPos)
+        public void Move(Vector2 velocity)
         {
+            if (velocity != Vector2.Zero)
+            {
+                velocity.Normalize();
+            }
+            Position += velocity * speed *  GameWorld.Instance.DeltaTime;
 
+            this.velocity = velocity;
 
-
+            switch (velocity.X)
+            {
+                case < 0:
+                    spriteEffect = SpriteEffects.FlipHorizontally;
+                    break;
+                default:
+                    spriteEffect = SpriteEffects.None;
+                    break;
+            }
         }
 
 
         public void Shoot()
         {
 
-
+            GameWorld.Instance.SpawnObject(new Projectile(ProjectileType.Eggs, Player.Instance.Position, 300, 0));
 
         }
 
 
         public override void Update(GameTime gameTime)
         {
-
             base.Update(gameTime); //Skal blive for at animationen kører
 
         }

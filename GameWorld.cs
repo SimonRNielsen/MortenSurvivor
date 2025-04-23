@@ -16,11 +16,9 @@ namespace MortenSurvivor
 {
     public class GameWorld : Game, ISubject
     {
-
-        #region Fields & SingleTon
+        #region Singelton
 
         private static GameWorld instance;
-
 
         public static GameWorld Instance
         {
@@ -33,6 +31,9 @@ namespace MortenSurvivor
             }
         }
 
+        #endregion
+
+        #region Fields
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private Camera camera;
@@ -51,6 +52,11 @@ namespace MortenSurvivor
 
         private float deltaTime;
         private bool gamePaused = false;
+
+        private float lastSpawnEnemy = 2f; //Spawner en gås, når man starter op for spillet 
+        private float spawnEnemyTime = 1f;
+        private float lastSpawnGoosifer;
+        private float spawnGoosiferTime = 10f;
 
         #endregion
         #region Properties
@@ -95,9 +101,18 @@ namespace MortenSurvivor
             camera = new Camera(GraphicsDevice, Screensize / 2);
             random = new Random();
 
-            gameObjects.Add(new Enemy(EnemyType.Slow, Screensize / 1.1f));
-            gameObjects.Add(new Enemy(EnemyType.Slow, Screensize / 8f));
+
+            //gameObjects.Add(new ProjectileFactory().Create());
+
+
             gameObjects.Add(Player.Instance);
+            InputHandler.Instance.AddUpdateCommand(Keys.A, new MoveCommand(Player.Instance, new Vector2(-1, 0))); //Move left
+            InputHandler.Instance.AddUpdateCommand(Keys.D, new MoveCommand(Player.Instance, new Vector2(1, 0))); //Move right
+            InputHandler.Instance.AddUpdateCommand(Keys.W, new MoveCommand(Player.Instance, new Vector2(0, -1))); //Move  up
+            InputHandler.Instance.AddUpdateCommand(Keys.S, new MoveCommand(Player.Instance, new Vector2(0, 1))); //Move down
+            InputHandler.Instance.AddOncePerCountdownCommand(MouseKeys.LeftButton, new ShootCommand(Player.Instance)); //Shoot on mouseclick or hold
+            InputHandler.Instance.AddButtonDownCommand(Keys.Escape, new ExitCommand());
+
 
             status = new Status();
             Attach(status); //subscribes to observer
@@ -121,20 +136,23 @@ namespace MortenSurvivor
         protected override void Update(GameTime gameTime)
         {
 
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
-
             //if (Keyboard.GetState().IsKeyDown(Keys.Space))
             //    SpawnObject(new Projectile(ProjectileType.Eggs, Player.Instance.Position, 300, 0)); //Test til at se om projektiler flyver mod musen fra deres startpunkt
             //    Player.Instance.Position = new Vector2(random.Next(0, (int)Screensize.X), random.Next(0, (int)Screensize.Y)); //Test til at se om gæs følger Mortens alt efter hans position
 
             deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
+            InputHandler.Instance.Execute();
+
             foreach (GameObject gameObject in gameObjects)
             {
                 gameObject.Update(gameTime);
                 DoCollisionCheck(gameObject);
             }
+
+            //Spawne nye gæs
+
+            SpawnEnemies();
 
             CleanUp();
 
@@ -368,6 +386,8 @@ namespace MortenSurvivor
                         gameObject.OnCollision(other);
                         other.OnCollision(gameObject);
                         collisions.Add((gameObject, other));
+
+                        EnemyPool.Instance.ReleaseObject(other);
                     }
                 }
 
@@ -385,6 +405,24 @@ namespace MortenSurvivor
         {
             listeners.Remove(observer);
         }
+        }
+
+        /// <summary>
+        /// Spawner enemies, hvor Goosifer bliver spawnet i et andet tidsinterval end de andre
+        /// </summary>
+        private void SpawnEnemies()
+        {
+            lastSpawnEnemy += GameWorld.Instance.DeltaTime;
+            lastSpawnGoosifer += GameWorld.Instance.DeltaTime;
+
+            if (lastSpawnEnemy > spawnEnemyTime)
+            {
+                //Tilføje en ny enemy til gameObjects
+                gameObjects.Add(EnemyPool.Instance.GetObject());
+
+                //Nulstiller timer
+                lastSpawnEnemy = 0f;
+            }
 
         public void Notify()
         {
@@ -395,6 +433,14 @@ namespace MortenSurvivor
         }
         #endregion
 
+            //Spawner Goosifer med sin egen timer
+            if (lastSpawnGoosifer > spawnGoosiferTime)
+            {
+                gameObjects.Add(EnemyPool.Instance.CreateGoosifer());
+
+                lastSpawnGoosifer = 0f;
+            }
+        }
         #endregion
 
     }

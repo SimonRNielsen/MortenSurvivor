@@ -18,7 +18,7 @@ namespace MortenSurvivor.Commands
     {
         public void Execute()
         {
-            throw new NotImplementedException();
+            GameWorld.Instance.Exit();
         }
     }
 }
