@@ -99,7 +99,8 @@ namespace MortenSurvivor
         public override void Update(GameTime gameTime)
         {
 
-            Animate();
+            if (velocity != Vector2.Zero)
+                Animate();
 
             UpdatePixelCollider();
 
@@ -127,7 +128,7 @@ namespace MortenSurvivor
         public override void Draw(SpriteBatch spriteBatch)
         {
 
-            if (sprites != null && velocity != Vector2.Zero)
+            if (sprites != null)
                 spriteBatch.Draw(sprites[currentIndex], Position, null, drawColor, Rotation, origin, scale, spriteEffect, layer);
             else if (Sprite != null)
                 spriteBatch.Draw(Sprite, Position, null, drawColor, Rotation, origin, scale, spriteEffect, layer);

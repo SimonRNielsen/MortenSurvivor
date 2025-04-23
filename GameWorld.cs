@@ -131,10 +131,6 @@ namespace MortenSurvivor
         protected override void Update(GameTime gameTime)
         {
 
-            //if (Keyboard.GetState().IsKeyDown(Keys.Space))
-            //    SpawnObject(new Projectile(ProjectileType.Eggs, Player.Instance.Position, 300, 0)); //Test til at se om projektiler flyver mod musen fra deres startpunkt
-            //    Player.Instance.Position = new Vector2(random.Next(0, (int)Screensize.X), random.Next(0, (int)Screensize.Y)); //Test til at se om gæs følger Mortens alt efter hans position
-
             deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             InputHandler.Instance.Execute();
@@ -143,29 +139,6 @@ namespace MortenSurvivor
             {
                 gameObject.Update(gameTime);
                 DoCollisionCheck(gameObject);
-            }
-
-            /*Lappeløsning*/
-
-            List<GameObject> identicals = new List<GameObject>();
-
-            for (int i = 0; i < gameObjects.Count; i++)
-            {
-                for (int j = 0; j < gameObjects.Count; j++)
-                {
-
-                    if (i == j)
-                        continue;
-
-                    if (gameObjects[i] == gameObjects[j] && !identicals.Contains(gameObjects[i]))
-                        identicals.Add(gameObjects[i]);
-
-                }
-            }
-
-            foreach (GameObject entry in identicals)
-            {
-                gameObjects.Remove(entry);
             }
 
             //Spawne nye gæs

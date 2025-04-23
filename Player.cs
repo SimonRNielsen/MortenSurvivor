@@ -64,19 +64,20 @@ namespace MortenSurvivor
             {
                 velocity.Normalize();
             }
-            Position += velocity * speed *  GameWorld.Instance.DeltaTime;
+            Position += velocity * speed * GameWorld.Instance.DeltaTime;
 
             this.velocity = velocity;
 
-            switch (velocity.X)
-            {
-                case < 0:
-                    spriteEffect = SpriteEffects.FlipHorizontally;
-                    break;
-                default:
-                    spriteEffect = SpriteEffects.None;
-                    break;
-            }
+            if (velocity.Y == 0)
+                switch (velocity.X)
+                {
+                    case < 0:
+                        spriteEffect = SpriteEffects.FlipHorizontally;
+                        break;
+                    default:
+                        spriteEffect = SpriteEffects.None;
+                        break;
+                }
         }
 
 
