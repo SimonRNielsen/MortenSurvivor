@@ -18,9 +18,14 @@ namespace MortenSurvivor.Commands
     {
         private static InputHandler instance;
         private Dictionary<Keys, ICommand> keybinds = new Dictionary<Keys, ICommand>();
+        private Dictionary<Keys, ICommand> keyBindsButtonDown = new Dictionary<Keys, ICommand>();
         private Dictionary<Keys, ICommand> keyBindsOncePerCountdown = new Dictionary<Keys, ICommand>();
         private Dictionary<MouseKeys, ICommand> mouseKeybinds = new Dictionary<MouseKeys, ICommand>();
+        private Dictionary<MouseKeys, ICommand> mouseKeyBindsButtonDown = new Dictionary<MouseKeys, ICommand>();
         private Dictionary<MouseKeys, ICommand> mouseKeybindsOncePerCoundown = new Dictionary<MouseKeys, ICommand>();
+        private KeyboardState previousKeyState;
+        private List<MouseKeys> previousPressedMouseKeys;
+
         private float timeElapsed;
         private float Countdown = 1;
 
@@ -51,6 +56,17 @@ namespace MortenSurvivor.Commands
             mouseKeybinds.Add(inputButton, command);
         }
 
+        public void AddButtonDownCommand(Keys inputKey, ICommand command)
+        {
+            keyBindsButtonDown.Add(inputKey, command);
+        }
+
+        public void AddButtonDownCommand(MouseKeys inputKey, ICommand command)
+        {
+            mouseKeyBindsButtonDown.Add(inputKey, command);
+        }
+
+
         public void AddOncePerCountdownCommand(Keys inputKey, ICommand command)
         {
             keyBindsOncePerCountdown.Add(inputKey, command);
@@ -60,11 +76,15 @@ namespace MortenSurvivor.Commands
             mouseKeybindsOncePerCoundown.Add(inputKey, command);
         }
 
-
+        /// <summary>
+        /// Mehtod that returns a list of the MouseKeys (enum) of the mouse buttons currently pressed
+        /// </summary>
+        /// <param name="mouseState">the current mousestate</param>
+        /// <returns></returns>
         public List<MouseKeys> getPressedMouseKeys(MouseState mouseState)
         {
             List<MouseKeys> pressedKeys = new List<MouseKeys>();
-            if(mouseState.LeftButton == ButtonState.Pressed)
+            if (mouseState.LeftButton == ButtonState.Pressed)
             {
                 pressedKeys.Add(MouseKeys.LeftButton);
             }
@@ -97,9 +117,16 @@ namespace MortenSurvivor.Commands
             timeElapsed += GameWorld.Instance.DeltaTime;
             foreach (var pressedKey in keyboardState.GetPressedKeys())
             {
-                if(keybinds.TryGetValue(pressedKey, out ICommand command))
+                if (keybinds.TryGetValue(pressedKey, out ICommand command))
                 {
                     command.Execute();
+                }
+                if (!previousKeyState.IsKeyDown(pressedKey) && keyboardState.IsKeyDown(pressedKey))
+                {
+                    if (keyBindsButtonDown.TryGetValue(pressedKey, out ICommand commandButtonDown))
+                    {
+                        commandButtonDown.Execute();
+                    }
                 }
                 if (timeElapsed > Countdown)
                 {
@@ -112,11 +139,20 @@ namespace MortenSurvivor.Commands
                 }
 
             }
-            foreach(var mouseKey in pressedMouseKeys)
+            previousKeyState = keyboardState;
+
+            foreach (var mouseKey in pressedMouseKeys)
             {
                 if (mouseKeybinds.TryGetValue(mouseKey, out ICommand command))
                 {
                     command.Execute();
+                }
+                if (!previousPressedMouseKeys.Contains(mouseKey) && pressedMouseKeys.Contains(mouseKey))
+                {
+                    if (mouseKeyBindsButtonDown.TryGetValue(mouseKey, out ICommand commandButtonDown))
+                    {
+                        commandButtonDown.Execute();
+                    }
                 }
                 if (timeElapsed > Countdown)
                 {
@@ -128,6 +164,7 @@ namespace MortenSurvivor.Commands
 
                 }
             }
+            previousPressedMouseKeys = pressedMouseKeys;
         }
 
     }
