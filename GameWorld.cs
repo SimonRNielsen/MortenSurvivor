@@ -14,14 +14,6 @@ using MortenSurvivor.ObserverPattern;
 
 namespace MortenSurvivor
 {
-    public enum MouseKeys
-    {
-        LeftButton,
-        RightButton,
-        MiddleButton,
-        xButton1,
-        xButton2
-    }
     public class GameWorld : Game
     {
 

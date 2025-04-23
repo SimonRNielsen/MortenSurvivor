@@ -17,10 +17,10 @@ namespace MortenSurvivor.Commands
     public class InputHandler
     {
         private static InputHandler instance;
-        private Dictionary<Keys, ICommand> keybinds = new Dictionary<Keys, ICommand>();
+        private Dictionary<Keys, ICommand> keybindsUpdate = new Dictionary<Keys, ICommand>();
         private Dictionary<Keys, ICommand> keyBindsButtonDown = new Dictionary<Keys, ICommand>();
         private Dictionary<Keys, ICommand> keyBindsOncePerCountdown = new Dictionary<Keys, ICommand>();
-        private Dictionary<MouseKeys, ICommand> mouseKeybinds = new Dictionary<MouseKeys, ICommand>();
+        private Dictionary<MouseKeys, ICommand> mouseKeybindsUpdate = new Dictionary<MouseKeys, ICommand>();
         private Dictionary<MouseKeys, ICommand> mouseKeyBindsButtonDown = new Dictionary<MouseKeys, ICommand>();
         private Dictionary<MouseKeys, ICommand> mouseKeybindsOncePerCoundown = new Dictionary<MouseKeys, ICommand>();
         private KeyboardState previousKeyState;
@@ -49,11 +49,11 @@ namespace MortenSurvivor.Commands
 
         public void AddUpdateCommand(Keys inputKey, ICommand command)
         {
-            keybinds.Add(inputKey, command);
+            keybindsUpdate.Add(inputKey, command);
         }
         public void AddUpdateCommand(MouseKeys inputButton, ICommand command)
         {
-            mouseKeybinds.Add(inputButton, command);
+            mouseKeybindsUpdate.Add(inputButton, command);
         }
 
         public void AddButtonDownCommand(Keys inputKey, ICommand command)
@@ -117,7 +117,7 @@ namespace MortenSurvivor.Commands
             timeElapsed += GameWorld.Instance.DeltaTime;
             foreach (var pressedKey in keyboardState.GetPressedKeys())
             {
-                if (keybinds.TryGetValue(pressedKey, out ICommand command))
+                if (keybindsUpdate.TryGetValue(pressedKey, out ICommand command))
                 {
                     command.Execute();
                 }
@@ -143,7 +143,7 @@ namespace MortenSurvivor.Commands
 
             foreach (var mouseKey in pressedMouseKeys)
             {
-                if (mouseKeybinds.TryGetValue(mouseKey, out ICommand command))
+                if (mouseKeybindsUpdate.TryGetValue(mouseKey, out ICommand command))
                 {
                     command.Execute();
                 }
