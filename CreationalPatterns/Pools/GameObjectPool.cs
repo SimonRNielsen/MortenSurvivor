@@ -55,6 +55,8 @@ namespace MortenSurvivor.CreationalPatterns.Pools
             active.Remove(gameObject);
             inactive.Push(gameObject);
 
+            CleanUp(gameObject);
+
             //Fjener fra GameWorld
             //GameWorld.Instance.Destroy(gameObject);
         }

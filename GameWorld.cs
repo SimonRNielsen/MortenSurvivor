@@ -16,11 +16,9 @@ namespace MortenSurvivor
 {
     public class GameWorld : Game
     {
-
-        #region Fields & SingleTon
+        #region Singelton
 
         private static GameWorld instance;
-
 
         public static GameWorld Instance
         {
@@ -33,6 +31,9 @@ namespace MortenSurvivor
             }
         }
 
+        #endregion
+
+        #region Fields
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private Camera camera;
@@ -49,6 +50,11 @@ namespace MortenSurvivor
 
         private float deltaTime;
         private bool gamePaused = false;
+
+        private float lastSpawnEnemy = 2f; //Spawner en gås, når man starter op for spillet 
+        private float spawnEnemyTime = 1f;
+        private float lastSpawnGoosifer;
+        private float spawnGoosiferTime = 10f;
 
         #endregion
         #region Properties
@@ -94,12 +100,7 @@ namespace MortenSurvivor
             random = new Random();
 
 
-            gameObjects.Add(new EnemyFactory().Create());
-            gameObjects.Add(new EnemyFactory().Create());
-            gameObjects.Add(new EnemyFactory().Create());
-            gameObjects.Add(new EnemyFactory().Create());
-
-            gameObjects.Add(new ProjectileFactory().Create());
+            //gameObjects.Add(new ProjectileFactory().Create());
 
 
             gameObjects.Add(Player.Instance);
@@ -137,6 +138,10 @@ namespace MortenSurvivor
                 gameObject.Update(gameTime);
                 DoCollisionCheck(gameObject);
             }
+
+            //Spawne nye gæs
+
+            SpawnEnemies();
 
             CleanUp();
 
@@ -367,6 +372,8 @@ namespace MortenSurvivor
                         gameObject.OnCollision(other);
                         other.OnCollision(gameObject);
                         collisions.Add((gameObject, other));
+
+                        EnemyPool.Instance.ReleaseObject(other);
                     }
                 }
 
@@ -374,6 +381,31 @@ namespace MortenSurvivor
 
         }
 
+        /// <summary>
+        /// Spawner enemies, hvor Goosifer bliver spawnet i et andet tidsinterval end de andre
+        /// </summary>
+        private void SpawnEnemies()
+        {
+            lastSpawnEnemy += GameWorld.Instance.DeltaTime;
+            lastSpawnGoosifer += GameWorld.Instance.DeltaTime;
+
+            if (lastSpawnEnemy > spawnEnemyTime)
+            {
+                //Tilføje en ny enemy til gameObjects
+                gameObjects.Add(EnemyPool.Instance.GetObject());
+
+                //Nulstiller timer
+                lastSpawnEnemy = 0f;
+            }
+
+            //Spawner Goosifer med sin egen timer
+            if (lastSpawnGoosifer > spawnGoosiferTime)
+            {
+                gameObjects.Add(EnemyPool.Instance.CreateGoosifer());
+
+                lastSpawnGoosifer = 0f;
+            }
+        }
         #endregion
 
     }

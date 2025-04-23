@@ -31,6 +31,10 @@ namespace MortenSurvivor.CreationalPatterns.Factories
         #endregion
 
         #region Method
+        /// <summary>
+        /// Opretter en enemy med en tilfældig placering (ikke Gossifer)
+        /// </summary>
+        /// <returns></returns>
         public override GameObject Create()
         {
             //Enemies spawner kan spawne fra et tilfældigt hjørne
@@ -53,11 +57,43 @@ namespace MortenSurvivor.CreationalPatterns.Factories
             }
 
             //Enemy type udfra Enum
-            int rndType = GameWorld.Instance.Random.Next(0, 5); //4 hjørner;
+            int rndType = GameWorld.Instance.Random.Next(0, 4); //Ikke goosifer
 
 
             //Samler position og EnemyType til en enemy
             enemyGO = new Enemy((EnemyType)rndType, position);
+
+            return enemyGO;
+        }
+
+        /// <summary>
+        /// Opretter en Goosifer med en tilfældig placering
+        /// </summary>
+        /// <returns></returns>
+        public GameObject CreateGoosefer()
+        {
+            //Enemies spawner kan spawne fra et tilfældigt hjørne
+            int rndPosition = GameWorld.Instance.Random.Next(1, 5); //4 hjørner
+
+            switch (rndPosition) //Skal ændre spawn position, når jeg ved selve størrelsen på banen
+            {
+                case 1:
+                    this.position = Vector2.Zero;
+                    break;
+                case 2:
+                    this.position = new Vector2(0, GameWorld.Instance.Screensize.Y);
+                    break;
+                case 3:
+                    this.position = new Vector2(GameWorld.Instance.Screensize.X, 0);
+                    break;
+                case 4:
+                    this.position = new Vector2(GameWorld.Instance.Screensize.X, GameWorld.Instance.Screensize.Y);
+                    break;
+            }
+
+
+            //Samler position og EnemyType til en enemy
+            enemyGO = new Enemy(EnemyType.Goosifer, position);
 
             return enemyGO;
         }
