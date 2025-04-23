@@ -16,21 +16,6 @@ namespace MortenSurvivor.CreationalPatterns.Factories
 {
     public abstract class GameObjectFactory
     {
-        #region Fields
-
-        #endregion
-
-        #region Properties
-
-        #endregion
-
-        #region Constructor
-
-        #endregion
-
-        #region Method
-
-        #endregion
-
+        public abstract GameObject Create();
     }
 }

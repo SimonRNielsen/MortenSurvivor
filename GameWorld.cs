@@ -93,8 +93,15 @@ namespace MortenSurvivor
             camera = new Camera(GraphicsDevice, Screensize / 2);
             random = new Random();
 
-            gameObjects.Add(new Enemy(EnemyType.Slow, Screensize / 1.1f));
-            gameObjects.Add(new Enemy(EnemyType.Slow, Screensize / 8f));
+
+            //gameObjects.Add(new EnemyFactory().Create());
+            //gameObjects.Add(new EnemyFactory().Create());
+            //gameObjects.Add(new EnemyFactory().Create());
+            //gameObjects.Add(new EnemyFactory().Create());
+
+            gameObjects.Add(new ProjectileFactory().Create());
+
+
             gameObjects.Add(Player.Instance);
 
             base.Initialize();

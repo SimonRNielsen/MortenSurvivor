@@ -89,6 +89,7 @@ namespace MortenSurvivor
                     originalColor = Color.Beige;
                     break;
                 case EnemyType.Goosifer:
+                    scale = 0.8f;
                     speed = 165f;
                     originalColor = Color.White;
                     break;

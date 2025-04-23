@@ -17,6 +17,10 @@ namespace MortenSurvivor.CreationalPatterns.Factories
     public class ProjectileFactory : GameObjectFactory
     {
         #region Fields
+        private Projectile projectileGO;
+        private Vector2 position;
+        private float speed = 200f;
+        private int damage = 10;
 
         #endregion
 
@@ -29,6 +33,16 @@ namespace MortenSurvivor.CreationalPatterns.Factories
         #endregion
 
         #region Method
+        public override GameObject Create()
+        {
+            this.position = Player.Instance.Position;
+
+            //Skal have lavet det, så det passer med det rigtige projektil
+            projectileGO = new Projectile(ProjectileType.Eggs, position, speed, damage);
+
+            return projectileGO;
+
+        }
 
         #endregion
     }
