@@ -104,6 +104,13 @@ namespace MortenSurvivor
 
 
             gameObjects.Add(Player.Instance);
+            InputHandler.Instance.AddUpdateCommand(Keys.A, new MoveCommand(Player.Instance, new Vector2(-1, 0))); //Move left
+            InputHandler.Instance.AddUpdateCommand(Keys.D, new MoveCommand(Player.Instance, new Vector2(1, 0))); //Move right
+            InputHandler.Instance.AddUpdateCommand(Keys.W, new MoveCommand(Player.Instance, new Vector2(0, -1))); //Move  up
+            InputHandler.Instance.AddUpdateCommand(Keys.S, new MoveCommand(Player.Instance, new Vector2(0, 1))); //Move down
+            InputHandler.Instance.AddOncePerCountdownCommand(MouseKeys.LeftButton, new ShootCommand(Player.Instance)); //Shoot on mouseclick or hold
+            InputHandler.Instance.AddButtonDownCommand(Keys.Escape, new ExitCommand());
+
 
             base.Initialize();
 
@@ -124,14 +131,13 @@ namespace MortenSurvivor
         protected override void Update(GameTime gameTime)
         {
 
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
-
             //if (Keyboard.GetState().IsKeyDown(Keys.Space))
             //    SpawnObject(new Projectile(ProjectileType.Eggs, Player.Instance.Position, 300, 0)); //Test til at se om projektiler flyver mod musen fra deres startpunkt
             //    Player.Instance.Position = new Vector2(random.Next(0, (int)Screensize.X), random.Next(0, (int)Screensize.Y)); //Test til at se om gæs følger Mortens alt efter hans position
 
             deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            InputHandler.Instance.Execute();
 
             foreach (GameObject gameObject in gameObjects)
             {
