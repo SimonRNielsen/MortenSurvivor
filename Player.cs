@@ -51,6 +51,7 @@ namespace MortenSurvivor
             velocity = Vector2.One; //Til at bevare animation indtil anden form implementeres
             this.speed = 300;
 
+            layer = 1;
         }
 
         #endregion
