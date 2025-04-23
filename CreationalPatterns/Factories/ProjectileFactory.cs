@@ -16,11 +16,27 @@ namespace MortenSurvivor.CreationalPatterns.Factories
 {
     public class ProjectileFactory : GameObjectFactory
     {
+        #region Singleton
+        private static ProjectileFactory instance;
+
+        public static ProjectileFactory Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new ProjectileFactory();
+                }
+                return instance;
+            }
+        }
+        #endregion
+
         #region Fields
-        private Projectile projectileGO;
-        private Vector2 position;
-        private float speed = 200f;
-        private int damage = 10;
+        private GameObject prototype;
+        private float speed;
+        private int damage;
+
 
         #endregion
 
@@ -29,19 +45,46 @@ namespace MortenSurvivor.CreationalPatterns.Factories
         #endregion
 
         #region Constructor
+        public ProjectileFactory()
+        {
+            //Skal have lavet det, så det passer med det rigtige projektil
+            prototype = ProjectileStat();
+        }
 
         #endregion
 
         #region Method
+        /// <summary>
+        /// Opretter en klone af en projectil
+        /// </summary>
+        /// <returns></returns>
         public override GameObject Create()
         {
-            this.position = Player.Instance.Position;
+            return (Projectile)prototype.Clone();
+        }
 
-            //Skal have lavet det, så det passer med det rigtige projektil
-            projectileGO = new Projectile(ProjectileType.Eggs, position, speed, damage);
 
-            return projectileGO;
+        public GameObject ProjectileStat()
+        {
+            int rdn = GameWorld.Instance.Random.Next(0,3);
 
+            switch (rdn)
+            {
+                case 0:
+                    speed = 200f;
+                    damage = 2;
+                    break;
+                case 1:
+                    speed = 500f;
+                    damage = 7;
+                    break;
+                case 2:
+                    speed = 700f;
+                    damage = 10;
+                    break;
+            }
+
+            return new Projectile((ProjectileType)rdn, Player.Instance.Position, speed, damage);
         }
 
         #endregion
