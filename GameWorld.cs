@@ -39,6 +39,7 @@ namespace MortenSurvivor
         private Camera camera;
         private Random random;
         private Status status;
+        private EnemyStatus enemyStatus;
 
         public Dictionary<Enum, Texture2D[]> Sprites = new Dictionary<Enum, Texture2D[]>();
         public Dictionary<Sound, SoundEffect> Sounds = new Dictionary<Sound, SoundEffect>();
@@ -115,7 +116,9 @@ namespace MortenSurvivor
 
 
             status = new Status();
+            //enemyStatus = new EnemyStatus();
             Attach(status); //subscribes to observer
+            //Attach(enemyStatus); //subscribes to observer
 
             base.Initialize();
 
@@ -172,6 +175,7 @@ namespace MortenSurvivor
                 gameObject.Draw(_spriteBatch);
 
             status.Draw(_spriteBatch);
+            //enemyStatus.Draw(_spriteBatch);
 
             _spriteBatch.End();
 
@@ -251,7 +255,7 @@ namespace MortenSurvivor
             Texture2D[] mitre = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Objects\\mitre") };
             Sprites.Add(UpgradeType.Mitre, mitre);
 
-            Texture2D[] healBoost = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Objects\\potion") };
+            Texture2D[] healBoost = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Objects\\wallTurkey") };
             Sprites.Add(ItemType.HealBoost, healBoost);
 
             Texture2D[] rosary = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Objects\\rosary") };
@@ -265,6 +269,7 @@ namespace MortenSurvivor
 
             Texture2D[] geasterEgg = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Objects\\egg2") };
             Sprites.Add(ProjectileType.GeasterEgg, geasterEgg);
+
 
             #endregion
             #region Player
@@ -333,7 +338,7 @@ namespace MortenSurvivor
         /// <param name="gameObject"></param>
         public void SpawnObject(GameObject gameObject)
         {
-            Notify();
+            //Notify(StatusType.EnemiesKilled);
             newGameObjects.Add(gameObject);
             Debug.WriteLine(gameObject.ToString() + " added to spawnlist");
 
@@ -395,17 +400,7 @@ namespace MortenSurvivor
 
         }
 
-        #region Observer
-        public void Attach(IObserver observer)
-        {
-            listeners.Add(observer);
-        }
-
-        public void Detach(IObserver observer)
-        {
-            listeners.Remove(observer);
-        }
-        }
+        
 
         /// <summary>
         /// Spawner enemies, hvor Goosifer bliver spawnet i et andet tidsinterval end de andre
@@ -424,15 +419,6 @@ namespace MortenSurvivor
                 lastSpawnEnemy = 0f;
             }
 
-        public void Notify()
-        {
-            foreach (IObserver observer in listeners)
-            {
-                observer.ObserverUpdate();
-            }
-        }
-        #endregion
-
             //Spawner Goosifer med sin egen timer
             if (lastSpawnGoosifer > spawnGoosiferTime)
             {
@@ -441,6 +427,29 @@ namespace MortenSurvivor
                 lastSpawnGoosifer = 0f;
             }
         }
+        
+
+
+            #region Observer
+        public void Attach(IObserver observer)
+        {
+            listeners.Add(observer);
+        }
+
+        public void Detach(IObserver observer)
+        {
+            listeners.Remove(observer);
+        }
+        public void Notify(StatusType statusType)
+        {
+            foreach (IObserver observer in listeners)
+            {
+                observer.OnNotify(statusType);
+            }
+        }
+        #endregion
+
+            
         #endregion
 
     }

@@ -18,7 +18,8 @@ namespace MortenSurvivor.ObserverPattern
     {
         public void Attach(IObserver observer);
         public void Detach(IObserver observer);
-        public void Notify();
+        public void Notify(StatusType statusType);
+        
 
     }
 }

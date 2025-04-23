@@ -16,6 +16,6 @@ namespace MortenSurvivor.ObserverPattern
 {
     public interface IObserver
     {
-        public void ObserverUpdate();
+        public void OnNotify(StatusType status);
     }
 }
