@@ -126,4 +126,13 @@
 
     }
 
+    public enum MouseKeys
+    {
+        LeftButton,
+        RightButton,
+        MiddleButton,
+        xButton1,
+        xButton2
+    }
+
 }
