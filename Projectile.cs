@@ -83,6 +83,8 @@ namespace MortenSurvivor
 
             base.OnCollision(other);
 
+            IsAlive = false;
+
             if (collidedWith.Contains(other))
                 return;
             else
