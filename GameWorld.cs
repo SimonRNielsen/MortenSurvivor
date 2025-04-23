@@ -99,7 +99,7 @@ namespace MortenSurvivor
             camera = new Camera(GraphicsDevice, Screensize / 2);
             random = new Random();
 
-            gameObjects.Add(ProjectileFactory.Instance.Create());
+            //gameObjects.Add(ProjectileFactory.Instance.Create());
 
 
             gameObjects.Add(Player.Instance);
