@@ -14,6 +14,14 @@ using MortenSurvivor.ObserverPattern;
 
 namespace MortenSurvivor
 {
+    public enum MouseKeys
+    {
+        LeftButton,
+        RightButton,
+        MiddleButton,
+        xButton1,
+        xButton2
+    }
     public class GameWorld : Game
     {
 
@@ -96,10 +104,11 @@ namespace MortenSurvivor
             gameObjects.Add(new Enemy(EnemyType.Slow, Screensize / 1.1f));
             gameObjects.Add(new Enemy(EnemyType.Slow, Screensize / 8f));
             gameObjects.Add(Player.Instance);
-            InputHandler.Instance.AddCommand(Keys.A, new MoveCommand(Player.Instance, new Vector2(-1, 0))); //Move left
-            InputHandler.Instance.AddCommand(Keys.D, new MoveCommand(Player.Instance, new Vector2(1, 0))); //Move right
-            InputHandler.Instance.AddCommand(Keys.W, new MoveCommand(Player.Instance, new Vector2(0, -1))); //Move  up
-            InputHandler.Instance.AddCommand(Keys.S, new MoveCommand(Player.Instance, new Vector2(0, 1))); //Move down
+            InputHandler.Instance.AddUpdateCommand(Keys.A, new MoveCommand(Player.Instance, new Vector2(-1, 0))); //Move left
+            InputHandler.Instance.AddUpdateCommand(Keys.D, new MoveCommand(Player.Instance, new Vector2(1, 0))); //Move right
+            InputHandler.Instance.AddUpdateCommand(Keys.W, new MoveCommand(Player.Instance, new Vector2(0, -1))); //Move  up
+            InputHandler.Instance.AddUpdateCommand(Keys.S, new MoveCommand(Player.Instance, new Vector2(0, 1))); //Move down
+            InputHandler.Instance.AddOncePerCountdownCommand(MouseKeys.LeftButton, new ShootCommand(Player.Instance));
 
             base.Initialize();
 

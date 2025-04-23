@@ -70,7 +70,7 @@ namespace MortenSurvivor
         public void Shoot()
         {
 
-
+            GameWorld.Instance.SpawnObject(new Projectile(ProjectileType.Eggs, Player.Instance.Position, 300, 0));
 
         }
 
