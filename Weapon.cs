@@ -24,12 +24,27 @@ namespace MortenSurvivor
         #endregion
         #region Properties
 
+        public int Damage { get => damage; set => damage = value; }
+
 
 
         #endregion
         #region Constructor
 
-        public Weapon(WeaponType type) { }
+        public Weapon(WeaponType type)
+        {
+            switch (type)
+            {
+                case WeaponType.Sling:
+                    damage = 1;
+                    break;
+                default:
+                    damage = 1;
+                    break;
+            }
+
+
+        }
 
         #endregion
         #region Methods

@@ -50,7 +50,7 @@ namespace MortenSurvivor
 
             velocity = Vector2.One; //Til at bevare animation indtil anden form implementeres
             this.speed = 300;
-
+            weapon = new Weapon(WeaponType.Sling);
             layer = 1;
         }
 
@@ -83,7 +83,8 @@ namespace MortenSurvivor
         public void Shoot()
         {
 
-            GameWorld.Instance.SpawnObject(new Projectile(ProjectileType.Eggs, Player.Instance.Position, 300, 0));
+            GameWorld.Instance.SpawnObject(new Projectile(ProjectileType.Eggs, Player.Instance.Position, 300, weapon.Damage));
+            //ProjectileFactory.Instance.Create();
 
         }
 
@@ -99,6 +100,30 @@ namespace MortenSurvivor
         {
 
             base.OnCollision(other);
+
+        }
+
+        /// <summary>
+        /// Upgrades the player, and its weapon, with the chosen upgrade
+        /// </summary>
+        /// <param name="upgradeType">The chosen upgrade for the player</param>
+        public void Upgrade(UpgradeType upgradeType)
+        {
+            switch(upgradeType)
+            {
+                case UpgradeType.Mitre:
+                    break;
+                case UpgradeType.Bible:
+                    break;
+                case UpgradeType.Rosary:
+                    break;
+                case UpgradeType.WallGoose:
+                    break;
+                case UpgradeType.PopeStaff:
+                    break;
+                case UpgradeType.GeasterEgg:
+                    break;
+            }
 
         }
 
