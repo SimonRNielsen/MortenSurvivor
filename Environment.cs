@@ -23,7 +23,7 @@ namespace MortenSurvivor
 
         protected float speed;
         protected float elapsedTime;
-        protected float fps = 10;
+        protected float fps = 7;
         //protected int health = 1;
         protected int currentHealth;
         protected int currentIndex;
@@ -41,10 +41,14 @@ namespace MortenSurvivor
 
         public Environment(Enum type, Vector2 spawnPos) : base(type, spawnPos)
         {
+
+            sprites = GameWorld.Instance.Sprites[type];
+
             layer = 0f;
             if (type is EnvironmentTile.AvSurface)
             {
-                layer = 0.15f;
+                layer = 0.91f;
+                scale = 0.6f;
             }
            
             tileType = (EnvironmentTile)type;
@@ -77,7 +81,6 @@ namespace MortenSurvivor
                 case EnvironmentTile.BottomRight:
                     break;
                 case EnvironmentTile.AvSurface:
-                    
                     break;
                 case EnvironmentTile.Room:
                     break;
@@ -113,6 +116,14 @@ namespace MortenSurvivor
 
             velocity = Vector2.Zero;
 
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            
+                Animate();
+
+            base.Update(gameTime);
         }
 
         #endregion

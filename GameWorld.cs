@@ -119,8 +119,10 @@ namespace MortenSurvivor
             gameObjects.Add(new Environment(EnvironmentTile.Center, new Vector2(Screensize.X / 2, Screensize.Y * 1.5f)));
 
             //AvSurface
-            gameObjects.Add(new Environment(EnvironmentTile.AvSurface, new Vector2(-200, Screensize.Y * 2f - 20)));
-            gameObjects.Add(new Environment(EnvironmentTile.AvSurface, new Vector2(-200 + 3586, Screensize.Y * 2f - 20)));
+            gameObjects.Add(new Environment(EnvironmentTile.AvSurface, new Vector2(-900, Screensize.Y * 2f - 20)));
+            gameObjects.Add(new Environment(EnvironmentTile.AvSurface, new Vector2(-900 + 3586 * 0.6f, Screensize.Y * 2f - 20)));
+            gameObjects.Add(new Environment(EnvironmentTile.AvSurface, new Vector2(-900 + 3586 * 2 * 0.6f, Screensize.Y * 2f - 20)));
+
 
             #endregion
 
