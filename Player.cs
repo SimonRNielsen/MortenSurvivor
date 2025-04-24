@@ -183,10 +183,11 @@ namespace MortenSurvivor
         {
 
             base.Draw(spriteBatch);
-
-            spriteBatch.DrawString(GameWorld.GameFont, $"X:{Position.X}\nY:{Position.Y}", GameWorld.Instance.Camera.Position - (GameWorld.Instance.Screensize / 8), Color.Black, 0f, Vector2.Zero, 1f, SpriteEffects.None, 1f);
-
+#if DEBUG
+            //spriteBatch.DrawString(GameWorld.Instance.GameFont, $"X:{Position.X}\nY:{Position.Y}", GameWorld.Instance.Camera.Position - (GameWorld.Instance.Screensize / 8), Color.Black, 0f, Vector2.Zero, 1f, SpriteEffects.None, 1f);
+#endif
         }
+
 
         public void PlayWalkSound()
         {

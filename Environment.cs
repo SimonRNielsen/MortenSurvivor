@@ -83,8 +83,8 @@ namespace MortenSurvivor
                 case EnvironmentTile.Room:
                     break;
                 case EnvironmentTile.Firepit:
-                    layer = 0.1f;
-                    scale = 0.5f;
+                    layer = 0.2f;
+                    scale = 0.8f;
                     break;
                 default:
                     break;
