@@ -408,7 +408,7 @@ namespace MortenSurvivor
             foreach (GameObject other in gameObjects)
             {
 
-                if (gameObject == other || collisions.Contains((gameObject, other)))
+                if (gameObject == other || collisions.Contains((gameObject, other)) || (gameObject is Enemy && other is Enemy))
                     continue;
 
                 if (((gameObject is Player || gameObject is Projectile) && other is Enemy) || (gameObject is Player && other is Item))

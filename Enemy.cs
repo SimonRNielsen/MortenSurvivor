@@ -31,6 +31,7 @@ namespace MortenSurvivor
 
         public int Damage { get => damage; }
 
+
         public float DamageTimer { get => damageTimer; set => damageTimer = value; }
 
 
