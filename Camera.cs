@@ -57,7 +57,7 @@ namespace MortenSurvivor
         {
             _graphicsDevice = graphicsDevice;
             Position = position;
-            Zoom = 0.6f; 
+            Zoom = 1f; 
             Rotation = 0.0f;
         }
 
