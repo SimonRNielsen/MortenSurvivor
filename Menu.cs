@@ -170,7 +170,7 @@ namespace MortenSurvivor
                     break;
             }
 
-            action = () => Player.Instance.GetUpgrade(upgradeType);
+            action = () => Player.Instance.Upgrade(upgradeType);
 
         }
 

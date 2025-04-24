@@ -178,18 +178,6 @@ namespace MortenSurvivor
 #endif
         }
 
-
-        public void GetUpgrade(UpgradeType upgrade)
-        {
-
-            switch (upgrade)
-            {
-
-            }
-
-        }
-
-
         #endregion
 
     }
