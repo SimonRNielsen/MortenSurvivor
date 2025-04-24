@@ -45,18 +45,18 @@ namespace MortenSurvivor
 
                 if (currentHealth <= 0)
                     IsAlive = false;
-                    if(this is Enemy)
+                    if (this is Enemy)
                     {
                         GameWorld.Instance.Sounds[Sound.EnemyHonk].Play();
                     }
                 }
 
-                    //Notifies Status about when an enemy is killed
-                    GameWorld.Instance.Notify(StatusType.EnemiesKilled);
-                }
-
+                //Notifies Status about when an enemy is killed
+                GameWorld.Instance.Notify(StatusType.EnemiesKilled);
             }
+
         }
+
 
 
         public float Speed { get => speed; }
