@@ -310,6 +310,7 @@ namespace MortenSurvivor
         {
 
             GameWorld.Instance.GameMenu.Add(new Menu(MenuItem.Start));
+            GameWorld.Instance.GameMenu.Add(new Menu(MenuItem.Win));
             GameWorld.Instance.GameMenu.Add(new Menu(MenuItem.Loss));
             GameWorld.Instance.GameMenu.Add(new Menu(MenuItem.Pause));
             GameWorld.Instance.GameMenu.Add(new Menu(MenuItem.Upgrade));
