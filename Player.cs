@@ -11,6 +11,7 @@ using MortenSurvivor.Commands.States;
 using MortenSurvivor.CreationalPatterns.Factories;
 using MortenSurvivor.CreationalPatterns.Pools;
 using MortenSurvivor.ObserverPattern;
+using System.Runtime.Intrinsics.Arm;
 
 namespace MortenSurvivor
 {
@@ -35,6 +36,7 @@ namespace MortenSurvivor
 
         #endregion
         private Weapon weapon;
+        private List<Weapon> weapons = new List<Weapon>();
 
         #endregion
         #region Properties
@@ -51,6 +53,7 @@ namespace MortenSurvivor
             velocity = Vector2.One; //Til at bevare animation indtil anden form implementeres
             this.speed = 300;
             weapon = new Weapon(WeaponType.Sling);
+            weapons.Add(weapon);
             layer = 1;
         }
 
@@ -64,7 +67,7 @@ namespace MortenSurvivor
             {
                 velocity.Normalize();
             }
-            Position += velocity * speed *  GameWorld.Instance.DeltaTime;
+            Position += velocity * speed * GameWorld.Instance.DeltaTime;
 
             this.velocity = velocity;
 
@@ -82,8 +85,11 @@ namespace MortenSurvivor
 
         public void Shoot()
         {
+            foreach (Weapon weapon in weapons)
+            {
+                GameWorld.Instance.SpawnObject(ProjectileFactory.Instance.Create(weapon.WeaponProjectile));
 
-            GameWorld.Instance.SpawnObject(ProjectileFactory.Instance.Create());
+            }
 
         }
 
@@ -108,7 +114,7 @@ namespace MortenSurvivor
         /// <param name="upgradeType">The chosen upgrade for the player</param>
         public void Upgrade(UpgradeType upgradeType)
         {
-            switch(upgradeType)
+            switch (upgradeType)
             {
                 case UpgradeType.Mitre:
                     break;
@@ -119,8 +125,27 @@ namespace MortenSurvivor
                 case UpgradeType.WallGoose:
                     break;
                 case UpgradeType.PopeStaff:
+                    if (!weapons.Contains(weapons.Find(x => x.Type == WeaponType.PopeStaff)))
+                    {
+                        weapons.Add(new Weapon(WeaponType.PopeStaff));
+                        Debug.WriteLine("Popestaff added");
+                    }
+                    else
+                    {
+                        Debug.WriteLine("Weapon already exists");
+                    }
                     break;
                 case UpgradeType.GeasterEgg:
+                    if (!weapons.Contains(weapons.Find(x => x.Type == WeaponType.GeasterSling)))
+                    {
+                        weapons.Add(new Weapon(WeaponType.GeasterSling));
+
+                        Debug.WriteLine("GeasterSling added");
+                    }
+                    else
+                    {
+                        Debug.WriteLine("Weapon already exists");
+                    }
                     break;
             }
 

@@ -16,9 +16,11 @@ namespace MortenSurvivor.Commands
 {
     public class SelectCommand : ICommand
     {
+            Random rnd = new Random();
         public void Execute()
         {
-            throw new NotImplementedException();
+            int randomUpgrade = rnd.Next(4,6);
+            Player.Instance.Upgrade((UpgradeType)randomUpgrade);
         }
     }
 }
