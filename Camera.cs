@@ -69,7 +69,7 @@ namespace MortenSurvivor
                 position = newPos;
 
             }
-            //set => position = value;
+
         }
 
         /// <summary>
