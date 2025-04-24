@@ -114,9 +114,9 @@ namespace MortenSurvivor
             gameObjects.Add(new Environment(EnvironmentTile.Top, new Vector2(Screensize.X / 2, -Screensize.Y / 2)));
 
             //Bottom
-            gameObjects.Add(new Environment(EnvironmentTile.Left, new Vector2(-Screensize.X / 2, Screensize.Y * 1.5f)));
-            gameObjects.Add(new Environment(EnvironmentTile.Right, new Vector2(Screensize.X * 1.5f, Screensize.Y * 1.5f)));
-            gameObjects.Add(new Environment(EnvironmentTile.Center, new Vector2(Screensize.X / 2, Screensize.Y * 1.5f)));
+            gameObjects.Add(new Environment(EnvironmentTile.BottomLeft, new Vector2(-Screensize.X / 2, Screensize.Y * 1.5f)));
+            gameObjects.Add(new Environment(EnvironmentTile.BottomRight, new Vector2(Screensize.X * 1.5f, Screensize.Y * 1.5f)));
+            gameObjects.Add(new Environment(EnvironmentTile.Bottom, new Vector2(Screensize.X / 2, Screensize.Y * 1.5f)));
 
             //AvSurface
             gameObjects.Add(new Environment(EnvironmentTile.AvSurface, new Vector2(-900, Screensize.Y * 2f - 20)));
@@ -125,9 +125,9 @@ namespace MortenSurvivor
 
             //Firepit
             gameObjects.Add(new Environment(EnvironmentTile.Firepit, Vector2.Zero));
-            gameObjects.Add(new Environment(EnvironmentTile.Firepit, Screensize * 2.5f));
-            gameObjects.Add(new Environment(EnvironmentTile.Firepit, new Vector2(2000, 3000)));
-            gameObjects.Add(new Environment(EnvironmentTile.Firepit, new Vector2(400, 3000)));
+            gameObjects.Add(new Environment(EnvironmentTile.Firepit, Screensize * 1.2f));
+            gameObjects.Add(new Environment(EnvironmentTile.Firepit, new Vector2(2000, 1700)));
+            gameObjects.Add(new Environment(EnvironmentTile.Firepit, new Vector2(400, 1800)));
             gameObjects.Add(new Environment(EnvironmentTile.Firepit, new Vector2(-50, 160)));
             gameObjects.Add(new Environment(EnvironmentTile.Firepit, new Vector2(Screensize.X * 1.2f, 900)));
 
