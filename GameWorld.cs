@@ -528,7 +528,7 @@ namespace MortenSurvivor
                 //Nulstiller timer
                 lastSpawnEnemy = 0f;
 
-                Debug.WriteLine("Spawner enemy");
+                //Debug.WriteLine("Spawner enemy");
             }
 
             //Spawner Goosifer med sin egen timer
@@ -538,7 +538,7 @@ namespace MortenSurvivor
 
                 lastSpawnGoosifer = 0f;
 
-                Debug.WriteLine("Spawn goosifer");
+                //Debug.WriteLine("Spawn goosifer");
             }
         }
 

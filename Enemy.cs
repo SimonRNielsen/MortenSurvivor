@@ -16,7 +16,6 @@ namespace MortenSurvivor
 {
     public class Enemy : Character
     {
-
         #region Fields
 
         private IState<Enemy> currentState;
@@ -27,6 +26,7 @@ namespace MortenSurvivor
         private Color originalColor;
 
         #endregion
+
         #region Properties
 
         public int Damage { get => damage; }
@@ -58,6 +58,7 @@ namespace MortenSurvivor
         public Color OriginalColor { get => originalColor; }
 
         #endregion
+
         #region Constructor
 
         /// <summary>
@@ -76,22 +77,27 @@ namespace MortenSurvivor
                 case EnemyType.Slow:
                     speed = 125f;
                     originalColor = Color.White;
+                    health = 1;
                     break;
                 case EnemyType.SlowChampion:
                     speed = 125f;
                     originalColor = Color.SlateGray;
+                    health = 3;
                     break;
                 case EnemyType.Fast:
                     speed = 200f;
                     originalColor = Color.White;
+                    health = 1;
                     break;
                 case EnemyType.FastChampion:
                     speed = 200f;
                     originalColor = Color.SlateGray;
+                    health = 3;
                     break;
                 case EnemyType.Goosifer:
                     speed = 165f;
                     originalColor = Color.White;
+                    health = 8;
                     break;
                 default:
                     break;
@@ -156,6 +162,10 @@ namespace MortenSurvivor
 
         public override void OnCollision(GameObject other)
         {
+
+            Player.Instance.CurrentHealth = Player.Instance.CurrentHealth - damage;
+
+            Debug.WriteLine(Player.Instance.CurrentHealth);
 
             base.OnCollision(other);
 

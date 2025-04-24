@@ -55,6 +55,8 @@ namespace MortenSurvivor
             weapon = new Weapon(WeaponType.Sling);
             weapons.Add(weapon);
             layer = 0.9f;
+
+            health = 10;
         }
 
         #endregion
@@ -107,7 +109,7 @@ namespace MortenSurvivor
 
         public override void OnCollision(GameObject other)
         {
-
+                       
             base.OnCollision(other);
 
         }
