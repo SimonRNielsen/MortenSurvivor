@@ -43,7 +43,14 @@ namespace MortenSurvivor.CreationalPatterns.Pools
             else
             {
                 gameObject = inactive.Pop();
+
+                //Resetter enemies position til yderkanten af banen
+                if (gameObject is Enemy)
+                {
+                    gameObject.Position = new EnemyFactory().SetPosition();
+                }
             }
+
 
             active.Add(gameObject);
             return gameObject;
@@ -56,6 +63,13 @@ namespace MortenSurvivor.CreationalPatterns.Pools
             inactive.Push(gameObject);
 
             CleanUp(gameObject);
+
+
+            //reagerer ved collision = hele tiden de collider
+            if (gameObject is Enemy)
+            {
+                GameWorld.Instance.Notify(StatusType.EnemiesKilled);
+            }
 
             //Fjener fra GameWorld
             //GameWorld.Instance.Destroy(gameObject);

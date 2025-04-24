@@ -137,4 +137,12 @@
         xButton2
     }
 
+    public enum StatusType
+    {
+        XpUp,
+        LevelUp,
+        HealthUpdate,
+        EnemiesKilled        
+    }
+
 }
