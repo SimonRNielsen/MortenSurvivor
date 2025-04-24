@@ -39,36 +39,7 @@ namespace MortenSurvivor
         #endregion
         #region Methods
 
-        public void Tile()
-        {
-            switch (tileType)
-            {
-                case EnvironmentTile.TopLeft:
-                    break;
-                case EnvironmentTile.Top:
-                    break;
-                case EnvironmentTile.TopRight:
-                    break;
-                case EnvironmentTile.Left:
-                    break;
-                case EnvironmentTile.Center:
-                    break;
-                case EnvironmentTile.Right:
-                    break;
-                case EnvironmentTile.BottomLeft:
-                    break;
-                case EnvironmentTile.Bottom:
-                    break;
-                case EnvironmentTile.BottomRight:
-                    break;
-                case EnvironmentTile.AvSurface:
-                    break;
-                case EnvironmentTile.Room:
-                    break;
-                default:
-                    break;
-            }
-        }
+     
 
 
         #endregion

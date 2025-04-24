@@ -142,7 +142,10 @@
         XpUp,
         LevelUp,
         HealthUpdate,
-        EnemiesKilled        
+        EnemiesKilled,
+        BarTop,
+        BarViolet,
+        BarBottom
     }
 
 }

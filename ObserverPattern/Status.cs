@@ -24,6 +24,7 @@ namespace MortenSurvivor.ObserverPattern
         private int upgradeCount = 0; // Will be implemented if there is time
         private Texture2D sprite;
         private float layer;
+        private float elapsedTime = 0f;
 
         public Texture2D Sprite { get => sprite; set => sprite = value; }
         public float Layer { get => layer; set => layer = value; }
@@ -41,18 +42,29 @@ namespace MortenSurvivor.ObserverPattern
 
         }
 
-        public void Update()
-        { }
+        public void Update(GameTime gameTime)
+        {
+            elapsedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+        }
         
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            //timer
+            int minutes = (int)(elapsedTime / 60);
+            int seconds = (int)(elapsedTime % 60);
+
+            string timeText = $"{minutes:D2}:{seconds:D2}";
+            spriteBatch.DrawString(GameWorld.Instance.GameFont, $"Tid: {timeText}", new Vector2(GameWorld.Instance.Camera.Position.X, GameWorld.Instance.Camera.Position.Y - 500), Color.White, 0f, Vector2.Zero, 0.15f, SpriteEffects.None, 1f);
+
+
             spriteBatch.DrawString(GameWorld.Instance.GameFont, $"LvL: {levelUp}", new Vector2(GameWorld.Instance.Camera.Position.X - 910, GameWorld.Instance.Camera.Position.Y - 500), Color.White, 0f, Vector2.Zero, 0.15f, SpriteEffects.None, 1f);
             spriteBatch.DrawString(GameWorld.Instance.GameFont, $"Kills: {enemiesKilled}", new Vector2(GameWorld.Instance.Camera.Position.X - 780, GameWorld.Instance.Camera.Position.Y - 500), Color.White, 0f, Vector2.Zero, 0.15f, SpriteEffects.None, 1f); //new Vector2(-550, -270)
             
-            spriteBatch.DrawString(GameWorld.Instance.GameFont, $"XP: {xpCounter}", new Vector2(GameWorld.Instance.Camera.Position.X - 900, GameWorld.Instance.Camera.Position.Y - 30), Color.White, 0f, Vector2.Zero, 0.15f, SpriteEffects.None, 1f); //new Vector2(-550, -300)
-            spriteBatch.DrawString(GameWorld.Instance.GameFont, $"Health: {playerHealth}", new Vector2(GameWorld.Instance.Camera.Position.X - 900, GameWorld.Instance.Camera.Position.Y - 90), Color.White, 0f, Vector2.Zero, 0.15f, SpriteEffects.None, 1f);
+            //teksten skjules, bruges bare til at se om det virker
             spriteBatch.DrawString(GameWorld.Instance.GameFont, $"Upgrades: {upgradeCount}", new Vector2(GameWorld.Instance.Camera.Position.X - 900, GameWorld.Instance.Camera.Position.Y - 120), Color.White, 0f, Vector2.Zero, 0.15f, SpriteEffects.None, 1f);
+            spriteBatch.DrawString(GameWorld.Instance.GameFont, $"Health: {playerHealth}", new Vector2(GameWorld.Instance.Camera.Position.X - 900, GameWorld.Instance.Camera.Position.Y - 90), Color.White, 0f, Vector2.Zero, 0.15f, SpriteEffects.None, 1f);
+            spriteBatch.DrawString(GameWorld.Instance.GameFont, $"XP: {xpCounter}", new Vector2(GameWorld.Instance.Camera.Position.X - 900, GameWorld.Instance.Camera.Position.Y - 30), Color.White, 0f, Vector2.Zero, 0.15f, SpriteEffects.None, 1f); //new Vector2(-550, -300)
 
             // Hent og tegn sprite for enemies killed
             if (GameWorld.Instance.Sprites.TryGetValue(StatusType.EnemiesKilled, out Texture2D[] sprites))
@@ -75,23 +87,10 @@ namespace MortenSurvivor.ObserverPattern
                 spriteBatch.Draw(sprite, new Vector2(-600, -270), Color.White);
             }
 
+
             
         }
 
-        //public enum ItemType
-        //{
-
-        //    XPCrystal,
-        //    DamageBoost,
-        //    SpeedBoost,
-        //    HealBoost,
-        //    ConfuseEnemy,
-        //    ScareEnemy
-
-        //}
-
-        ////Notifies Status about when an enemy is killed
-        //GameWorld.Instance.Notify(StatusType.EnemiesKilled);
 
         public void OnNotify(StatusType statusType)
         {

@@ -167,6 +167,9 @@ namespace MortenSurvivor
                 CleanUp();
             }
 
+            status.Update(gameTime);
+
+
             base.Update(gameTime);
 
         }
@@ -273,6 +276,16 @@ namespace MortenSurvivor
             Texture2D[] BottomRight = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\tile9") };
             Sprites.Add(EnvironmentTile.BottomRight, BottomRight);
 
+            #endregion
+            #region Status
+            Texture2D[] barTop = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Objects\\barTop") };
+            Sprites.Add(StatusType.BarTop, barTop);
+
+            Texture2D[] barViolet = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Objects\\barViolet") };
+            Sprites.Add(StatusType.BarViolet, barViolet);
+
+            Texture2D[] barBottom = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Objects\\barBottom") };
+            Sprites.Add(StatusType.BarBottom, barBottom);
             #endregion
             #region Menu
 

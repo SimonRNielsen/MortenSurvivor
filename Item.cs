@@ -44,10 +44,10 @@ namespace MortenSurvivor
 
         public Item(ItemType itemType, Vector2 spawnPos) : base(itemType, spawnPos)
         {
-            this.type = type;
+            this.type = itemType;
             position = spawnPos;
 
-            if (GameWorld.Instance.Sprites.TryGetValue(, out var sprites))
+            if (GameWorld.Instance.Sprites.TryGetValue(itemType, out var sprites))
                 Sprite = sprites[0];
             else
                 Debug.WriteLine("Kunne ikke sætte sprite for " + ToString());
