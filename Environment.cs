@@ -24,7 +24,6 @@ namespace MortenSurvivor
         protected float speed;
         protected float elapsedTime;
         protected float fps = 7;
-        //protected int health = 1;
         protected int currentHealth;
         protected int currentIndex;
         protected Vector2 velocity;
