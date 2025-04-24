@@ -128,7 +128,7 @@ namespace MortenSurvivor
                 case MenuItem.StackableButton:
                 case MenuItem.SingleButton:
                     isButton = true;
-                    layer += 0.1f;
+                    layer += 0.01f;
                     break;
             }
 
@@ -166,7 +166,7 @@ namespace MortenSurvivor
                 case MenuItem.StackableButton:
                 case MenuItem.SingleButton:
                     isButton = true;
-                    layer += 0.1f;
+                    layer += 0.01f;
                     break;
             }
 
@@ -226,7 +226,7 @@ namespace MortenSurvivor
                 spriteBatch.Draw(sprite, position, null, Color.White, rotation, origin, scale, SpriteEffects.None, layer);
 
                 if (!string.IsNullOrEmpty(text))
-                    spriteBatch.DrawString(GameWorld.Instance.GameFont, text, origin, color, 0f, Vector2.Zero, 1f, SpriteEffects.None, layer + 0.1f);
+                    spriteBatch.DrawString(GameWorld.Instance.GameFont, text, origin, color, 0f, Vector2.Zero, 1f, SpriteEffects.None, layer + 0.02f);
 
             }
 
@@ -236,9 +236,9 @@ namespace MortenSurvivor
                 string firstChoice = SetString(relatedButtons[0].UpgradeType);
                 string secondChoice = SetString(relatedButtons[1].UpgradeType);
                 string thirdChoice = SetString(relatedButtons[2].UpgradeType);
-                spriteBatch.DrawString(GameWorld.Instance.GameFont, firstChoice, new Vector2(position.X - 500, position.Y - 200), Color.Black, 0f, Vector2.Zero, 1f, SpriteEffects.None, layer + 0.1f);
-                spriteBatch.DrawString(GameWorld.Instance.GameFont, secondChoice, new Vector2(position.X, position.Y - 200), Color.Black, 0f, Vector2.Zero, 1f, SpriteEffects.None, layer + 0.1f);
-                spriteBatch.DrawString(GameWorld.Instance.GameFont, thirdChoice, new Vector2(position.X + 500, position.Y - 200), Color.Black, 0f, Vector2.Zero, 1f, SpriteEffects.None, layer + 0.1f);
+                spriteBatch.DrawString(GameWorld.Instance.GameFont, firstChoice, new Vector2(position.X - 500, position.Y - 200), Color.Black, 0f, Vector2.Zero, 1f, SpriteEffects.None, layer + 0.02f);
+                spriteBatch.DrawString(GameWorld.Instance.GameFont, secondChoice, new Vector2(position.X, position.Y - 200), Color.Black, 0f, Vector2.Zero, 1f, SpriteEffects.None, layer + 0.02f);
+                spriteBatch.DrawString(GameWorld.Instance.GameFont, thirdChoice, new Vector2(position.X + 500, position.Y - 200), Color.Black, 0f, Vector2.Zero, 1f, SpriteEffects.None, layer + 0.02f);
 
             }
 
