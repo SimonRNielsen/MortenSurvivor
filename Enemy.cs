@@ -149,24 +149,6 @@ namespace MortenSurvivor
         public override void Load()
         {
 
-            int rndPosition = GameWorld.Instance.Random.Next(1, 5); //4 hjørner
-
-            switch (rndPosition) //Skal ændre spawn position, når jeg ved selve størrelsen på banen
-            {
-                case 1:
-                    this.Position = Vector2.Zero;
-                    break;
-                case 2:
-                    this.Position = new Vector2(0, GameWorld.Instance.Screensize.Y);
-                    break;
-                case 3:
-                    this.Position = new Vector2(GameWorld.Instance.Screensize.X, 0);
-                    break;
-                case 4:
-                    this.Position = new Vector2(GameWorld.Instance.Screensize.X, GameWorld.Instance.Screensize.Y);
-                    break;
-            }
-
             base.Load();
 
         }
