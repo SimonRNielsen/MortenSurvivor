@@ -67,6 +67,7 @@ namespace MortenSurvivor.Commands.States
             orbitAngle %= MathHelper.TwoPi;
 
             parent.Position = GetOrbitPosition();
+            parent.Rotation += 0.1f;
 
         }
 
