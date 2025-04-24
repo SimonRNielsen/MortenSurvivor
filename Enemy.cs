@@ -175,6 +175,8 @@ namespace MortenSurvivor
 
             Debug.WriteLine(Player.Instance.CurrentHealth);
 
+            GameWorld.Instance.Sounds.
+
             base.OnCollision(other);
 
         }
