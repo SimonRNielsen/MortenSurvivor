@@ -68,9 +68,8 @@ namespace MortenSurvivor.CreationalPatterns.Pools
             active.Remove(gameObject);
             inactive.Push(gameObject);
 
-            //reagerer ved collision = hele tiden de collider
-
             CleanUp(gameObject);
+
             //Fjener fra GameWorld
             //GameWorld.Instance.Destroy(gameObject);
         }

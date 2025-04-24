@@ -19,6 +19,8 @@ namespace MortenSurvivor
 
         #region Fields
 
+        private const float screenHalfX = 960;
+        private const float screenHalfY = 540;
         private Vector2 position;
         private readonly GraphicsDevice _graphicsDevice;
 
@@ -31,8 +33,43 @@ namespace MortenSurvivor
         /// </summary>
         public Vector2 Position
         {
+            
             get => position;
-            set => position = value;
+
+            set
+            {
+
+                Vector2 newPos = new Vector2();
+
+                switch(value.X)
+                {
+                    case > 3840 - screenHalfX:
+                        newPos.X = 3840 - screenHalfX;
+                        break;
+                    case < -1920 + screenHalfX:
+                        newPos.X = -1920 + screenHalfX;
+                        break;
+                    default:
+                        newPos.X = value.X;
+                        break;
+                }
+                switch(value.Y)
+                {
+                    case > 2160 - screenHalfY:
+                        newPos.Y = 2240 - screenHalfY;
+                        break;
+                    case < -1080 + screenHalfY:
+                        newPos.Y = -1080 + screenHalfY;
+                        break;
+                    default:
+                        newPos.Y = value.Y;
+                        break;
+                }
+
+                position = newPos;
+
+            }
+
         }
 
         /// <summary>

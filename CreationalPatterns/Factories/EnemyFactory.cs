@@ -66,21 +66,30 @@ namespace MortenSurvivor.CreationalPatterns.Factories
         public Vector2 SetPosition()
         {
             //Enemies spawner kan spawne fra et tilfældigt hjørne
-            int rndPosition = GameWorld.Instance.Random.Next(1, 5); //4 hjørner
+            int rndPosition = GameWorld.Instance.Random.Next(1, 6);
+
+            //int rndPosition = 4;
+
+            int yPosition = GameWorld.Instance.Random.Next((int)-GameWorld.Instance.Screensize.Y, (int)GameWorld.Instance.Screensize.Y * 2);
+            int xPosition = GameWorld.Instance.Random.Next((int)-GameWorld.Instance.Screensize.X, (int)GameWorld.Instance.Screensize.X * 2);
+
 
             switch (rndPosition) //Skal ændre spawn position, når jeg ved selve størrelsen på banen
             {
-                case 1:
+                case 1: //Spawner fra et firepit
                     this.position = Vector2.Zero;
                     break;
-                case 2:
-                    this.position = new Vector2(0, GameWorld.Instance.Screensize.Y);
+                case 2: //Top
+                    this.position = new Vector2(xPosition, -GameWorld.Instance.Screensize.Y);
                     break;
-                case 3:
-                    this.position = new Vector2(GameWorld.Instance.Screensize.X, 0);
+                case 3: //Bottom
+                    this.position = new Vector2(xPosition, GameWorld.Instance.Screensize.Y * 2);
                     break;
-                case 4:
-                    this.position = new Vector2(GameWorld.Instance.Screensize.X, GameWorld.Instance.Screensize.Y);
+                case 4: //Left
+                    this.position = new Vector2(-GameWorld.Instance.Screensize.X, yPosition);
+                    break;
+                case 5: //Rigth
+                    position = new Vector2(GameWorld.Instance.Screensize.X * 2, yPosition);
                     break;
             }
 

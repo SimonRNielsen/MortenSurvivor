@@ -52,6 +52,10 @@ namespace MortenSurvivor
                     }
                 }
 
+                    //Notifies Status about when an enemy is killed
+                    GameWorld.Instance.Notify(StatusType.EnemiesKilled);
+                }
+
             }
         }
 
