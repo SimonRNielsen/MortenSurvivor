@@ -72,6 +72,18 @@ namespace MortenSurvivor
             originalState = new ChaseState(this);
             currentState = originalState;
 
+            Types(type);
+
+            drawColor = originalColor;
+        }
+
+        #endregion
+        #region Methods
+
+        public void Types(Enum type)
+        {
+            damage = 1;
+            
             switch (type)
             {
                 case EnemyType.Slow:
@@ -98,17 +110,13 @@ namespace MortenSurvivor
                     speed = 165f;
                     originalColor = Color.White;
                     health = 8;
+                    damage = 3;
                     break;
                 default:
                     break;
             }
-
-            drawColor = originalColor;
-
         }
 
-        #endregion
-        #region Methods
 
         /// <summary>
         /// Kører State's "Execute" metode og base.Update der står for animation
