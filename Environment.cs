@@ -11,6 +11,7 @@ using MortenSurvivor.Commands.States;
 using MortenSurvivor.CreationalPatterns.Factories;
 using MortenSurvivor.CreationalPatterns.Pools;
 using MortenSurvivor.ObserverPattern;
+using SharpDX.Direct3D9;
 
 namespace MortenSurvivor
 {
@@ -19,6 +20,15 @@ namespace MortenSurvivor
 
         #region Fields
         private EnvironmentTile tileType;
+
+        protected float speed;
+        protected float elapsedTime;
+        protected float fps = 10;
+        //protected int health = 1;
+        protected int currentHealth;
+        protected int currentIndex;
+        protected Vector2 velocity;
+        protected Texture2D[] sprites;
 
         #endregion
         #region Properties
@@ -32,6 +42,11 @@ namespace MortenSurvivor
         public Environment(Enum type, Vector2 spawnPos) : base(type, spawnPos)
         {
             layer = 0f;
+            if (type is EnvironmentTile.AvSurface)
+            {
+                layer = 0.15f;
+            }
+           
             tileType = (EnvironmentTile)type;
 
         }
@@ -62,6 +77,7 @@ namespace MortenSurvivor
                 case EnvironmentTile.BottomRight:
                     break;
                 case EnvironmentTile.AvSurface:
+                    
                     break;
                 case EnvironmentTile.Room:
                     break;
@@ -70,6 +86,34 @@ namespace MortenSurvivor
             }
         }
 
+        /// <summary>
+        /// Håndterer hvilken sprite i sprites der skal illustreres
+        /// </summary>
+        protected virtual void Animate()
+        {
+
+            //Adding the time which has passed since the last update
+            elapsedTime += GameWorld.Instance.DeltaTime;
+
+            currentIndex = (int)(elapsedTime * fps % sprites.Length);
+
+        }
+
+        /// <summary>
+        /// Håndterer visning af sprite(s)
+        /// </summary>
+        /// <param name="spriteBatch">Game-logic</param>
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+
+            if (sprites != null)
+                spriteBatch.Draw(sprites[currentIndex], Position, null, drawColor, Rotation, origin, scale, spriteEffect, layer);
+            else if (Sprite != null)
+                spriteBatch.Draw(Sprite, Position, null, drawColor, Rotation, origin, scale, spriteEffect, layer);
+
+            velocity = Vector2.Zero;
+
+        }
 
         #endregion
 

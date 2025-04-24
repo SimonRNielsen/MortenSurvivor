@@ -103,17 +103,25 @@ namespace MortenSurvivor
             random = new Random();
 
             #region Environment
+            //Midt
             gameObjects.Add(new Environment(EnvironmentTile.Center, Screensize / 2));
             gameObjects.Add(new Environment(EnvironmentTile.Left, new Vector2(-Screensize.X / 2, Screensize.Y / 2)));
             gameObjects.Add(new Environment(EnvironmentTile.Right, new Vector2(Screensize.X * 1.5f, Screensize.Y / 2)));
 
+            //Top
             gameObjects.Add(new Environment(EnvironmentTile.TopLeft, -Screensize / 2));
             gameObjects.Add(new Environment(EnvironmentTile.TopRight, new Vector2(Screensize.X * 1.5f, -Screensize.Y / 2)));
             gameObjects.Add(new Environment(EnvironmentTile.Top, new Vector2(Screensize.X / 2, -Screensize.Y / 2)));
 
-            gameObjects.Add(new Environment(EnvironmentTile.BottomLeft, new Vector2(-Screensize.X / 2, Screensize.Y * 1.5f)));
-            gameObjects.Add(new Environment(EnvironmentTile.BottomRight, new Vector2(Screensize.X * 1.5f, Screensize.Y * 1.5f)));
-            gameObjects.Add(new Environment(EnvironmentTile.Bottom, new Vector2(Screensize.X / 2, Screensize.Y * 1.5f)));
+            //Bottom
+            gameObjects.Add(new Environment(EnvironmentTile.Left, new Vector2(-Screensize.X / 2, Screensize.Y * 1.5f)));
+            gameObjects.Add(new Environment(EnvironmentTile.Right, new Vector2(Screensize.X * 1.5f, Screensize.Y * 1.5f)));
+            gameObjects.Add(new Environment(EnvironmentTile.Center, new Vector2(Screensize.X / 2, Screensize.Y * 1.5f)));
+
+            //AvSurface
+            gameObjects.Add(new Environment(EnvironmentTile.AvSurface, new Vector2(-200, Screensize.Y * 2f - 20)));
+            gameObjects.Add(new Environment(EnvironmentTile.AvSurface, new Vector2(-200 + 3586, Screensize.Y * 2f - 20)));
+
             #endregion
 
             gameObjects.Add(Player.Instance);
