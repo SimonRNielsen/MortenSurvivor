@@ -572,6 +572,16 @@ namespace MortenSurvivor
 
         }
 
+
+        public void ActivateMenu(MenuItem menu)
+        {
+
+            Pause();
+
+            GameMenu.Find(x => x.Type == menu).Activate();
+
+        }
+
         #region Observer
         public void Attach(IObserver observer)
         {
