@@ -21,23 +21,24 @@ namespace MortenSurvivor
 
         #region Fields
 
+        public List<Menu> relatedButtons;
+        //public Menu[] selectableUpgrades;
         private Texture2D sprite;
-        private bool isActive = false;
-        private bool isButton = false;
-        private bool isUpgrade = false;
-        private bool hasMouseOver = false;
+        private Action action;
+        private Menu parent;
         private MenuItem type;
+        private UpgradeType upgradeType;
         private Vector2 position;
         private Vector2 origin;
-        private Color color;
+        private Color color = Color.Yellow;
+        private string text;
         private float scale = 1f;
         private float rotation = 0f;
         private float layer = 0.9f;
-        private Action action;
-        private List<Menu> relatedButtons;
-        private Menu parent;
-
-        public static Menu[] selectableUpgrades = new Menu[3];
+        private bool isActive = false;
+        private bool isButton = false;
+        private bool isUpgrade = false;
+        private bool mousedOver = false;
 
         #endregion
         #region Properties
@@ -62,7 +63,19 @@ namespace MortenSurvivor
         public bool IsActive { get => isActive; set => isActive = value; }
 
 
-        public bool IsButton { get => isButton; }
+        public bool IsUpgrade { get => isUpgrade; }
+
+
+        public bool MousedOver { get => mousedOver; }
+
+
+        public MenuItem Type { get => type; }
+
+
+        public UpgradeType UpgradeType { get => upgradeType; }
+
+
+        public Vector2 Position { set => position = value; }
 
         #endregion
         #region Constructor
@@ -80,12 +93,17 @@ namespace MortenSurvivor
                 case MenuItem.Start:
                     isActive = true;
                     relatedButtons = new List<Menu>();
+                    relatedButtons.Add(new Menu(this, MenuItem.SingleButton, "Start"));
                     break;
                 case MenuItem.Pause:
                     relatedButtons = new List<Menu>();
+                    relatedButtons.Add(new Menu(this, MenuItem.SingleButton, "Continue"));
                     break;
+                case MenuItem.Win:
                 case MenuItem.Loss:
                     relatedButtons = new List<Menu>();
+                    relatedButtons.Add(new Menu(this, MenuItem.SingleButton, "Restart"));
+                    relatedButtons.Add(new Menu(this, MenuItem.SingleButton, "Exit"));
                     break;
                 case MenuItem.Upgrade:
                     relatedButtons = new List<Menu>();
@@ -96,28 +114,63 @@ namespace MortenSurvivor
         }
 
 
-        public Menu(MenuItem type, Action action, bool upgrade)
+        public Menu(Menu parent, MenuItem type, string buttonText)
         {
 
             sprite = GameWorld.Instance.Sprites[type][0];
             origin = new Vector2(sprite.Width / 2, sprite.Height / 2);
+            this.parent = parent;
             this.type = type;
+            text = buttonText;
 
             switch (type)
             {
                 case MenuItem.StackableButton:
-                    isButton = true;
-                    layer += 0.1f;
-                    this.action = action;
-                    isUpgrade = upgrade;
-                    break;
                 case MenuItem.SingleButton:
                     isButton = true;
                     layer += 0.1f;
-                    this.action = action;
-                    isUpgrade = upgrade;
                     break;
             }
+
+            switch (text)
+            {
+                case "Exit":
+                    action = () => GameWorld.Instance.Exit();
+                    break;
+                case "Continue":
+                case "Start":
+                    action = () => GameWorld.Instance.Pause();
+                    break;
+                case "Restart":
+                    action = () => GameWorld.Instance.Restart();
+                    break;
+                default:
+                    break;
+            }
+
+        }
+
+
+        public Menu(Menu parent, MenuItem type, UpgradeType upgrade)
+        {
+
+            sprite = GameWorld.Instance.Sprites[type][0];
+            origin = new Vector2(sprite.Width / 2, sprite.Height / 2);
+            this.parent = parent;
+            this.type = type;
+            upgradeType = upgrade;
+            text = "Select";
+
+            switch (type)
+            {
+                case MenuItem.StackableButton:
+                case MenuItem.SingleButton:
+                    isButton = true;
+                    layer += 0.1f;
+                    break;
+            }
+
+            action = () => Player.Instance.GetUpgrade(upgradeType);
 
         }
 
@@ -128,20 +181,38 @@ namespace MortenSurvivor
         public void Update()
         {
 
-            if (isUpgrade && selectableUpgrades[0] == null)
+            if (isButton)
+                mousedOver = false;
+            else
+                position = GameWorld.Instance.Camera.Position;
+
+            if (relatedButtons != null)
+                foreach (Menu menu in relatedButtons)
+                    if (menu.CollisionBox.Intersects(InputHandler.Instance.CollisionBox))
+                        menu.OnMouseOver();
+
+            if (isUpgrade && relatedButtons.Count == 0)
             {
-                for (int i = 0; i < selectableUpgrades.Length; i++)
+
+                var ints = new List<int>();
+
+                while (ints.Count < 3)
                 {
 
+                    int i = GameWorld.Instance.Random.Next(0, 4);
+
+                    if (ints.Contains(i))
+                        continue;
+                    else
+                        ints.Add(i);
+
                 }
+
+                foreach (int i in ints)
+                    relatedButtons.Add(new Menu(this, MenuItem.SingleButton, (UpgradeType)i));
+
             }
 
-            switch (type)
-            {
-                default:
-                    position = GameWorld.Instance.Camera.Position;
-                    break;
-            }
 
         }
 
@@ -150,20 +221,63 @@ namespace MortenSurvivor
         {
 
             if (isActive)
-                spriteBatch.Draw(sprite, position, null, color, rotation, origin, scale, SpriteEffects.None, layer);
+            {
 
-            color = Color.White;
+                spriteBatch.Draw(sprite, position, null, Color.White, rotation, origin, scale, SpriteEffects.None, layer);
+
+                if (!string.IsNullOrEmpty(text))
+                    spriteBatch.DrawString(GameWorld.Instance.GameFont, text, origin, color, 0f, Vector2.Zero, 1f, SpriteEffects.None, layer + 0.1f);
+
+            }
+
+            if (isUpgrade)
+            {
+
+                string firstChoice = SetString(relatedButtons[0].UpgradeType);
+                string secondChoice = SetString(relatedButtons[1].UpgradeType);
+                string thirdChoice = SetString(relatedButtons[2].UpgradeType);
+                spriteBatch.DrawString(GameWorld.Instance.GameFont, firstChoice, new Vector2(position.X - 500, position.Y - 200), Color.Black, 0f, Vector2.Zero, 1f, SpriteEffects.None, layer + 0.1f);
+                spriteBatch.DrawString(GameWorld.Instance.GameFont, secondChoice, new Vector2(position.X, position.Y - 200), Color.Black, 0f, Vector2.Zero, 1f, SpriteEffects.None, layer + 0.1f);
+                spriteBatch.DrawString(GameWorld.Instance.GameFont, thirdChoice, new Vector2(position.X + 500, position.Y - 200), Color.Black, 0f, Vector2.Zero, 1f, SpriteEffects.None, layer + 0.1f);
+
+            }
+
+            if (relatedButtons != null)
+            {
+
+                switch (relatedButtons.Count)
+                {
+                    case 1:
+                        relatedButtons[0].Position = new Vector2(position.X, position.Y + 350);
+                        break;
+                    case 2:
+                        relatedButtons[0].Position = new Vector2(position.X - 300, position.Y + 350);
+                        relatedButtons[1].Position = new Vector2(position.X + 300, position.Y + 350);
+                        break;
+                    case 3:
+                        relatedButtons[0].Position = new Vector2(position.X - 500, position.Y + 350);
+                        relatedButtons[1].Position = new Vector2(position.X, position.Y + 350);
+                        relatedButtons[2].Position = new Vector2(position.X + 500, position.Y + 350);
+                        break;
+                }
+
+                foreach (Menu button in relatedButtons)
+                    button.Draw(spriteBatch);
+
+            }
+
+            if (isButton)
+                color = Color.Yellow;
 
         }
 
 
-        public void OnCollision()
+        public void OnMouseOver()
         {
 
-            if (isButton)
-            {
-                color = Color.Gray;
-            }
+            color = Color.Red;
+
+            mousedOver = true;
 
         }
 
@@ -174,11 +288,10 @@ namespace MortenSurvivor
             if (isButton)
                 action?.Invoke();
 
-            if (isUpgrade)
-            {
-                GameWorld.Instance.GameMenu.Remove(this);
-                selectableUpgrades = new Menu[3];
-            }
+            if (parent.IsUpgrade)
+                parent.relatedButtons.Clear();
+
+            Deactivate();
 
         }
 
@@ -196,7 +309,10 @@ namespace MortenSurvivor
         public static void CreateMenus()
         {
 
-
+            GameWorld.Instance.GameMenu.Add(new Menu(MenuItem.Start));
+            GameWorld.Instance.GameMenu.Add(new Menu(MenuItem.Loss));
+            GameWorld.Instance.GameMenu.Add(new Menu(MenuItem.Pause));
+            GameWorld.Instance.GameMenu.Add(new Menu(MenuItem.Upgrade));
 
         }
 
@@ -205,6 +321,35 @@ namespace MortenSurvivor
         {
 
             isActive = false;
+            foreach (Menu menu in parent.relatedButtons)
+                menu.IsActive = false;
+
+        }
+
+
+        public void Activate()
+        {
+
+            isActive = true;
+            foreach (Menu menu in parent.relatedButtons)
+                menu.IsActive = true;
+
+        }
+
+
+        private string SetString(UpgradeType upgrade)
+        {
+
+            string text;
+
+            switch (upgrade)
+            {
+                default:
+                    text = upgrade.ToString();
+                    break;
+            }
+
+            return text;
 
         }
 

@@ -33,8 +33,8 @@
         Mitre,
         Rosary,
         Bible,
-        WallGoose,
         PopeStaff,
+        WallGoose,
         GeasterEgg
 
     }
@@ -129,7 +129,8 @@
         Start,
         Pause,
         Upgrade,
-        Loss
+        Loss,
+        Win
 
     }
 

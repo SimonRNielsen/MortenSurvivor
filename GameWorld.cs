@@ -564,6 +564,14 @@ namespace MortenSurvivor
 
         }
 
+
+        public void Restart()
+        {
+
+
+
+        }
+
         #region Observer
         public void Attach(IObserver observer)
         {

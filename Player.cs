@@ -179,6 +179,17 @@ namespace MortenSurvivor
         }
 
 
+        public void GetUpgrade(UpgradeType upgrade)
+        {
+
+            switch (upgrade)
+            {
+
+            }
+
+        }
+
+
         #endregion
 
     }
