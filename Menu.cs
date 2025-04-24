@@ -11,6 +11,7 @@ using MortenSurvivor.Commands.States;
 using MortenSurvivor.CreationalPatterns.Factories;
 using MortenSurvivor.CreationalPatterns.Pools;
 using MortenSurvivor.ObserverPattern;
+using SharpDX.Direct3D9;
 
 namespace MortenSurvivor
 {
@@ -18,24 +19,88 @@ namespace MortenSurvivor
     public class Menu
     {
 
+        #region Fields
+
         private Texture2D sprite;
-        private bool active = false;
+        private bool isActive = false;
+        private bool isButton = false;
+        private bool hasMouseOver = false;
         private MenuItem type;
         private Vector2 position;
         private Vector2 origin;
+        private Color color;
         private float scale = 1f;
         private float rotation = 0f;
-        private float layer = 0.7f;
+        private float layer = 0.9f;
+        private Action action;
+
+        #endregion
+        #region Properties
 
 
-        public Menu(MenuItem type)
+        public Rectangle CollisionBox
+        {
+
+            get
+            {
+
+                if (sprite != null)
+                    return new Rectangle((int)(position.X - (sprite.Width / 2) * scale), (int)(position.Y - (sprite.Height / 2) * scale), (int)(sprite.Width * scale), (int)(sprite.Height * scale));
+                else
+                    return new Rectangle();
+
+            }
+
+        }
+
+
+        public bool IsActive { get => isActive; set => isActive = value; }
+
+
+        public bool IsButton { get => isButton; }
+
+        #endregion
+        #region Constructor
+
+
+        public Menu(MenuItem type, Action action)
         {
 
             sprite = GameWorld.Instance.Sprites[type][0];
             origin = new Vector2(sprite.Width / 2, sprite.Height / 2);
             this.type = type;
 
+            switch (type)
+            {
+                case MenuItem.Start:
+                    isActive = true;
+
+                    break;
+                case MenuItem.Pause:
+
+                    break;
+                case MenuItem.Loss:
+
+                    break;
+                case MenuItem.Upgrade:
+
+                    break;
+                case MenuItem.StackableButton:
+                    isButton = true;
+                    layer += 0.1f;
+                    this.action = action;
+                    break;
+                case MenuItem.SingleButton:
+                    isButton = true;
+                    layer += 0.1f;
+                    this.action = action;
+                    break;
+            }
+
         }
+
+        #endregion
+        #region Methods
 
 
         public void Update()
@@ -54,16 +119,60 @@ namespace MortenSurvivor
         public void Draw(SpriteBatch spriteBatch)
         {
 
-            if (active)
-                spriteBatch.Draw(sprite, position, null, Color.White, rotation, origin, scale, SpriteEffects.None, layer);
+            if (isActive)
+                spriteBatch.Draw(sprite, position, null, color, rotation, origin, scale, SpriteEffects.None, layer);
+
+            color = Color.White;
+
+        }
+
+
+        public void OnCollision()
+        {
+
+            if (isButton)
+            {
+                color = Color.Gray;
+            }
+
+        }
+
+
+        public void SelectionEffect()
+        {
+
+            if (isButton)
+                action?.Invoke();
 
         }
 
 
         public override string ToString()
         {
+
             return type.ToString();
+
         }
+
+        /// <summary>
+        /// Sørger for at oprette alle relevante menu'er
+        /// </summary>
+        public static void CreateMenus()
+        {
+
+
+
+        }
+
+
+        private void Deactivate()
+        {
+
+            isActive = false;
+
+        }
+
+        #endregion
 
     }
 

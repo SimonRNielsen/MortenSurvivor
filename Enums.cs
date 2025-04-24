@@ -125,7 +125,11 @@
 
         StackableButton,
         SingleButton,
-        MouseCursor
+        MouseCursor,
+        Start,
+        Pause,
+        Upgrade,
+        Loss
 
     }
 

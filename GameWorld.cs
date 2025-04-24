@@ -49,7 +49,7 @@ namespace MortenSurvivor
         private List<GameObject> gameObjects = new List<GameObject>();
         private List<GameObject> newGameObjects = new List<GameObject>();
         private List<IObserver> listeners = new List<IObserver>();
-        private List<Menu> menu = new List<Menu>();
+        public List<Menu> GameMenu = new List<Menu>();
 
         private float deltaTime;
         private bool gamePaused = false;
@@ -101,6 +101,7 @@ namespace MortenSurvivor
             SetScreenSize(Screensize);
             camera = new Camera(GraphicsDevice, GameWorld.Instance.Screensize / 2);
             random = new Random();
+            Menu.CreateMenus();
 
             #region Environment
             //Midt
@@ -182,9 +183,9 @@ namespace MortenSurvivor
 
                 CleanUp();
             }
-
-            foreach (Menu item in menu)
-                item.Update();
+            else
+                foreach (Menu item in GameMenu)
+                    item.Update();
 
             base.Update(gameTime);
 
@@ -208,8 +209,9 @@ namespace MortenSurvivor
 
             status.Draw(_spriteBatch);
 
-            foreach (Menu item in menu)
-                item.Draw(_spriteBatch);
+            if (gamePaused)
+                foreach (Menu item in GameMenu)
+                    item.Draw(_spriteBatch);
 
             _spriteBatch.End();
 
