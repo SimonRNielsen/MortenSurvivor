@@ -67,16 +67,10 @@ namespace MortenSurvivor
 
         public void Move(Vector2 velocity)
         {
-            if (velocity != Vector2.Zero)
-            {
-                velocity.Normalize();
-            }
-            Position += velocity * speed * GameWorld.Instance.DeltaTime;
 
             this.velocity = velocity;
 
             if (velocity.Y == 0)
-            {
                 switch (velocity.X)
                 {
                     case < 0:
@@ -86,7 +80,19 @@ namespace MortenSurvivor
                         spriteEffect = SpriteEffects.None;
                         break;
                 }
+
+            switch (velocity)
+            {
+                case (1, 0) when Position.X >= 3800:
+                case (-1, 0) when Position.X <= -1860:
+                case (0, 1) when Position.Y >= 2110:
+                case (0, -1) when Position.Y <= -1000:
+                    velocity = Vector2.Zero;
+                    break;
+                default:
+                    break;
             }
+
             if (velocity != Vector2.Zero)
             {
                 velocity.Normalize();
