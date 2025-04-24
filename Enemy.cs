@@ -22,7 +22,7 @@ namespace MortenSurvivor
         private IState<Enemy> originalState;
         private int damage;
         private float damageTimer;
-        private float damageGracePeriod;
+        private float damageGracePeriod = 2f;
         private Color originalColor;
 
         #endregion
@@ -170,12 +170,19 @@ namespace MortenSurvivor
 
         public override void OnCollision(GameObject other)
         {
+            damageTimer += GameWorld.Instance.DeltaTime;
 
-            Player.Instance.CurrentHealth = Player.Instance.CurrentHealth - damage;
+            if (damageTimer > damageGracePeriod)
+            {
 
-            Debug.WriteLine(Player.Instance.CurrentHealth);
+                Player.Instance.CurrentHealth = Player.Instance.CurrentHealth - damage;
 
-            GameWorld.Instance.Sounds.
+                Debug.WriteLine(Player.Instance.CurrentHealth);
+
+                GameWorld.Instance.Sounds[Sound.PlayerTakeDamage].Play();
+
+                damageTimer = 0;
+            }
 
             base.OnCollision(other);
 
