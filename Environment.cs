@@ -45,11 +45,6 @@ namespace MortenSurvivor
             sprites = GameWorld.Instance.Sprites[type];
 
             layer = 0f;
-            if (type is EnvironmentTile.AvSurface)
-            {
-                layer = 0.91f;
-                scale = 0.6f;
-            }
            
             tileType = (EnvironmentTile)type;
 
@@ -81,8 +76,14 @@ namespace MortenSurvivor
                 case EnvironmentTile.BottomRight:
                     break;
                 case EnvironmentTile.AvSurface:
+                    layer = 0.91f;
+                    scale = 0.6f;
                     break;
                 case EnvironmentTile.Room:
+                    break;
+                case EnvironmentTile.Firepit:
+                    layer = 0.1f;
+                    scale = 0.5f;
                     break;
                 default:
                     break;

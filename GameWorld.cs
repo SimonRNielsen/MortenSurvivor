@@ -123,6 +123,13 @@ namespace MortenSurvivor
             gameObjects.Add(new Environment(EnvironmentTile.AvSurface, new Vector2(-900 + 3586 * 0.6f, Screensize.Y * 2f - 20)));
             gameObjects.Add(new Environment(EnvironmentTile.AvSurface, new Vector2(-900 + 3586 * 2 * 0.6f, Screensize.Y * 2f - 20)));
 
+            //Firepit
+            gameObjects.Add(new Environment(EnvironmentTile.Firepit, Vector2.Zero));
+            gameObjects.Add(new Environment(EnvironmentTile.Firepit, Screensize * 2.5f));
+            gameObjects.Add(new Environment(EnvironmentTile.Firepit, new Vector2(2000, 3000)));
+            gameObjects.Add(new Environment(EnvironmentTile.Firepit, new Vector2(400, 3000)));
+            gameObjects.Add(new Environment(EnvironmentTile.Firepit, new Vector2(-50, 160)));
+            gameObjects.Add(new Environment(EnvironmentTile.Firepit, new Vector2(Screensize.X * 1.2f, 900)));
 
             #endregion
 
@@ -170,7 +177,6 @@ namespace MortenSurvivor
             }
 
             //Spawne nye gæs
-
             SpawnEnemies();
 
             CleanUp();
@@ -276,6 +282,13 @@ namespace MortenSurvivor
 
             Texture2D[] BottomRight = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\tile9") };
             Sprites.Add(EnvironmentTile.BottomRight, BottomRight);
+
+            Texture2D[] firepit = new Texture2D[3];
+            for (int i = 0; i < firepit.Length; i++)
+            {
+                firepit[i] = Content.Load<Texture2D>($"Sprites\\Environment\\firepit{i}");
+            }
+            Sprites.Add(EnvironmentTile.Firepit, firepit);
 
             #endregion
             #region Menu
@@ -492,7 +505,7 @@ namespace MortenSurvivor
 
         }
 
-        
+
 
         /// <summary>
         /// Spawner enemies, hvor Goosifer bliver spawnet i et andet tidsinterval end de andre
@@ -523,10 +536,10 @@ namespace MortenSurvivor
                 Debug.WriteLine("Spawn goosifer");
             }
         }
-        
 
 
-            #region Observer
+
+        #region Observer
         public void Attach(IObserver observer)
         {
             listeners.Add(observer);
@@ -545,7 +558,7 @@ namespace MortenSurvivor
         }
         #endregion
 
-            
+
         #endregion
 
     }
