@@ -27,7 +27,10 @@ namespace MortenSurvivor.Commands
 
         public void Execute()
         {
-            player.Move(direction);
+            if (!GameWorld.Instance.GamePaused)
+            {
+                player.Move(direction);
+            }
         }
     }
 }

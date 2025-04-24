@@ -16,7 +16,10 @@ namespace MortenSurvivor.Commands
         }
         public void Execute()
         {
-            player.Shoot();
+            if (!GameWorld.Instance.GamePaused)
+            {
+                player.Shoot();
+            }
         }
     }
 }
