@@ -111,6 +111,8 @@ namespace MortenSurvivor
             InputHandler.Instance.AddButtonDownCommand(Keys.Escape, new ExitCommand());
 
 
+            gameObjects.Add(new Environment(EnvironmentTile.AvSurface, Vector2.Zero));
+
             base.Initialize();
 
         }
@@ -371,6 +373,11 @@ namespace MortenSurvivor
                 if (gameObject == other || collisions.Contains((gameObject, other)))
                     continue;
 
+                if (gameObject is Enemy && other is Enemy)
+                {
+                    break;
+                }
+
                 if (((gameObject is Player || gameObject is Projectile) && other is Enemy) || (gameObject is Player && other is Item))
                 {
                     if (gameObject.CollisionBox.Intersects(other.CollisionBox))
@@ -399,18 +406,22 @@ namespace MortenSurvivor
             if (lastSpawnEnemy > spawnEnemyTime)
             {
                 //Tilføje en ny enemy til gameObjects
-                gameObjects.Add(EnemyPool.Instance.GetObject());
+                newGameObjects.Add(EnemyPool.Instance.GetObject());
 
                 //Nulstiller timer
                 lastSpawnEnemy = 0f;
+
+                Debug.WriteLine("Spawner enemy");
             }
 
             //Spawner Goosifer med sin egen timer
             if (lastSpawnGoosifer > spawnGoosiferTime)
             {
-                gameObjects.Add(EnemyPool.Instance.CreateGoosifer());
+                newGameObjects.Add(EnemyPool.Instance.CreateGoosifer());
 
                 lastSpawnGoosifer = 0f;
+
+                Debug.WriteLine("Spawn goosifer");
             }
         }
         #endregion
