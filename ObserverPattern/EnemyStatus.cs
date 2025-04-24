@@ -14,8 +14,10 @@ using MortenSurvivor.ObserverPattern;
 
 namespace MortenSurvivor.ObserverPattern
 {
-    public class Status : IObserver
+    class EnemyStatus : IObserver
     {
+        //Enum StatusType.EnemiesKilled
+
         #region Fields
         private int xpCounter = 0;
         private int enemiesKilled = 0;
@@ -28,51 +30,31 @@ namespace MortenSurvivor.ObserverPattern
         #region Constructor
         #endregion
         #region Methods
-        public Status() 
+        public EnemyStatus()
         {
             GameWorld.Instance.Attach(this);
-           
+
         }
 
-      
+
 
         public void Draw(SpriteBatch spriteBatch)
         {
-                spriteBatch.DrawString(GameWorld.GameFont, $"XP: {xpCounter}", new Vector2(-550, -300), Color.White);
-                spriteBatch.DrawString(GameWorld.GameFont, $"Kills: {enemiesKilled}", new Vector2(-550, -270), Color.White);
-                spriteBatch.DrawString(GameWorld.GameFont, $"Health: {playerHealth}", new Vector2(-550, -240), Color.White);
-                spriteBatch.DrawString(GameWorld.GameFont, $"Upgrades: {upgradeCount}", new Vector2(-550, -210), Color.White);
+            spriteBatch.DrawString(GameWorld.GameFont, $"XP: {xpCounter}", new Vector2(-550, -300), Color.White);
+            spriteBatch.DrawString(GameWorld.GameFont, $"Kills: {enemiesKilled}", new Vector2(-550, -270), Color.White);
+            spriteBatch.DrawString(GameWorld.GameFont, $"Health: {playerHealth}", new Vector2(-550, -240), Color.White);
+            spriteBatch.DrawString(GameWorld.GameFont, $"Upgrades: {upgradeCount}", new Vector2(-550, -210), Color.White);
         }
 
-        public void OnNotify(StatusType statusType)
+        public void OnNotify(StatusType status)
         {
 
-            switch (statusType)
-            {
-                case StatusType.XpUp:
-                    break;
-                case StatusType.LevelUp:
-
-                    break;
-                case StatusType.HealthUpdate:
-
-                    break;
-                case StatusType.EnemiesKilled:
-
-                    enemiesKilled += 1000;
-                    break;
-                default:
-                    break;
-            }
-
+            /*StatusType.EnemiesKilled = enemiesKilled; *///brug enemypool? factory?
             //xpCounter += 10; //brug xpcrystals værdi fra items
-            //enemiesKilled++; //brug enemypool? factory?
             //playerHealth = 10; //brug playerhealth fra player
-            //upgradeCount++; // brug sprite fra items?
+            upgradeCount++; // brug sprite fra items?
         }
 
         #endregion
-
-    } 
-
+    }
 }

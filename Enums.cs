@@ -92,7 +92,9 @@
     public enum WeaponType
     {
 
-        Sling
+        Sling,
+        GeasterSling,
+        PopeStaff
 
     }
 
@@ -133,6 +135,14 @@
         MiddleButton,
         xButton1,
         xButton2
+    }
+
+    public enum StatusType
+    {
+        XpUp,
+        LevelUp,
+        HealthUpdate,
+        EnemiesKilled        
     }
 
 }

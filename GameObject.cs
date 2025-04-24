@@ -15,7 +15,7 @@ using SharpDX.Direct3D9;
 
 namespace MortenSurvivor
 {
-    public abstract class GameObject
+    public abstract class GameObject : ICloneable
     {
 
         #region Fields
@@ -144,6 +144,13 @@ namespace MortenSurvivor
 
 
         public virtual void OnCollision(GameObject other) { }
+
+        public object Clone()
+        {
+            GameObject clone = (GameObject)MemberwiseClone();
+
+            return clone;
+        }
 
         #endregion
 

@@ -14,7 +14,7 @@ using MortenSurvivor.ObserverPattern;
 
 namespace MortenSurvivor
 {
-    public class GameWorld : Game
+    public class GameWorld : Game, ISubject
     {
         #region Singelton
 
@@ -38,15 +38,18 @@ namespace MortenSurvivor
         private SpriteBatch _spriteBatch;
         private Camera camera;
         private Random random;
+        private Status status;
+        private EnemyStatus enemyStatus;
 
         public Dictionary<Enum, Texture2D[]> Sprites = new Dictionary<Enum, Texture2D[]>();
         public Dictionary<Sound, SoundEffect> Sounds = new Dictionary<Sound, SoundEffect>();
         public Dictionary<MusicTrack, Song> Music = new Dictionary<MusicTrack, Song>();
-        public SpriteFont GameFont;
+        public static SpriteFont GameFont;
         public Vector2 Screensize = new Vector2(1920, 1080);
 
         private List<GameObject> gameObjects = new List<GameObject>();
         private List<GameObject> newGameObjects = new List<GameObject>();
+        private List<IObserver> listeners = new List<IObserver>();
 
         private float deltaTime;
         private bool gamePaused = false;
@@ -100,8 +103,6 @@ namespace MortenSurvivor
             random = new Random();
 
 
-            //gameObjects.Add(new ProjectileFactory().Create());
-
 
             gameObjects.Add(Player.Instance);
             InputHandler.Instance.AddUpdateCommand(Keys.A, new MoveCommand(Player.Instance, new Vector2(-1, 0))); //Move left
@@ -110,7 +111,12 @@ namespace MortenSurvivor
             InputHandler.Instance.AddUpdateCommand(Keys.S, new MoveCommand(Player.Instance, new Vector2(0, 1))); //Move down
             InputHandler.Instance.AddOncePerCountdownCommand(MouseKeys.LeftButton, new ShootCommand(Player.Instance)); //Shoot on mouseclick or hold
             InputHandler.Instance.AddButtonDownCommand(Keys.Escape, new ExitCommand());
+            InputHandler.Instance.AddButtonDownCommand(Keys.U, new SelectCommand());
 
+            status = new Status();
+            //enemyStatus = new EnemyStatus();
+            Attach(status); //subscribes to observer
+            //Attach(enemyStatus); //subscribes to observer
 
             base.Initialize();
 
@@ -162,7 +168,11 @@ namespace MortenSurvivor
             foreach (GameObject gameObject in gameObjects)
                 gameObject.Draw(_spriteBatch);
 
+            status.Draw(_spriteBatch);
+            //enemyStatus.Draw(_spriteBatch);
+
             _spriteBatch.End();
+
 
             base.Draw(gameTime);
 
@@ -218,6 +228,33 @@ namespace MortenSurvivor
             Texture2D[] room = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\room_single") };
             Sprites.Add(EnvironmentTile.Room, room);
 
+            Texture2D[] TopLeft = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\tile1") };
+            Sprites.Add(EnvironmentTile.TopLeft, TopLeft);
+
+            Texture2D[] Top = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\tile2") };
+            Sprites.Add(EnvironmentTile.Top, Top);
+
+            Texture2D[] TopRight = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\tile3") };
+            Sprites.Add(EnvironmentTile.TopRight, TopRight);
+
+            Texture2D[] Left = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\tile4") };
+            Sprites.Add(EnvironmentTile.Left, Left);
+
+            Texture2D[] Center = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\tile5") };
+            Sprites.Add(EnvironmentTile.Center, Center);
+
+            Texture2D[] Right = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\tile6") };
+            Sprites.Add(EnvironmentTile.Right, Right);
+
+            Texture2D[] BottomLeft = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\tile7") };
+            Sprites.Add(EnvironmentTile.BottomLeft, BottomLeft);
+
+            Texture2D[] Bottom = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\tile8") };
+            Sprites.Add(EnvironmentTile.Bottom, Bottom);
+
+            Texture2D[] BottomRight = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\tile9") };
+            Sprites.Add(EnvironmentTile.BottomRight, BottomRight);
+
             #endregion
             #region Menu
 
@@ -239,7 +276,7 @@ namespace MortenSurvivor
             Texture2D[] mitre = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Objects\\mitre") };
             Sprites.Add(UpgradeType.Mitre, mitre);
 
-            Texture2D[] healBoost = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Objects\\potion") };
+            Texture2D[] healBoost = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Objects\\wallTurkey") };
             Sprites.Add(ItemType.HealBoost, healBoost);
 
             Texture2D[] rosary = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Objects\\rosary") };
@@ -254,6 +291,14 @@ namespace MortenSurvivor
             Texture2D[] geasterEgg = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Objects\\egg2") };
             Sprites.Add(ProjectileType.GeasterEgg, geasterEgg);
 
+            Texture2D[] halo = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\objects\\glorie2") };
+            Sprites.Add(ProjectileType.Magic, halo);
+
+            Texture2D[] XPcrystal = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\objects\\crystal") };
+            Sprites.Add(ItemType.XPCrystal, XPcrystal);
+
+            Texture2D[] deadEnemy = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\enemy\\deadEnemy") };
+            Sprites.Add(StatusType.EnemiesKilled, deadEnemy);
             #endregion
             #region Player
 
@@ -321,7 +366,7 @@ namespace MortenSurvivor
         /// <param name="gameObject"></param>
         public void SpawnObject(GameObject gameObject)
         {
-
+            //Notify(StatusType.EnemiesKilled);
             newGameObjects.Add(gameObject);
             Debug.WriteLine(gameObject.ToString() + " added to spawnlist");
 
@@ -425,6 +470,8 @@ namespace MortenSurvivor
 
         }
 
+        
+
         /// <summary>
         /// Spawner enemies, hvor Goosifer bliver spawnet i et andet tidsinterval end de andre
         /// </summary>
@@ -440,6 +487,8 @@ namespace MortenSurvivor
 
                 //Nulstiller timer
                 lastSpawnEnemy = 0f;
+
+                Debug.WriteLine("Spawner enemy");
             }
 
             //Spawner Goosifer med sin egen timer
@@ -448,8 +497,33 @@ namespace MortenSurvivor
                 SpawnObject(EnemyPool.Instance.CreateGoosifer());
 
                 lastSpawnGoosifer = 0f;
+
+                Debug.WriteLine("Spawn goosifer");
             }
         }
+        
+
+
+            #region Observer
+        public void Attach(IObserver observer)
+        {
+            listeners.Add(observer);
+        }
+
+        public void Detach(IObserver observer)
+        {
+            listeners.Remove(observer);
+        }
+        public void Notify(StatusType statusType)
+        {
+            foreach (IObserver observer in listeners)
+            {
+                observer.OnNotify(statusType);
+            }
+        }
+        #endregion
+
+            
         #endregion
 
     }
