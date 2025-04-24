@@ -233,6 +233,33 @@ namespace MortenSurvivor
             Texture2D[] room = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\room_single") };
             Sprites.Add(EnvironmentTile.Room, room);
 
+            Texture2D[] TopLeft = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\tile1") };
+            Sprites.Add(EnvironmentTile.TopLeft, TopLeft);
+
+            Texture2D[] Top = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\tile2") };
+            Sprites.Add(EnvironmentTile.Top, Top);
+
+            Texture2D[] TopRight = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\tile3") };
+            Sprites.Add(EnvironmentTile.TopRight, TopRight);
+
+            Texture2D[] Left = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\tile4") };
+            Sprites.Add(EnvironmentTile.Left, Left);
+
+            Texture2D[] Center = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\tile5") };
+            Sprites.Add(EnvironmentTile.Center, Center);
+
+            Texture2D[] Right = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\tile6") };
+            Sprites.Add(EnvironmentTile.Right, Right);
+
+            Texture2D[] BottomLeft = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\tile7") };
+            Sprites.Add(EnvironmentTile.BottomLeft, BottomLeft);
+
+            Texture2D[] Bottom = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\tile8") };
+            Sprites.Add(EnvironmentTile.Bottom, Bottom);
+
+            Texture2D[] BottomRight = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\tile9") };
+            Sprites.Add(EnvironmentTile.BottomRight, BottomRight);
+
             #endregion
             #region Menu
 
@@ -271,6 +298,12 @@ namespace MortenSurvivor
 
             Texture2D[] halo = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\objects\\glorie2") };
             Sprites.Add(ProjectileType.Magic, halo);
+
+            Texture2D[] XPcrystal = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\objects\\crystal") };
+            Sprites.Add(ItemType.XPCrystal, XPcrystal);
+
+            Texture2D[] deadEnemy = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\enemy\\deadEnemy") };
+            Sprites.Add(StatusType.EnemiesKilled, deadEnemy);
             #endregion
             #region Player
 
