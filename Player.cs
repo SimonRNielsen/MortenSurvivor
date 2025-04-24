@@ -72,10 +72,11 @@ namespace MortenSurvivor
                 velocity.Normalize();
             }
             Position += velocity * speed * GameWorld.Instance.DeltaTime;
-            PlayWalkSound();
+
             this.velocity = velocity;
 
             if (velocity.Y == 0)
+            {
                 switch (velocity.X)
                 {
                     case < 0:
@@ -85,25 +86,13 @@ namespace MortenSurvivor
                         spriteEffect = SpriteEffects.None;
                         break;
                 }
-
-            switch (velocity)
-            {
-                case (1, 0) when Position.X >= 3800:
-                case (-1, 0) when Position.X <= -1860:
-                case (0, 1) when Position.Y >= 2110:
-                case (0, -1) when Position.Y <= -1000:
-                    velocity = Vector2.Zero;
-                    break;
-                default:
-                    break;
             }
-
             if (velocity != Vector2.Zero)
             {
                 velocity.Normalize();
             }
             Position += velocity * speed * GameWorld.Instance.DeltaTime;
-
+            PlayWalkSound();
         }
 
 
@@ -179,16 +168,6 @@ namespace MortenSurvivor
 
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
-        {
-
-            base.Draw(spriteBatch);
-#if DEBUG
-            //spriteBatch.DrawString(GameWorld.Instance.GameFont, $"X:{Position.X}\nY:{Position.Y}", GameWorld.Instance.Camera.Position - (GameWorld.Instance.Screensize / 8), Color.Black, 0f, Vector2.Zero, 1f, SpriteEffects.None, 1f);
-#endif
-        }
-
-
         public void PlayWalkSound()
         {
             if (walkTimer > 0.4f)
@@ -205,6 +184,15 @@ namespace MortenSurvivor
                     currentWalkSound = GameWorld.Instance.Sounds[Sound.PlayerWalk2];
                 }
             }
+        }
+
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+
+            base.Draw(spriteBatch);
+#if DEBUG
+            //spriteBatch.DrawString(GameWorld.Instance.GameFont, $"X:{Position.X}\nY:{Position.Y}", GameWorld.Instance.Camera.Position - (GameWorld.Instance.Screensize / 8), Color.Black, 0f, Vector2.Zero, 1f, SpriteEffects.None, 1f);
+#endif
         }
 
         #endregion
