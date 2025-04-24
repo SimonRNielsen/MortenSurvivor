@@ -97,6 +97,9 @@ namespace MortenSurvivor
 
         public override void Update(GameTime gameTime)
         {
+
+            GameWorld.Instance.Camera.Position = Position;
+
             base.Update(gameTime); //Skal blive for at animationen kører
 
         }
