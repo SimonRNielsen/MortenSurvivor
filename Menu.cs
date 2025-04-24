@@ -188,8 +188,14 @@ namespace MortenSurvivor
 
             if (relatedButtons != null)
                 foreach (Menu menu in relatedButtons)
+                {
+                    
                     if (menu.CollisionBox.Intersects(InputHandler.Instance.CollisionBox))
                         menu.OnMouseOver();
+
+                    menu.Update();
+
+                }
 
             if (isUpgrade && relatedButtons.Count == 0)
             {
@@ -212,6 +218,8 @@ namespace MortenSurvivor
                     relatedButtons.Add(new Menu(this, MenuItem.SingleButton, (UpgradeType)i));
 
             }
+
+
 
 
         }
