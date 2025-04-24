@@ -289,7 +289,7 @@ namespace MortenSurvivor
             #region Objects
 
             Texture2D[] bible = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Objects\\bible") };
-            Sprites.Add(UpgradeType.Bible, bible);
+            Sprites.Add(ItemType.Bible, bible);
 
             Texture2D[] mitre = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Objects\\mitre") };
             Sprites.Add(UpgradeType.Mitre, mitre);
@@ -298,7 +298,7 @@ namespace MortenSurvivor
             Sprites.Add(ItemType.HealBoost, healBoost);
 
             Texture2D[] rosary = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Objects\\rosary") };
-            Sprites.Add(UpgradeType.Rosary, rosary);
+            Sprites.Add(ItemType.Rosary, rosary);
 
             Texture2D[] scepter = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Objects\\scepter") };
             Sprites.Add(UpgradeType.PopeStaff, scepter);
@@ -314,6 +314,9 @@ namespace MortenSurvivor
 
             Texture2D[] XPcrystal = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\objects\\crystal") };
             Sprites.Add(ItemType.XPCrystal, XPcrystal);
+
+            Texture2D[] speedBoost = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\objects\\boots") };
+            Sprites.Add(ItemType.SpeedBoost, speedBoost);
 
             Texture2D[] deadEnemy = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\enemy\\deadEnemy") };
             Sprites.Add(StatusType.EnemiesKilled, deadEnemy);
@@ -384,7 +387,6 @@ namespace MortenSurvivor
         /// <param name="gameObject"></param>
         public void SpawnObject(GameObject gameObject)
         {
-            //Notify(StatusType.EnemiesKilled);
             newGameObjects.Add(gameObject);
             Debug.WriteLine(gameObject.ToString() + " added to spawnlist");
 

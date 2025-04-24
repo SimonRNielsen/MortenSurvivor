@@ -31,8 +31,6 @@
     {
 
         Mitre,
-        Rosary,
-        Bible,
         WallGoose,
         PopeStaff,
         GeasterEgg
@@ -48,7 +46,9 @@
         SpeedBoost,
         HealBoost,
         ConfuseEnemy,
-        ScareEnemy
+        ScareEnemy,
+        Rosary,
+        Bible
 
     }
 

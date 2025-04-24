@@ -47,17 +47,18 @@ namespace MortenSurvivor.ObserverPattern
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.DrawString(GameWorld.Instance.GameFont, $"XP: {xpCounter}", new Vector2(GameWorld.Instance.Camera.Position.X - 900, GameWorld.Instance.Camera.Position.Y - 30), Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 1f); //new Vector2(-550, -300)
-            spriteBatch.DrawString(GameWorld.Instance.GameFont, $"Kills: {enemiesKilled}", new Vector2(GameWorld.Instance.Camera.Position.X - 800, GameWorld.Instance.Camera.Position.Y - 500), Color.White, 0f, Vector2.Zero,0.5f, SpriteEffects.None, 1f); //new Vector2(-550, -270)
-            spriteBatch.DrawString(GameWorld.Instance.GameFont, $"Health: {playerHealth}", new Vector2(GameWorld.Instance.Camera.Position.X - 900, GameWorld.Instance.Camera.Position.Y - 90), Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 1f);
-            spriteBatch.DrawString(GameWorld.Instance.GameFont, $"Upgrades: {upgradeCount}", new Vector2(GameWorld.Instance.Camera.Position.X - 900, GameWorld.Instance.Camera.Position.Y - 120), Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 1f);
-            spriteBatch.DrawString(GameWorld.Instance.GameFont, $"LvL: {levelUp}", new Vector2(GameWorld.Instance.Camera.Position.X - 900, GameWorld.Instance.Camera.Position.Y - 150), Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 1f);
+            spriteBatch.DrawString(GameWorld.Instance.GameFont, $"LvL: {levelUp}", new Vector2(GameWorld.Instance.Camera.Position.X - 910, GameWorld.Instance.Camera.Position.Y - 500), Color.White, 0f, Vector2.Zero, 0.15f, SpriteEffects.None, 1f);
+            spriteBatch.DrawString(GameWorld.Instance.GameFont, $"Kills: {enemiesKilled}", new Vector2(GameWorld.Instance.Camera.Position.X - 780, GameWorld.Instance.Camera.Position.Y - 500), Color.White, 0f, Vector2.Zero, 0.15f, SpriteEffects.None, 1f); //new Vector2(-550, -270)
+            
+            spriteBatch.DrawString(GameWorld.Instance.GameFont, $"XP: {xpCounter}", new Vector2(GameWorld.Instance.Camera.Position.X - 900, GameWorld.Instance.Camera.Position.Y - 30), Color.White, 0f, Vector2.Zero, 0.15f, SpriteEffects.None, 1f); //new Vector2(-550, -300)
+            spriteBatch.DrawString(GameWorld.Instance.GameFont, $"Health: {playerHealth}", new Vector2(GameWorld.Instance.Camera.Position.X - 900, GameWorld.Instance.Camera.Position.Y - 90), Color.White, 0f, Vector2.Zero, 0.15f, SpriteEffects.None, 1f);
+            spriteBatch.DrawString(GameWorld.Instance.GameFont, $"Upgrades: {upgradeCount}", new Vector2(GameWorld.Instance.Camera.Position.X - 900, GameWorld.Instance.Camera.Position.Y - 120), Color.White, 0f, Vector2.Zero, 0.15f, SpriteEffects.None, 1f);
 
             // Hent og tegn sprite for enemies killed
             if (GameWorld.Instance.Sprites.TryGetValue(StatusType.EnemiesKilled, out Texture2D[] sprites))
             {
                 Texture2D sprite = sprites[0]; // Der er kun én sprite i array
-                spriteBatch.Draw(sprite, new Vector2(GameWorld.Instance.Camera.Position.X - 800, GameWorld.Instance.Camera.Position.Y - 500), Color.White);
+                spriteBatch.Draw(sprite, new Vector2(GameWorld.Instance.Camera.Position.X - 830, GameWorld.Instance.Camera.Position.Y - 508), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 1f);
             }
 
             // Hent og tegn sprite 
@@ -74,22 +75,23 @@ namespace MortenSurvivor.ObserverPattern
                 spriteBatch.Draw(sprite, new Vector2(-600, -270), Color.White);
             }
 
-            //spriteBatch.Draw(SpriteLibrary.StatusSprites[StatusType.EnemiesKilled], new Vector2(-600, -270), Color.White);
-
-            //if (statusToSpriteEnum.TryGetValue(StatusType.EnemiesKilled, out Enum enemyKey))
-            //{
-            //    Texture2D[] sprites = GameWorld.Instance.Sprites[enemyKey];
-            //    Texture2D sprite = sprites[0]; // Tag første billede
-            //    spriteBatch.Draw(sprite, new Vector2(-600, -270), Color.White);
-            //}
-
-            //spriteBatch.Draw(GameWorld.Instance.Sprites, Position, null, drawColor, Rotation, origin, scale, spriteEffect, layer);
-
-            //Texture2D sprite = SpriteLibrary.EnemySprites[enemyType];
-            //spriteBatch.Draw(sprite, Position, null, drawColor, Rotation, origin, scale, spriteEffect, layer);
-
-
+            
         }
+
+        //public enum ItemType
+        //{
+
+        //    XPCrystal,
+        //    DamageBoost,
+        //    SpeedBoost,
+        //    HealBoost,
+        //    ConfuseEnemy,
+        //    ScareEnemy
+
+        //}
+
+        ////Notifies Status about when an enemy is killed
+        //GameWorld.Instance.Notify(StatusType.EnemiesKilled);
 
         public void OnNotify(StatusType statusType)
         {

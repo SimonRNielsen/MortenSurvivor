@@ -122,10 +122,6 @@ namespace MortenSurvivor
             {
                 case UpgradeType.Mitre:
                     break;
-                case UpgradeType.Bible:
-                    break;
-                case UpgradeType.Rosary:
-                    break;
                 case UpgradeType.WallGoose:
                     break;
                 case UpgradeType.PopeStaff:
