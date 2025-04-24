@@ -22,6 +22,8 @@ namespace MortenSurvivor.ObserverPattern
         private int playerHealth = 0;
         private int levelUp = 1;
         private int upgradeCount = 0; // Will be implemented if there is time
+        private Texture2D sprite;
+        private float layer;
          
         #endregion
         #region Properties
@@ -32,19 +34,41 @@ namespace MortenSurvivor.ObserverPattern
         public Status() 
         {
             GameWorld.Instance.Attach(this);
-           
+            this.layer = 1f;
         }
 
       
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.DrawString(GameWorld.GameFont, $"XP: {xpCounter}", new Vector2(-550, -300), Color.White);
-            spriteBatch.DrawString(GameWorld.GameFont, $"Kills: {enemiesKilled}", new Vector2(-550, -270), Color.White);
-            spriteBatch.DrawString(GameWorld.GameFont, $"Health: {playerHealth}", new Vector2(-550, -240), Color.White);
-            spriteBatch.DrawString(GameWorld.GameFont, $"Upgrades: {upgradeCount}", new Vector2(-550, -210), Color.White);
-            spriteBatch.DrawString(GameWorld.GameFont, $"LvL: {levelUp}", new Vector2(-550, -180), Color.White);
-            //spriteBatch.Draw(, Position, null, drawColor, Rotation, origin, scale, spriteEffect, layer);
+            spriteBatch.DrawString(GameWorld.Instance.GameFont, $"XP: {xpCounter}", new Vector2(-550, -300), Color.White);
+            spriteBatch.DrawString(GameWorld.Instance.GameFont, $"Kills: {enemiesKilled}", new Vector2(-550, -270), Color.White);
+            spriteBatch.DrawString(GameWorld.Instance.GameFont, $"Health: {playerHealth}", new Vector2(-550, -240), Color.White);
+            spriteBatch.DrawString(GameWorld.Instance.GameFont, $"Upgrades: {upgradeCount}", new Vector2(-550, -210), Color.White);
+            spriteBatch.DrawString(GameWorld.Instance.GameFont, $"LvL: {levelUp}", new Vector2(-550, -180), Color.White);
+
+            // Hent og tegn sprite
+            if (GameWorld.Instance.Sprites.TryGetValue(StatusType.EnemiesKilled, out Texture2D[] sprites))
+            {
+                Texture2D sprite = sprites[0]; // Der er kun én sprite i array
+                spriteBatch.Draw(sprite, new Vector2(-600, -270), Color.White);
+            }
+
+            //spriteBatch.Draw(SpriteLibrary.StatusSprites[StatusType.EnemiesKilled], new Vector2(-600, -270), Color.White);
+
+            //if (statusToSpriteEnum.TryGetValue(StatusType.EnemiesKilled, out Enum enemyKey))
+            //{
+            //    Texture2D[] sprites = GameWorld.Instance.Sprites[enemyKey];
+            //    Texture2D sprite = sprites[0]; // Tag første billede
+            //    spriteBatch.Draw(sprite, new Vector2(-600, -270), Color.White);
+            //}
+
+            //spriteBatch.Draw(GameWorld.Instance.Sprites, Position, null, drawColor, Rotation, origin, scale, spriteEffect, layer);
+
+            //Texture2D sprite = SpriteLibrary.EnemySprites[enemyType];
+            //spriteBatch.Draw(sprite, Position, null, drawColor, Rotation, origin, scale, spriteEffect, layer);
+
+
         }
 
         public void OnNotify(StatusType statusType)
