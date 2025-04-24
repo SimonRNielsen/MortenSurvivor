@@ -44,7 +44,13 @@ namespace MortenSurvivor
                 currentHealth = value;
 
                 if (currentHealth <= 0)
+                {
                     IsAlive = false;
+                    if(this is Enemy)
+                    {
+                        GameWorld.Instance.Sounds[Sound.EnemyHonk].Play();
+                    }
+                }
 
             }
         }

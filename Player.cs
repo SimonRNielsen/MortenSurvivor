@@ -91,7 +91,7 @@ namespace MortenSurvivor
             foreach (Weapon weapon in weapons)
             {
                 GameWorld.Instance.SpawnObject(ProjectileFactory.Instance.Create(weapon.WeaponProjectile));
-
+                GameWorld.Instance.Sounds[weapon.WeaponSoundEffect].Play();
             }
 
         }
