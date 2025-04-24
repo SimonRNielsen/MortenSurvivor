@@ -199,7 +199,7 @@ namespace MortenSurvivor
                 while (ints.Count < 3)
                 {
 
-                    int i = GameWorld.Instance.Random.Next(0, 4);
+                    int i = GameWorld.Instance.Random.Next(0, 4);                               // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! KIG PÅ DEN HER !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
                     if (ints.Contains(i))
                         continue;
