@@ -39,12 +39,11 @@ namespace MortenSurvivor
         private Camera camera;
         private Random random;
         private Status status;
-        private EnemyStatus enemyStatus;
 
         public Dictionary<Enum, Texture2D[]> Sprites = new Dictionary<Enum, Texture2D[]>();
         public Dictionary<Sound, SoundEffect> Sounds = new Dictionary<Sound, SoundEffect>();
         public Dictionary<MusicTrack, Song> Music = new Dictionary<MusicTrack, Song>();
-        public static SpriteFont GameFont;
+        public SpriteFont GameFont;
         public Vector2 Screensize = new Vector2(1920, 1080);
 
         private List<GameObject> gameObjects = new List<GameObject>();
@@ -141,11 +140,10 @@ namespace MortenSurvivor
             InputHandler.Instance.AddOncePerCountdownCommand(MouseKeys.LeftButton, new ShootCommand(Player.Instance)); //Shoot on mouseclick or hold
             InputHandler.Instance.AddButtonDownCommand(Keys.Escape, new ExitCommand());
             InputHandler.Instance.AddButtonDownCommand(Keys.U, new SelectCommand());
+            InputHandler.Instance.AddButtonDownCommand(Keys.P, new PauseCommand());
 
             status = new Status();
-            //enemyStatus = new EnemyStatus();
             Attach(status); //subscribes to observer
-            //Attach(enemyStatus); //subscribes to observer
 
             base.Initialize();
 
@@ -170,16 +168,19 @@ namespace MortenSurvivor
 
             InputHandler.Instance.Execute();
 
-            foreach (GameObject gameObject in gameObjects)
+            if (!gamePaused)
             {
-                gameObject.Update(gameTime);
-                DoCollisionCheck(gameObject);
-            }
+                foreach (GameObject gameObject in gameObjects)
+                {
+                    gameObject.Update(gameTime);
+                    DoCollisionCheck(gameObject);
+                }
 
             //Spawne nye gæs
             SpawnEnemies();
 
-            CleanUp();
+                CleanUp();
+            }
 
             base.Update(gameTime);
 
@@ -196,8 +197,12 @@ namespace MortenSurvivor
             foreach (GameObject gameObject in gameObjects)
                 gameObject.Draw(_spriteBatch);
 
+            if(GamePaused)
+            {
+                _spriteBatch.DrawString(GameFont, "Game Paused", new Vector2(Camera.Position.X-150, Camera.Position.Y+50), Color.Red, 0, Vector2.Zero, 2, SpriteEffects.None, 1);
+            }
+
             status.Draw(_spriteBatch);
-            //enemyStatus.Draw(_spriteBatch);
 
             _spriteBatch.End();
 
@@ -537,7 +542,18 @@ namespace MortenSurvivor
             }
         }
 
+        public void Pause()
+        {
+            if (gamePaused)
+            {
+                gamePaused = false;
+            }
+            else
+            {
+                gamePaused = true;
+            }
 
+        }
 
         #region Observer
         public void Attach(IObserver observer)
