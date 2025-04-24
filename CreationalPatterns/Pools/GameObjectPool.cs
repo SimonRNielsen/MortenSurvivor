@@ -57,13 +57,6 @@ namespace MortenSurvivor.CreationalPatterns.Pools
 
             CleanUp(gameObject);
 
-
-            //reagerer ved collision = hele tiden de collider
-            if (gameObject is Enemy)
-            {
-                GameWorld.Instance.Notify(StatusType.EnemiesKilled);
-            }
-
             //Fjener fra GameWorld
             //GameWorld.Instance.Destroy(gameObject);
         }

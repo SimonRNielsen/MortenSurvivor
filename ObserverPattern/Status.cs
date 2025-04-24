@@ -20,8 +20,9 @@ namespace MortenSurvivor.ObserverPattern
         private int xpCounter = 0;
         private int enemiesKilled = 0;
         private int playerHealth = 0;
+        private int levelUp = 1;
         private int upgradeCount = 0; // Will be implemented if there is time
-        private int statusUI;
+         
         #endregion
         #region Properties
         #endregion
@@ -38,10 +39,12 @@ namespace MortenSurvivor.ObserverPattern
 
         public void Draw(SpriteBatch spriteBatch)
         {
-                spriteBatch.DrawString(GameWorld.GameFont, $"XP: {xpCounter}", new Vector2(-550, -300), Color.White);
-                spriteBatch.DrawString(GameWorld.GameFont, $"Kills: {enemiesKilled}", new Vector2(-550, -270), Color.White);
-                spriteBatch.DrawString(GameWorld.GameFont, $"Health: {playerHealth}", new Vector2(-550, -240), Color.White);
-                spriteBatch.DrawString(GameWorld.GameFont, $"Upgrades: {upgradeCount}", new Vector2(-550, -210), Color.White);
+            spriteBatch.DrawString(GameWorld.GameFont, $"XP: {xpCounter}", new Vector2(-550, -300), Color.White);
+            spriteBatch.DrawString(GameWorld.GameFont, $"Kills: {enemiesKilled}", new Vector2(-550, -270), Color.White);
+            spriteBatch.DrawString(GameWorld.GameFont, $"Health: {playerHealth}", new Vector2(-550, -240), Color.White);
+            spriteBatch.DrawString(GameWorld.GameFont, $"Upgrades: {upgradeCount}", new Vector2(-550, -210), Color.White);
+            spriteBatch.DrawString(GameWorld.GameFont, $"LvL: {levelUp}", new Vector2(-550, -180), Color.White);
+            //spriteBatch.Draw(, Position, null, drawColor, Rotation, origin, scale, spriteEffect, layer);
         }
 
         public void OnNotify(StatusType statusType)
@@ -50,26 +53,35 @@ namespace MortenSurvivor.ObserverPattern
             switch (statusType)
             {
                 case StatusType.XpUp:
+                    XPBar();
                     break;
                 case StatusType.LevelUp:
-
+                    levelUp++;
                     break;
                 case StatusType.HealthUpdate:
-
+                    HealthBar();
                     break;
                 case StatusType.EnemiesKilled:
-
+                    
                     enemiesKilled += 1000;
                     break;
                 default:
                     break;
             }
 
-            //xpCounter += 10; //brug xpcrystals værdi fra items
-            //enemiesKilled++; //brug enemypool? factory?
-            //playerHealth = 10; //brug playerhealth fra player
-            //upgradeCount++; // brug sprite fra items?
         }
+
+        public void HealthBar()
+        { 
+            
+        }
+
+        public void XPBar()
+        {   
+            
+        }
+
+
 
         #endregion
 

@@ -39,7 +39,6 @@ namespace MortenSurvivor
         private Camera camera;
         private Random random;
         private Status status;
-        private EnemyStatus enemyStatus;
 
         public Dictionary<Enum, Texture2D[]> Sprites = new Dictionary<Enum, Texture2D[]>();
         public Dictionary<Sound, SoundEffect> Sounds = new Dictionary<Sound, SoundEffect>();
@@ -115,9 +114,7 @@ namespace MortenSurvivor
 
 
             status = new Status();
-            //enemyStatus = new EnemyStatus();
             Attach(status); //subscribes to observer
-            //Attach(enemyStatus); //subscribes to observer
 
             base.Initialize();
 
@@ -173,8 +170,8 @@ namespace MortenSurvivor
             foreach (GameObject gameObject in gameObjects)
                 gameObject.Draw(_spriteBatch);
 
+            //Observer pattern
             status.Draw(_spriteBatch);
-            //enemyStatus.Draw(_spriteBatch);
 
             _spriteBatch.End();
 
