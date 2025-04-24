@@ -74,7 +74,7 @@ namespace MortenSurvivor
         public Camera Camera { get => camera; }
 
 
-        public Random Random { get  => random; }
+        public Random Random { get => random; }
 
         #endregion
         #region Constructor
@@ -123,7 +123,7 @@ namespace MortenSurvivor
             InputHandler.Instance.AddUpdateCommand(Keys.S, new MoveCommand(Player.Instance, new Vector2(0, 1))); //Move down
             InputHandler.Instance.AddOncePerCountdownCommand(MouseKeys.LeftButton, new ShootCommand(Player.Instance)); //Shoot on mouseclick or hold
             InputHandler.Instance.AddButtonDownCommand(Keys.Escape, new ExitCommand());
-
+            InputHandler.Instance.AddButtonDownCommand(Keys.U, new SelectCommand());
 
             status = new Status();
             //enemyStatus = new EnemyStatus();
@@ -148,10 +148,6 @@ namespace MortenSurvivor
 
         protected override void Update(GameTime gameTime)
         {
-
-            //if (Keyboard.GetState().IsKeyDown(Keys.Space))
-            //    SpawnObject(new Projectile(ProjectileType.Eggs, Player.Instance.Position, 300, 0)); //Test til at se om projektiler flyver mod musen fra deres startpunkt
-            //    Player.Instance.Position = new Vector2(random.Next(0, (int)Screensize.X), random.Next(0, (int)Screensize.Y)); //Test til at se om gæs følger Mortens alt efter hans position
 
             deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
@@ -424,24 +420,61 @@ namespace MortenSurvivor
             foreach (GameObject other in gameObjects)
             {
 
-                if (gameObject == other || collisions.Contains((gameObject, other)))
+                if (gameObject == other || collisions.Contains((gameObject, other)) || (gameObject is Enemy && other is Enemy))
                     continue;
-
-                if (gameObject is Enemy && other is Enemy)
-                {
-                    break;
-                }
 
                 if (((gameObject is Player || gameObject is Projectile) && other is Enemy) || (gameObject is Player && other is Item))
                 {
                     if (gameObject.CollisionBox.Intersects(other.CollisionBox))
                     {
-                        //Pixelperfect goes here
-                        gameObject.OnCollision(other);
-                        other.OnCollision(gameObject);
-                        collisions.Add((gameObject, other));
 
-                        EnemyPool.Instance.ReleaseObject(other);
+                        bool handledCollision = false;
+                        if (gameObject is Player && other is Enemy)
+                            foreach (RectangleData rect1 in ((Character)gameObject).Rectangles)
+                            {
+
+                                foreach (RectangleData rect2 in ((Character)other).Rectangles)
+                                {
+                                    if (rect1.Rectangle.Intersects(rect2.Rectangle))
+                                    {
+                                        handledCollision = true;
+                                        break;
+                                    }
+                                }
+
+                                if (handledCollision)
+                                    break;
+                            }
+                        else if (gameObject is Projectile && other is Enemy)
+                        {
+                            foreach (RectangleData rect1 in ((Character)other).Rectangles)
+                            {
+                                if (rect1.Rectangle.Intersects(gameObject.CollisionBox))
+                                {
+                                    handledCollision = true;
+                                    break;
+                                }
+                            }
+                        }
+                        else if (gameObject is Player && other is Item)
+                        {
+                            foreach (RectangleData rect1 in ((Character)gameObject).Rectangles)
+                            {
+                                if (rect1.Rectangle.Intersects(other.CollisionBox))
+                                {
+                                    handledCollision = true;
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (handledCollision)
+                        {
+                            gameObject.OnCollision(other);
+                            other.OnCollision(gameObject);
+                            collisions.Add((gameObject, other));
+                        }
+
                     }
                 }
 
@@ -462,7 +495,7 @@ namespace MortenSurvivor
             if (lastSpawnEnemy > spawnEnemyTime)
             {
                 //Tilføje en ny enemy til gameObjects
-                newGameObjects.Add(EnemyPool.Instance.GetObject());
+                SpawnObject(EnemyPool.Instance.GetObject());
 
                 //Nulstiller timer
                 lastSpawnEnemy = 0f;
@@ -473,7 +506,7 @@ namespace MortenSurvivor
             //Spawner Goosifer med sin egen timer
             if (lastSpawnGoosifer > spawnGoosiferTime)
             {
-                newGameObjects.Add(EnemyPool.Instance.CreateGoosifer());
+                SpawnObject(EnemyPool.Instance.CreateGoosifer());
 
                 lastSpawnGoosifer = 0f;
 

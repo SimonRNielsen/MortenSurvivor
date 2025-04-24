@@ -92,7 +92,9 @@
     public enum WeaponType
     {
 
-        Sling
+        Sling,
+        GeasterSling,
+        PopeStaff
 
     }
 
