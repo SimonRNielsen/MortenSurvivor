@@ -86,6 +86,9 @@ namespace MortenSurvivor
                     layer = 0.2f;
                     scale = 0.8f;
                     break;
+                case EnvironmentTile.Stone:
+                    layer = 0.2f;
+                    break;
                 default:
                     break;
             }

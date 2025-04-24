@@ -85,7 +85,8 @@
         BottomRight,
         AvSurface,
         Room,
-        Firepit
+        Firepit,
+        Stone
 
     }
 
