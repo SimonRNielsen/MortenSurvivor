@@ -123,6 +123,7 @@ namespace MortenSurvivor
             InputHandler.Instance.AddOncePerCountdownCommand(MouseKeys.LeftButton, new ShootCommand(Player.Instance)); //Shoot on mouseclick or hold
             InputHandler.Instance.AddButtonDownCommand(Keys.Escape, new ExitCommand());
             InputHandler.Instance.AddButtonDownCommand(Keys.U, new SelectCommand());
+            InputHandler.Instance.AddButtonDownCommand(Keys.P, new PauseCommand());
 
             status = new Status();
             Attach(status); //subscribes to observer
@@ -150,17 +151,21 @@ namespace MortenSurvivor
 
             InputHandler.Instance.Execute();
 
-            foreach (GameObject gameObject in gameObjects)
+            if (!gamePaused)
             {
-                gameObject.Update(gameTime);
-                DoCollisionCheck(gameObject);
+                foreach (GameObject gameObject in gameObjects)
+                {
+                    gameObject.Update(gameTime);
+                    DoCollisionCheck(gameObject);
+                }
+
+
+                //Spawne nye gæs
+
+                SpawnEnemies();
+
+                CleanUp();
             }
-
-            //Spawne nye gæs
-
-            SpawnEnemies();
-
-            CleanUp();
 
             base.Update(gameTime);
 
@@ -177,7 +182,11 @@ namespace MortenSurvivor
             foreach (GameObject gameObject in gameObjects)
                 gameObject.Draw(_spriteBatch);
 
-            //Observer pattern
+            if(GamePaused)
+            {
+                _spriteBatch.DrawString(GameFont, "Game Paused", new Vector2(Camera.Position.X-150, Camera.Position.Y+50), Color.Red, 0, Vector2.Zero, 2, SpriteEffects.None, 1);
+            }
+
             status.Draw(_spriteBatch);
 
             _spriteBatch.End();
@@ -479,7 +488,7 @@ namespace MortenSurvivor
 
         }
 
-        
+
 
         /// <summary>
         /// Spawner enemies, hvor Goosifer bliver spawnet i et andet tidsinterval end de andre
@@ -510,10 +519,21 @@ namespace MortenSurvivor
                 Debug.WriteLine("Spawn goosifer");
             }
         }
-        
 
+        public void Pause()
+        {
+            if (gamePaused)
+            {
+                gamePaused = false;
+            }
+            else
+            {
+                gamePaused = true;
+            }
 
-            #region Observer
+        }
+
+        #region Observer
         public void Attach(IObserver observer)
         {
             listeners.Add(observer);
@@ -532,7 +552,7 @@ namespace MortenSurvivor
         }
         #endregion
 
-            
+
         #endregion
 
     }
