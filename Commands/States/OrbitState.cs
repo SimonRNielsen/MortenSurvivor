@@ -24,7 +24,11 @@ namespace MortenSurvivor.Commands.States
         private float orbitRadius;
         private float duration;
 
-
+        /// <summary>
+        /// Applies an orbiting effect on the parent
+        /// </summary>
+        /// <param name="parent">Projectile to apply effect on</param>
+        /// <param name="radius">Radius of the orbiting object from Player</param>
         public OrbitState(Projectile parent, float radius)
         {
 
@@ -34,7 +38,10 @@ namespace MortenSurvivor.Commands.States
 
         }
 
-
+        /// <summary>
+        /// Not used
+        /// </summary>
+        /// <param name="parent"></param>
         public void Enter(Projectile parent)
         {
             
@@ -42,7 +49,9 @@ namespace MortenSurvivor.Commands.States
 
         }
 
-
+        /// <summary>
+        /// Handles movement and lifetime of the projectile
+        /// </summary>
         public void Execute()
         {
 
@@ -61,7 +70,9 @@ namespace MortenSurvivor.Commands.States
 
         }
 
-
+        /// <summary>
+        /// Not used
+        /// </summary>
         public void Exit()
         {
             
@@ -69,14 +80,16 @@ namespace MortenSurvivor.Commands.States
 
         }
 
-
+        /// <summary>
+        /// Calculates the next position of the projectile
+        /// </summary>
+        /// <returns>Position to move projectile to</returns>
         private Vector2 GetOrbitPosition()
         {
 
             float x = player.Position.X + orbitRadius * (float)Math.Cos(orbitAngle);
             float y = player.Position.Y + orbitRadius * (float)Math.Sin(orbitAngle);
-            Vector2 rotation = new Vector2(x, y);
-            return rotation;
+            return new Vector2(x, y);
 
         }
 
