@@ -30,7 +30,7 @@ namespace MortenSurvivor
         #region Properties
 
 
-        //public float Speed { get => speed; set => speed = value; }
+        public float Speed { get => speed; }
 
 
         //public int Damage { get => damage; set => damage = value; }
@@ -68,7 +68,16 @@ namespace MortenSurvivor
 
             collidedWith = new HashSet<GameObject>();
 
-            currentState = new MoveState(this);
+            switch (type)
+            {
+                case ProjectileType.Magic:
+                    currentState = new OrbitState(this, 125f);
+                    break;
+                default:
+                    currentState = new MoveState(this);
+                    break;
+            }
+
 
             base.Load();
 
