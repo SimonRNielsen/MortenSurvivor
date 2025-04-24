@@ -142,6 +142,9 @@ namespace MortenSurvivor
             InputHandler.Instance.AddButtonDownCommand(Keys.U, new SelectCommand());
             InputHandler.Instance.AddButtonDownCommand(Keys.P, new PauseCommand());
 
+            MediaPlayer.IsRepeating = true;
+            MediaPlayer.Play(Music[MusicTrack.BattleMusic]);
+
             status = new Status();
             Attach(status); //subscribes to observer
 
@@ -180,6 +183,7 @@ namespace MortenSurvivor
             SpawnEnemies();
 
                 CleanUp();
+
             }
 
             base.Update(gameTime);
@@ -547,10 +551,12 @@ namespace MortenSurvivor
             if (gamePaused)
             {
                 gamePaused = false;
+                MediaPlayer.Play(Music[MusicTrack.BattleMusic]);
             }
             else
             {
                 gamePaused = true;
+                MediaPlayer.Play(Music[MusicTrack.BackgroundMusic]);
             }
 
         }
