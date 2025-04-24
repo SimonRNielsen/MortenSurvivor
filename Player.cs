@@ -54,7 +54,7 @@ namespace MortenSurvivor
             this.speed = 300;
             weapon = new Weapon(WeaponType.Sling);
             weapons.Add(weapon);
-            layer = 1;
+            layer = 0.9f;
         }
 
         #endregion
