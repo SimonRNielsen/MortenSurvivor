@@ -31,6 +31,7 @@ namespace MortenSurvivor
 
         public int Damage { get => damage; }
 
+
         public float DamageTimer { get => damageTimer; set => damageTimer = value; }
 
 
@@ -78,7 +79,7 @@ namespace MortenSurvivor
                     break;
                 case EnemyType.SlowChampion:
                     speed = 125f;
-                    originalColor = Color.Beige;
+                    originalColor = Color.SlateGray;
                     break;
                 case EnemyType.Fast:
                     speed = 200f;
@@ -86,16 +87,17 @@ namespace MortenSurvivor
                     break;
                 case EnemyType.FastChampion:
                     speed = 200f;
-                    originalColor = Color.Beige;
+                    originalColor = Color.SlateGray;
                     break;
                 case EnemyType.Goosifer:
-                    scale = 0.8f;
                     speed = 165f;
                     originalColor = Color.White;
                     break;
                 default:
                     break;
             }
+
+            drawColor = originalColor;
 
         }
 
@@ -140,6 +142,14 @@ namespace MortenSurvivor
                         break;
                 }
             }
+
+        }
+
+
+        public override void Load()
+        {
+
+            base.Load();
 
         }
 

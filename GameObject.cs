@@ -46,6 +46,9 @@ namespace MortenSurvivor
 
                 isAlive = value;
 
+                if (!isAlive && this is Enemy)
+                    EnemyPool.Instance.ReleaseObject(this);
+
             }
 
         }

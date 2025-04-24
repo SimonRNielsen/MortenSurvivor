@@ -30,10 +30,13 @@ namespace MortenSurvivor.CreationalPatterns.Factories
                 return instance;
             }
         }
+
         #endregion
 
         #region Fields
         private GameObject prototype;
+        private GameObject magicPrototype;
+        private GameObject geasterEggPrototype;
         private float speed;
         private int damage;
 
@@ -41,6 +44,9 @@ namespace MortenSurvivor.CreationalPatterns.Factories
         #endregion
 
         #region Properties
+        public GameObject Prototype { get => prototype; set => prototype = value; }
+        public GameObject MagicPrototype { get => magicPrototype; set => magicPrototype = value; }
+        public GameObject GeasterEggPrototype { get => geasterEggPrototype; set => geasterEggPrototype = value; }
 
         #endregion
 
@@ -48,7 +54,9 @@ namespace MortenSurvivor.CreationalPatterns.Factories
         public ProjectileFactory()
         {
             //Skal have lavet det, så det passer med det rigtige projektil
-            prototype = ProjectileStat();
+            Prototype = ProjectileStat(ProjectileType.Eggs);
+            MagicPrototype = ProjectileStat(ProjectileType.Magic);
+            GeasterEggPrototype = ProjectileStat(ProjectileType.GeasterEgg);
         }
 
         #endregion
@@ -60,31 +68,50 @@ namespace MortenSurvivor.CreationalPatterns.Factories
         /// <returns></returns>
         public override GameObject Create()
         {
-            return (Projectile)prototype.Clone();
+            Prototype.Position = Player.Instance.Position;
+            return (Projectile)Prototype.Clone();
+        }
+        public GameObject Create(ProjectileType projectileType)
+        {
+            Prototype.Position = Player.Instance.Position;
+            MagicPrototype.Position = Player.Instance.Position;
+            GeasterEggPrototype.Position = Player.Instance.Position;
+            switch (projectileType)
+            {
+                case ProjectileType.Eggs:
+                    return (Projectile)Prototype.Clone();
+                case ProjectileType.GeasterEgg:
+                    return (Projectile)GeasterEggPrototype.Clone();
+                case ProjectileType.Magic:
+                    return (Projectile)MagicPrototype.Clone();
+                default:
+                    return (Projectile)Prototype.Clone();
+
+            }
         }
 
 
-        public GameObject ProjectileStat()
+        public GameObject ProjectileStat(ProjectileType projectile)
         {
-            int rdn = GameWorld.Instance.Random.Next(0,3);
+            int rdn = GameWorld.Instance.Random.Next(0, 3);
 
-            switch (rdn)
+            switch (projectile)
             {
-                case 0:
+                case ProjectileType.Eggs:
                     speed = 200f;
-                    damage = 2;
+                    damage = 1;
                     break;
-                case 1:
+                case ProjectileType.GeasterEgg:
                     speed = 500f;
-                    damage = 7;
+                    damage = 3;
                     break;
-                case 2:
+                case ProjectileType.Magic:
                     speed = 700f;
-                    damage = 10;
+                    damage = 5;
                     break;
             }
 
-            return new Projectile((ProjectileType)rdn, Player.Instance.Position, speed, damage);
+            return new Projectile(projectile, Player.Instance.Position, speed, damage);
         }
 
         #endregion

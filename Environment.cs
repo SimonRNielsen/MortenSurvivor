@@ -18,7 +18,6 @@ namespace MortenSurvivor
     {
 
         #region Fields
-
         private EnvironmentTile tileType;
 
         #endregion
@@ -32,7 +31,7 @@ namespace MortenSurvivor
 
         public Environment(Enum type, Vector2 spawnPos) : base(type, spawnPos)
         {
-
+            layer = 0f;
             tileType = (EnvironmentTile)type;
 
         }
