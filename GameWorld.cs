@@ -49,6 +49,7 @@ namespace MortenSurvivor
         private List<GameObject> gameObjects = new List<GameObject>();
         private List<GameObject> newGameObjects = new List<GameObject>();
         private List<IObserver> listeners = new List<IObserver>();
+        private List<Menu> menu = new List<Menu>();
 
         private float deltaTime;
         private bool gamePaused = false;
@@ -176,11 +177,14 @@ namespace MortenSurvivor
                     DoCollisionCheck(gameObject);
                 }
 
-            //Spawne nye gæs
-            SpawnEnemies();
+                //Spawne nye gæs
+                SpawnEnemies();
 
                 CleanUp();
             }
+
+            foreach (Menu item in menu)
+                item.Update();
 
             base.Update(gameTime);
 
@@ -197,12 +201,15 @@ namespace MortenSurvivor
             foreach (GameObject gameObject in gameObjects)
                 gameObject.Draw(_spriteBatch);
 
-            if(GamePaused)
+            if (GamePaused)
             {
-                _spriteBatch.DrawString(GameFont, "Game Paused", new Vector2(Camera.Position.X-150, Camera.Position.Y+50), Color.Red, 0, Vector2.Zero, 2, SpriteEffects.None, 1);
+                _spriteBatch.DrawString(GameFont, "Game Paused", new Vector2(Camera.Position.X - 150, Camera.Position.Y + 50), Color.Red, 0, Vector2.Zero, 2, SpriteEffects.None, 1);
             }
 
             status.Draw(_spriteBatch);
+
+            foreach (Menu item in menu)
+                item.Draw(_spriteBatch);
 
             _spriteBatch.End();
 
