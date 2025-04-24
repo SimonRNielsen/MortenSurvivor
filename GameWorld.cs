@@ -99,11 +99,22 @@ namespace MortenSurvivor
             LoadMusic();
             GameFont = Content.Load<SpriteFont>("gameFont");
             SetScreenSize(Screensize);
-            camera = new Camera(GraphicsDevice, Screensize / 2);
+            camera = new Camera(GraphicsDevice, GameWorld.Instance.Screensize / 2);
             random = new Random();
 
-            //gameObjects.Add(ProjectileFactory.Instance.Create());
+            #region Environment
+            gameObjects.Add(new Environment(EnvironmentTile.Center, Screensize / 2));
+            gameObjects.Add(new Environment(EnvironmentTile.Left, new Vector2(-Screensize.X / 2, Screensize.Y / 2)));
+            gameObjects.Add(new Environment(EnvironmentTile.Right, new Vector2(Screensize.X * 1.5f, Screensize.Y / 2)));
 
+            gameObjects.Add(new Environment(EnvironmentTile.TopLeft, -Screensize / 2));
+            gameObjects.Add(new Environment(EnvironmentTile.TopRight, new Vector2(Screensize.X * 1.5f, -Screensize.Y / 2)));
+            gameObjects.Add(new Environment(EnvironmentTile.Top, new Vector2(Screensize.X / 2, -Screensize.Y / 2)));
+
+            gameObjects.Add(new Environment(EnvironmentTile.BottomLeft, new Vector2(-Screensize.X / 2, Screensize.Y * 1.5f)));
+            gameObjects.Add(new Environment(EnvironmentTile.BottomRight, new Vector2(Screensize.X * 1.5f, Screensize.Y * 1.5f)));
+            gameObjects.Add(new Environment(EnvironmentTile.Bottom, new Vector2(Screensize.X / 2, Screensize.Y * 1.5f)));
+            #endregion
 
             gameObjects.Add(Player.Instance);
             InputHandler.Instance.AddUpdateCommand(Keys.A, new MoveCommand(Player.Instance, new Vector2(-1, 0))); //Move left

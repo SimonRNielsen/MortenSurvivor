@@ -58,19 +58,19 @@ namespace MortenSurvivor.CreationalPatterns.Pools
 
         public void ReleaseObject(GameObject gameObject)
         {
+            if (gameObject is Enemy)
+            {
+                GameWorld.Instance.Notify(StatusType.EnemiesKilled);
+                gameObject = new EnemyFactory().Create();
+            }
+
             //Fjerner fra active og tilføjer den til inactive
             active.Remove(gameObject);
             inactive.Push(gameObject);
 
-            CleanUp(gameObject);
-
-
             //reagerer ved collision = hele tiden de collider
-            if (gameObject is Enemy)
-            {
-                GameWorld.Instance.Notify(StatusType.EnemiesKilled);
-            }
 
+            CleanUp(gameObject);
             //Fjener fra GameWorld
             //GameWorld.Instance.Destroy(gameObject);
         }

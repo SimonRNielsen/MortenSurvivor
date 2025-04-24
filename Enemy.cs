@@ -78,7 +78,7 @@ namespace MortenSurvivor
                     break;
                 case EnemyType.SlowChampion:
                     speed = 125f;
-                    originalColor = Color.Beige;
+                    originalColor = Color.Red;
                     break;
                 case EnemyType.Fast:
                     speed = 200f;
@@ -86,7 +86,7 @@ namespace MortenSurvivor
                     break;
                 case EnemyType.FastChampion:
                     speed = 200f;
-                    originalColor = Color.Beige;
+                    originalColor = Color.Red;
                     break;
                 case EnemyType.Goosifer:
                     scale = 0.8f;
