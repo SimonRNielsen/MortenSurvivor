@@ -19,8 +19,11 @@ namespace MortenSurvivor.Commands
             Random rnd = new Random();
         public void Execute()
         {
-            int randomUpgrade = rnd.Next(4,6);
-            Player.Instance.Upgrade((UpgradeType)randomUpgrade);
+            if (!GameWorld.Instance.GamePaused)
+            {
+                int randomUpgrade = rnd.Next(4, 6);
+                Player.Instance.Upgrade((UpgradeType)randomUpgrade);
+            }
         }
     }
 }

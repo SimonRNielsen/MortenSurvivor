@@ -11,7 +11,6 @@ using MortenSurvivor.Commands.States;
 using MortenSurvivor.CreationalPatterns.Factories;
 using MortenSurvivor.CreationalPatterns.Pools;
 using MortenSurvivor.ObserverPattern;
-using SharpDX.Direct3D9;
 
 namespace MortenSurvivor
 {
