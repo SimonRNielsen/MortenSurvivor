@@ -125,7 +125,7 @@ namespace MortenSurvivor
 
         public override void OnCollision(GameObject other)
         {
-                       
+
             base.OnCollision(other);
 
         }
@@ -142,12 +142,6 @@ namespace MortenSurvivor
                     this.speed += 50f;
                     Debug.WriteLine("Speed increased by 50");
                     break;
-                //case UpgradeType.Bible:
-                //    break;
-                //case UpgradeType.Rosary:
-                //    break;
-                //case UpgradeType.WallGoose:
-                //    break;
                 case UpgradeType.PopeStaff:
                     if (!weapons.Contains(weapons.Find(x => x.Type == WeaponType.PopeStaff)))
                     {
@@ -172,6 +166,12 @@ namespace MortenSurvivor
                         Debug.WriteLine("GeasterEgg damage increased by 1!");
                     }
                     break;
+                case UpgradeType.HolyWater:
+                    if (InputHandler.Instance.Countdown > 0.1f)
+                    {
+                        InputHandler.Instance.Countdown -= 0.1f;
+                    }
+                    break;
             }
 
         }
@@ -179,7 +179,7 @@ namespace MortenSurvivor
         public void PlayWalkSound()
         {
             if (walkTimer > 0.4f)
-            {   
+            {
                 walkTimer = 0;
                 if (currentWalkSound == GameWorld.Instance.Sounds[Sound.PlayerWalk2])
                 {

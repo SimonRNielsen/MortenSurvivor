@@ -55,6 +55,9 @@ namespace MortenSurvivor.Commands
             }
         }
 
+        public float Countdown { get => countdown; set => countdown = value; }
+
+
         public void AddUpdateCommand(Keys inputKey, ICommand command)
         {
             keybindsUpdate.Add(inputKey, command);
