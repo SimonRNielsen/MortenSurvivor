@@ -94,7 +94,7 @@ namespace MortenSurvivor
                 case EnemyType.SlowChampion:
                     speed = 125f;
                     originalColor = Color.SlateGray;
-                    health = 3;
+                    health = 2;
                     break;
                 case EnemyType.Fast:
                     speed = 200f;
@@ -104,7 +104,7 @@ namespace MortenSurvivor
                 case EnemyType.FastChampion:
                     speed = 200f;
                     originalColor = Color.SlateGray;
-                    health = 3;
+                    health = 2;
                     break;
                 case EnemyType.Goosifer:
                     speed = 165f;
@@ -128,6 +128,9 @@ namespace MortenSurvivor
             if (currentState != null)
                 currentState.Execute();
 
+            //damageTimer til OnCollision
+            damageTimer += GameWorld.Instance.DeltaTime;
+            
             base.Update(gameTime);
 
         }
@@ -170,16 +173,19 @@ namespace MortenSurvivor
 
         public override void OnCollision(GameObject other)
         {
-            damageTimer += GameWorld.Instance.DeltaTime;
 
             if (damageTimer > damageGracePeriod)
             {
-
+                //Player tager sakde
                 Player.Instance.CurrentHealth = Player.Instance.CurrentHealth - damage;
 
                 Debug.WriteLine(Player.Instance.CurrentHealth);
 
+                //Player tager skade sounds
                 GameWorld.Instance.Sounds[Sound.PlayerTakeDamage].Play();
+
+                //Enemy tager en skade, når de angriber Player
+                CurrentHealth--;
 
                 damageTimer = 0;
             }

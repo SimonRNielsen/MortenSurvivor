@@ -293,12 +293,15 @@ namespace MortenSurvivor
             Texture2D[] BottomRight = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\tile9") };
             Sprites.Add(EnvironmentTile.BottomRight, BottomRight);
 
-            Texture2D[] firepit = new Texture2D[3];
+            Texture2D[] firepit = new Texture2D[4];
             for (int i = 0; i < firepit.Length; i++)
             {
                 firepit[i] = Content.Load<Texture2D>($"Sprites\\Environment\\firepit{i}");
             }
             Sprites.Add(EnvironmentTile.Firepit, firepit);
+
+            Texture2D[] Stone = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\stone") };
+            Sprites.Add(EnvironmentTile.Stone, Stone);
 
             #endregion
             #region Menu
