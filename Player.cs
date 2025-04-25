@@ -179,7 +179,7 @@ namespace MortenSurvivor
                     }
                     break;
                 case UpgradeType.HolyWater:
-                    if (InputHandler.Instance.Countdown > 0.1f)
+                    if (InputHandler.Instance.Countdown > 0.3f)
                     {
                         InputHandler.Instance.Countdown -= 0.1f;
                     }

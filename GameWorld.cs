@@ -435,6 +435,9 @@ namespace MortenSurvivor
             Texture2D[] deadEnemy = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\enemy\\deadEnemy") };
             Sprites.Add(StatusType.EnemiesKilled, deadEnemy);
 
+            Texture2D[] holyWater = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\objects\\holyWater") };
+            Sprites.Add(UpgradeType.HolyWater, holyWater);
+
             #endregion
             #region Player
 
