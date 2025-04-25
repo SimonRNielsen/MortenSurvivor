@@ -176,7 +176,7 @@ namespace MortenSurvivor
             InputHandler.Instance.AddUpdateCommand(Keys.S, new MoveCommand(Player.Instance, new Vector2(0, 1))); //Move down
             InputHandler.Instance.AddOncePerCountdownCommand(MouseKeys.LeftButton, new ShootCommand(Player.Instance)); //Shoot on mouseclick or hold
             InputHandler.Instance.AddButtonDownCommand(Keys.Escape, new ExitCommand());
-            InputHandler.Instance.AddButtonDownCommand(Keys.U, new SelectCommand());
+            InputHandler.Instance.AddButtonDownCommand(MouseKeys.LeftButton, new SelectCommand());
             InputHandler.Instance.AddButtonDownCommand(Keys.P, new PauseCommand());
             InputHandler.Instance.AddButtonDownCommand(Keys.M, new MuteCommand());
 
