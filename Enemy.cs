@@ -83,7 +83,7 @@ namespace MortenSurvivor
         public void Types(Enum type)
         {
             damage = 1;
-            
+
             switch (type)
             {
                 case EnemyType.Slow:
@@ -130,7 +130,7 @@ namespace MortenSurvivor
 
             //damageTimer til OnCollision
             damageTimer += GameWorld.Instance.DeltaTime;
-            
+
             base.Update(gameTime);
 
         }
@@ -173,21 +173,28 @@ namespace MortenSurvivor
 
         public override void OnCollision(GameObject other)
         {
+            if (other is Player)
+            {
 
             if (damageTimer > damageGracePeriod && other is Player)
             {
                 //Player tager sakde
                 Player.Instance.CurrentHealth = Player.Instance.CurrentHealth - damage;
 
-                Debug.WriteLine(Player.Instance.CurrentHealth);
+                    Debug.WriteLine(Player.Instance.CurrentHealth);
 
-                //Player tager skade sounds
-                GameWorld.Instance.Sounds[Sound.PlayerTakeDamage].Play();
+                    //Player tager skade sounds
+                    GameWorld.Instance.Sounds[Sound.PlayerTakeDamage].Play();
 
-                //Enemy tager en skade, når de angriber Player
-                CurrentHealth--;
+                    //Enemy tager en skade, når de angriber Player
+                    CurrentHealth--;
 
-                damageTimer = 0;
+                    damageTimer = 0;
+
+                    //Notifies Status about when an enemy is killed
+                    GameWorld.Instance.Notify(StatusType.HealthUpdate);
+                }
+
             }
 
             base.OnCollision(other);

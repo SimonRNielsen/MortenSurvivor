@@ -58,7 +58,7 @@ namespace MortenSurvivor
             weapons.Add(weapon);
             layer = 0.9f;
 
-            health = 100; //Sæt tilbage til 10
+            health = 10; //Sæt tilbage til 10
         }
 
         #endregion
@@ -67,7 +67,6 @@ namespace MortenSurvivor
 
         public void Move(Vector2 velocity)
         {
-
             this.velocity = velocity;
 
             if (velocity.Y == 0)

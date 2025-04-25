@@ -184,7 +184,8 @@ namespace MortenSurvivor
             MediaPlayer.Play(Music[MusicTrack.BattleMusic]);
 
             status = new Status();
-            Attach(status); //subscribes to observer
+            //Attach( new Status()); //subscribes to observer
+            //ResetObservers();
 
             base.Initialize();
 
@@ -227,6 +228,9 @@ namespace MortenSurvivor
                 foreach (Menu item in GameMenu)
                     if (item.IsActive)
                         item.Update();
+
+            status.Update(gameTime);
+
 
             base.Update(gameTime);
 
@@ -359,6 +363,20 @@ namespace MortenSurvivor
             Sprites.Add(EnvironmentTile.Nest, Nest);
 
             #endregion
+            #region Status
+
+            Texture2D[] barViolet = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Objects\\barViolet") };
+            Sprites.Add(StatusType.BarViolet, barViolet);
+
+            Texture2D[] barBottom = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Objects\\barBottom") };
+            Sprites.Add(StatusType.BarBottom, barBottom);
+
+            Texture2D[] healthBottom = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Objects\\healthBot") };
+            Sprites.Add(StatusType.HealthBottom, healthBottom);
+
+            Texture2D[] healthTop = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Objects\\healthTop") };
+            Sprites.Add(StatusType.HealthTop, healthTop);
+            #endregion
             #region Menu
 
             Texture2D[] winScreen = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Menu\\winScreen") };
@@ -413,6 +431,9 @@ namespace MortenSurvivor
 
             Texture2D[] XPcrystal = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\objects\\crystal") };
             Sprites.Add(ItemType.XPCrystal, XPcrystal);
+
+            Texture2D[] speedBoost = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\objects\\boots") };
+            Sprites.Add(ItemType.SpeedBoost, speedBoost);
 
             Texture2D[] deadEnemy = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\enemy\\deadEnemy") };
             Sprites.Add(StatusType.EnemiesKilled, deadEnemy);
@@ -484,7 +505,6 @@ namespace MortenSurvivor
         /// <param name="gameObject"></param>
         public void SpawnObject(GameObject gameObject)
         {
-            //Notify(StatusType.EnemiesKilled);
             newGameObjects.Add(gameObject);
             Debug.WriteLine(gameObject.ToString() + " added to spawnlist");
 
@@ -683,6 +703,8 @@ namespace MortenSurvivor
                 observer.OnNotify(statusType);
             }
         }
+
+       
         #endregion
 
 
