@@ -49,6 +49,7 @@ namespace MortenSurvivor
         private List<GameObject> gameObjects = new List<GameObject>();
         private List<GameObject> newGameObjects = new List<GameObject>();
         private List<IObserver> listeners = new List<IObserver>();
+        public List<Menu> GameMenu = new List<Menu>();
 
         private float deltaTime;
         private bool gamePaused = false;
@@ -100,6 +101,7 @@ namespace MortenSurvivor
             SetScreenSize(Screensize);
             camera = new Camera(GraphicsDevice, GameWorld.Instance.Screensize / 2);
             random = new Random();
+            Menu.CreateMenus();
 
             #region Environment
             //Midt
@@ -180,12 +182,16 @@ namespace MortenSurvivor
                     DoCollisionCheck(gameObject);
                 }
 
-            //Spawne nye gæs
-            SpawnEnemies();
+                //Spawne nye gæs
+                SpawnEnemies();
 
                 CleanUp();
 
             }
+            else
+                foreach (Menu item in GameMenu)
+                    if (item.IsActive)
+                        item.Update();
 
             base.Update(gameTime);
 
@@ -208,6 +214,11 @@ namespace MortenSurvivor
             }
 
             status.Draw(_spriteBatch);
+
+            if (gamePaused)
+                foreach (Menu item in GameMenu)
+                    if (item.IsActive)
+                        item.Draw(_spriteBatch);
 
             _spriteBatch.End();
 
@@ -306,6 +317,16 @@ namespace MortenSurvivor
             #endregion
             #region Menu
 
+            Texture2D[] winScreen = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Menu\\winScreen") };
+            Sprites.Add(MenuItem.Win, winScreen);
+
+            Texture2D[] loseScreen = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Menu\\loseScreen") };
+            Sprites.Add(MenuItem.Loss, loseScreen);
+
+            Texture2D[] introScreen = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Menu\\intro_Screen") };
+            Sprites.Add(MenuItem.Start, introScreen);
+            Sprites.Add(MenuItem.Pause, introScreen);
+
             Texture2D[] button = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Menu\\button") };
             Sprites.Add(MenuItem.SingleButton, button);
 
@@ -315,20 +336,23 @@ namespace MortenSurvivor
             Texture2D[] mouseCursor = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Menu\\sword") };
             Sprites.Add(MenuItem.MouseCursor, mouseCursor);
 
+            Texture2D[] upgradeScreen = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Menu\\upgradeMenu") };
+            Sprites.Add(MenuItem.Upgrade, upgradeScreen);
+
             #endregion
             #region Objects
 
             Texture2D[] bible = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Objects\\bible") };
-            Sprites.Add(UpgradeType.Bible, bible);
+            Sprites.Add(ItemType.Bible, bible);
 
             Texture2D[] mitre = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Objects\\mitre") };
             Sprites.Add(UpgradeType.Mitre, mitre);
 
             Texture2D[] healBoost = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Objects\\wallTurkey") };
-            Sprites.Add(ItemType.HealBoost, healBoost);
+            Sprites.Add(UpgradeType.GeesusBlood, healBoost);
 
             Texture2D[] rosary = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Objects\\rosary") };
-            Sprites.Add(UpgradeType.Rosary, rosary);
+            Sprites.Add(ItemType.Rosary, rosary);
 
             Texture2D[] scepter = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Objects\\scepter") };
             Sprites.Add(UpgradeType.PopeStaff, scepter);
@@ -338,6 +362,7 @@ namespace MortenSurvivor
 
             Texture2D[] geasterEgg = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Objects\\egg2") };
             Sprites.Add(ProjectileType.GeasterEgg, geasterEgg);
+            Sprites.Add(UpgradeType.GeasterEgg, geasterEgg);
 
             Texture2D[] halo = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\objects\\glorie2") };
             Sprites.Add(ProjectileType.Magic, halo);
@@ -347,6 +372,7 @@ namespace MortenSurvivor
 
             Texture2D[] deadEnemy = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\enemy\\deadEnemy") };
             Sprites.Add(StatusType.EnemiesKilled, deadEnemy);
+
             #endregion
             #region Player
 
@@ -577,6 +603,23 @@ namespace MortenSurvivor
                 SoundEffect.MasterVolume = 0;
                 MediaPlayer.IsMuted = true;
             }
+        }
+
+        public void Restart()
+        {
+
+
+
+        }
+
+
+        public void ActivateMenu(MenuItem menu)
+        {
+
+            Pause();
+
+            GameMenu.Find(x => x.Type == menu).Activate();
+
         }
 
         #region Observer
