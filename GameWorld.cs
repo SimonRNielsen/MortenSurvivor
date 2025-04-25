@@ -133,8 +133,6 @@ namespace MortenSurvivor
             Menu.CreateMenus();
             status = new Status();
 
-            //gameObjects.Add(new Item(ItemType.HealBoost, Vector2.Zero));
-
             #region Environment
             //Midt
             GameObjects.Add(new Environment(EnvironmentTile.Center, Screensize / 2));
@@ -200,13 +198,6 @@ namespace MortenSurvivor
 
 
             #endregion
-
-            //status = new Status();
-            ////Attach( new Status()); //subscribes to observer
-            ////ResetObservers();
-
-            //base.Initialize();
-
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
