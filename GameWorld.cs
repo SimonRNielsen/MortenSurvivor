@@ -603,6 +603,7 @@ namespace MortenSurvivor
                 SoundEffect.MasterVolume = 0;
                 MediaPlayer.IsMuted = true;
             }
+        }
 
         public void Restart()
         {
