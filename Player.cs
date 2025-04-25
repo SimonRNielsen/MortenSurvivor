@@ -184,6 +184,10 @@ namespace MortenSurvivor
                         InputHandler.Instance.Countdown -= 0.1f;
                     }
                     break;
+                case UpgradeType.GeesusBlood:
+                    currentHealth = health;
+                    break;
+
             }
 
         }
