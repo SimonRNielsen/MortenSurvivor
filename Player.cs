@@ -58,7 +58,7 @@ namespace MortenSurvivor
             weapons.Add(weapon);
             layer = 0.9f;
 
-            health = 10;
+            health = 100; //Sæt tilbage til 10
         }
 
         #endregion

@@ -398,6 +398,18 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/Environment/avsurfaceILD4.png
 
+#begin Sprites/Environment/coal.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/Environment/coal.png
+
 #begin Sprites/Environment/firepit0.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -446,7 +458,7 @@
 /processorParam:TextureFormat=Color
 /build:Sprites/Environment/firepit3.png
 
-#begin Sprites/Environment/firepit3.png
+#begin Sprites/Environment/hay stack.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -456,7 +468,31 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Sprites/Environment/firepit3.png
+/build:Sprites/Environment/hay stack.png
+
+#begin Sprites/Environment/hay.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/Environment/hay.png
+
+#begin Sprites/Environment/nest.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprites/Environment/nest.png
 
 #begin Sprites/Environment/room_single.png
 /importer:TextureImporter
@@ -481,18 +517,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Sprites/Environment/shadow.png
-
-#begin Sprites/Environment/stone.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Sprites/Environment/stone.png
 
 #begin Sprites/Environment/tile1.png
 /importer:TextureImporter

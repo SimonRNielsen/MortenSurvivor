@@ -17,24 +17,24 @@ namespace MortenSurvivor
 {
     public class Environment : GameObject
     {
-
         #region Fields
         private EnvironmentTile tileType;
 
         protected float speed;
         protected float elapsedTime;
         protected float fps = 7;
-        protected int currentHealth;
         protected int currentIndex;
         protected Vector2 velocity;
         protected Texture2D[] sprites;
 
         #endregion
+
         #region Properties
 
 
 
         #endregion
+
         #region Constructor
 
 
@@ -44,7 +44,7 @@ namespace MortenSurvivor
             sprites = GameWorld.Instance.Sprites[type];
 
             layer = 0f;
-           
+
             tileType = (EnvironmentTile)type;
 
             Tile();
@@ -52,6 +52,7 @@ namespace MortenSurvivor
         }
 
         #endregion
+
         #region Methods
 
         public void Tile()
@@ -87,6 +88,15 @@ namespace MortenSurvivor
                     scale = 0.8f;
                     break;
                 case EnvironmentTile.Stone:
+                    layer = 0.2f;
+                    break;
+                case EnvironmentTile.HayStack:
+                    layer = 0.2f;
+                    break;
+                case EnvironmentTile.Hay:
+                    layer = 0.2f;
+                    break;
+                case EnvironmentTile.Nest:
                     layer = 0.2f;
                     break;
                 default:
@@ -125,8 +135,8 @@ namespace MortenSurvivor
 
         public override void Update(GameTime gameTime)
         {
-            
-                Animate();
+
+            Animate();
 
             base.Update(gameTime);
         }

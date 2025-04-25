@@ -86,7 +86,10 @@
         AvSurface,
         Room,
         Firepit,
-        Stone
+        Stone,
+        HayStack,
+        Hay,
+        Nest
 
     }
 

@@ -71,6 +71,7 @@ namespace MortenSurvivor.CreationalPatterns.Factories
             Prototype.Position = Player.Instance.Position;
             return (Projectile)Prototype.Clone();
         }
+
         public GameObject Create(ProjectileType projectileType)
         {
             Prototype.Position = Player.Instance.Position;

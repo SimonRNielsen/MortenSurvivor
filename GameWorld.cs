@@ -123,12 +123,47 @@ namespace MortenSurvivor
             gameObjects.Add(new Environment(EnvironmentTile.AvSurface, new Vector2(-900 + 3586 * 2 * 0.6f, Screensize.Y * 2f - 20)));
 
             //Firepit
-            gameObjects.Add(new Environment(EnvironmentTile.Firepit, Vector2.Zero));
+            gameObjects.Add(new Environment(EnvironmentTile.Firepit, Vector2.Zero)); //Kan spawne gæs her
             gameObjects.Add(new Environment(EnvironmentTile.Firepit, Screensize * 1.2f));
             gameObjects.Add(new Environment(EnvironmentTile.Firepit, new Vector2(2000, 1700)));
             gameObjects.Add(new Environment(EnvironmentTile.Firepit, new Vector2(400, 1800)));
-            gameObjects.Add(new Environment(EnvironmentTile.Firepit, new Vector2(-50, 160)));
-            gameObjects.Add(new Environment(EnvironmentTile.Firepit, new Vector2(Screensize.X * 1.2f, 900)));
+            gameObjects.Add(new Environment(EnvironmentTile.Firepit, new Vector2(-165, 940)));
+
+
+            //Hay
+            gameObjects.Add(new Environment(EnvironmentTile.Hay, new Vector2(420, 1030)));
+            gameObjects.Add(new Environment(EnvironmentTile.Hay, new Vector2(-1230, 1095)));
+            gameObjects.Add(new Environment(EnvironmentTile.Hay, new Vector2(1775, -360)));
+            gameObjects.Add(new Environment(EnvironmentTile.Hay, new Vector2(575, -390)));
+            gameObjects.Add(new Environment(EnvironmentTile.Hay, new Vector2(940, 1775)));
+
+
+            //Hay stack
+            gameObjects.Add(new Environment(EnvironmentTile.HayStack, new Vector2(89, 1335)));
+            gameObjects.Add(new Environment(EnvironmentTile.HayStack, new Vector2(-1175, 154)));
+            gameObjects.Add(new Environment(EnvironmentTile.HayStack, new Vector2(3000,625)));
+            gameObjects.Add(new Environment(EnvironmentTile.HayStack, new Vector2(-770, -885)));
+            gameObjects.Add(new Environment(EnvironmentTile.HayStack, new Vector2(3570, 1075)));
+
+
+            //Stone
+            gameObjects.Add(new Environment(EnvironmentTile.Stone, new Vector2(-710, 1860)));
+            gameObjects.Add(new Environment(EnvironmentTile.Stone, new Vector2(825, 540)));
+            gameObjects.Add(new Environment(EnvironmentTile.Stone, new Vector2(2940, 109)));
+            gameObjects.Add(new Environment(EnvironmentTile.Stone, new Vector2(-1420, -245)));
+            gameObjects.Add(new Environment(EnvironmentTile.Stone, new Vector2(1280, 1310)));
+            gameObjects.Add(new Environment(EnvironmentTile.Stone, new Vector2(3210, 15355)));
+            gameObjects.Add(new Environment(EnvironmentTile.Stone, new Vector2(3535, -215)));
+
+
+            //Nest
+            gameObjects.Add(new Environment(EnvironmentTile.Nest, new Vector2(-50, 160))); //Kan spawne gæs her også
+            gameObjects.Add(new Environment(EnvironmentTile.Nest, new Vector2(Screensize.X * 1.2f, 900)));
+            gameObjects.Add(new Environment(EnvironmentTile.Nest, new Vector2(1590, 134)));
+            gameObjects.Add(new Environment(EnvironmentTile.Nest, new Vector2(-1455, 1670)));
+            gameObjects.Add(new Environment(EnvironmentTile.Nest, new Vector2(2940, 0)));
+            gameObjects.Add(new Environment(EnvironmentTile.Nest, new Vector2(3205, 1905)));
+
 
             #endregion
 
@@ -300,8 +335,17 @@ namespace MortenSurvivor
             }
             Sprites.Add(EnvironmentTile.Firepit, firepit);
 
-            Texture2D[] Stone = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\stone") };
+            Texture2D[] Stone = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\coal") };
             Sprites.Add(EnvironmentTile.Stone, Stone);
+
+            Texture2D[] HayStack = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\hay stack") };
+            Sprites.Add(EnvironmentTile.HayStack, HayStack);
+
+            Texture2D[] Hay = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\hay") };
+            Sprites.Add(EnvironmentTile.Hay, Hay);
+
+            Texture2D[] Nest = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\nest") };
+            Sprites.Add(EnvironmentTile.Nest, Nest);
 
             #endregion
             #region Menu
