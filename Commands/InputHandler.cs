@@ -51,9 +51,14 @@ namespace MortenSurvivor.Commands
             get
             {
                 Vector2 mousePosition = Mouse.GetState().Position.ToVector2();
+                Matrix inverseTransform = Matrix.Invert(GameWorld.Instance.Camera.GetTransformation()); //Danner en invers-matrice til at modvirke kameraets zoom effekt
+                mousePosition = Vector2.Transform(mousePosition, inverseTransform); //Omdanner muse-positionen til den reelle position
                 return new Rectangle((int)mousePosition.X, (int)mousePosition.Y, 1, 1);
             }
         }
+
+        public float Countdown { get => countdown; set => countdown = value; }
+
 
         public void AddUpdateCommand(Keys inputKey, ICommand command)
         {

@@ -39,6 +39,7 @@ namespace MortenSurvivor
         private List<Weapon> weapons = new List<Weapon>();
         private float walkTimer;
         private SoundEffect currentWalkSound;
+        private float originalSpeed = 300f;
 
         #endregion
         #region Properties
@@ -53,7 +54,7 @@ namespace MortenSurvivor
         {
             this.fps = 15;
             velocity = Vector2.One; //Til at bevare animation indtil anden form implementeres
-            this.speed = 300;
+            this.speed = originalSpeed;
             weapon = new Weapon(WeaponType.Sling);
             weapons.Add(weapon);
             layer = 0.9f;
@@ -64,6 +65,17 @@ namespace MortenSurvivor
         #endregion
         #region Methods
 
+        public override void Load()
+        {
+            weapons.Clear();
+            weapons.Add(weapon);
+            ProjectileFactory.Instance.Prototype = (Projectile)ProjectileFactory.Instance.ProjectileStat(ProjectileType.Eggs);
+            ProjectileFactory.Instance.MagicPrototype = (Projectile)ProjectileFactory.Instance.ProjectileStat(ProjectileType.Magic);
+            ProjectileFactory.Instance.GeasterEggPrototype = (Projectile)ProjectileFactory.Instance.ProjectileStat(ProjectileType.GeasterEgg);
+            speed = originalSpeed;
+            InputHandler.Instance.Countdown = 1f;
+            base.Load();
+        }
 
         public void Move(Vector2 velocity)
         {
@@ -126,12 +138,6 @@ namespace MortenSurvivor
         public override void OnCollision(GameObject other)
         {
 
-            if (other is Item)
-            {
-
-            }
-
-
             base.OnCollision(other);
 
         }
@@ -145,13 +151,9 @@ namespace MortenSurvivor
             switch (upgradeType)
             {
                 case UpgradeType.Mitre:
+                    this.speed += 50f;
+                    Debug.WriteLine("Speed increased by 50");
                     break;
-                //case UpgradeType.Bible:
-                //    break;
-                //case UpgradeType.Rosary:
-                //    break;
-                //case UpgradeType.WallGoose:
-                //    break;
                 case UpgradeType.PopeStaff:
                     if (!weapons.Contains(weapons.Find(x => x.Type == WeaponType.PopeStaff)))
                     {
@@ -160,21 +162,32 @@ namespace MortenSurvivor
                     }
                     else
                     {
-                        Debug.WriteLine("Weapon already exists");
+                        ProjectileFactory.Instance.MagicPrototype.Damage += 1;
+                        Debug.WriteLine("PopeStaff damage increased by 1!");
                     }
                     break;
                 case UpgradeType.GeasterEgg:
                     if (!weapons.Contains(weapons.Find(x => x.Type == WeaponType.GeasterSling)))
                     {
                         weapons.Add(new Weapon(WeaponType.GeasterSling));
-
                         Debug.WriteLine("GeasterSling added");
                     }
                     else
                     {
-                        Debug.WriteLine("Weapon already exists");
+                        ProjectileFactory.Instance.GeasterEggPrototype.Damage += 1;
+                        Debug.WriteLine("GeasterEgg damage increased by 1!");
                     }
                     break;
+                case UpgradeType.HolyWater:
+                    if (InputHandler.Instance.Countdown > 0.3f)
+                    {
+                        InputHandler.Instance.Countdown -= 0.1f;
+                    }
+                    break;
+                case UpgradeType.GeesusBlood:
+                    currentHealth = health;
+                    break;
+
             }
 
         }
@@ -182,7 +195,7 @@ namespace MortenSurvivor
         public void PlayWalkSound()
         {
             if (walkTimer > 0.4f)
-            {   
+            {
                 walkTimer = 0;
                 if (currentWalkSound == GameWorld.Instance.Sounds[Sound.PlayerWalk2])
                 {

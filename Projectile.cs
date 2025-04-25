@@ -32,6 +32,7 @@ namespace MortenSurvivor
 
 
         public float Speed { get => speed; }
+        public int Damage { get => damage; set => damage = value; }
 
 
         //public int Damage { get => damage; set => damage = value; }
