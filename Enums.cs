@@ -48,9 +48,7 @@
         SpeedBoost,
         HealBoost,
         ConfuseEnemy,
-        ScareEnemy,
-        Rosary,
-        Bible
+        ScareEnemy
 
     }
 
