@@ -52,7 +52,7 @@ namespace MortenSurvivor
         public List<Menu> GameMenu = new List<Menu>();
 
         private float deltaTime;
-        private bool gamePaused = false;
+        private bool gamePaused = true;
 
         private float lastSpawnEnemy = 2f; //Spawner en gås, når man starter op for spillet 
         private float spawnEnemyTime = 1f;
@@ -101,7 +101,6 @@ namespace MortenSurvivor
             SetScreenSize(Screensize);
             camera = new Camera(GraphicsDevice, GameWorld.Instance.Screensize / 2);
             random = new Random();
-            Menu.CreateMenus();
 
             #region Environment
             //Midt
@@ -179,11 +178,11 @@ namespace MortenSurvivor
             InputHandler.Instance.AddButtonDownCommand(MouseKeys.LeftButton, new SelectCommand());
             InputHandler.Instance.AddButtonDownCommand(Keys.P, new PauseCommand());
             InputHandler.Instance.AddButtonDownCommand(Keys.M, new MuteCommand());
+            InputHandler.Instance.AddButtonDownCommand(Keys.U, new UpgradeCommand());
 
             MediaPlayer.IsRepeating = true;
             MediaPlayer.Play(Music[MusicTrack.BattleMusic]);
 
-            status = new Status();
             //Attach( new Status()); //subscribes to observer
             //ResetObservers();
 
@@ -196,6 +195,8 @@ namespace MortenSurvivor
         {
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+            Menu.CreateMenus();
+            status = new Status();
 
             foreach (GameObject gameObject in gameObjects)
                 gameObject.Load();
@@ -207,6 +208,7 @@ namespace MortenSurvivor
         {
 
             deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
 
             InputHandler.Instance.Execute();
 
@@ -246,11 +248,6 @@ namespace MortenSurvivor
 
             foreach (GameObject gameObject in gameObjects)
                 gameObject.Draw(_spriteBatch);
-
-            if (GamePaused)
-            {
-                _spriteBatch.DrawString(GameFont, "Game Paused", new Vector2(Camera.Position.X - 150, Camera.Position.Y + 50), Color.Red, 0, Vector2.Zero, 2, SpriteEffects.None, 1);
-            }
 
             status.Draw(_spriteBatch);
 
@@ -672,7 +669,11 @@ namespace MortenSurvivor
         public void Restart()
         {
 
-
+            gameObjects.Clear();
+            newGameObjects.Clear();
+            GameMenu.Clear();
+            SpawnObject(Player.Instance);
+            LoadContent();
 
         }
 

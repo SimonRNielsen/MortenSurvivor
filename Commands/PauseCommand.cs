@@ -18,7 +18,7 @@ namespace MortenSurvivor.Commands
     {
         public void Execute()
         {
-            GameWorld.Instance.Pause();
+            GameWorld.Instance.ActivateMenu(MenuItem.Pause);
         }
     }
 }
