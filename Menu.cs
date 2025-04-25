@@ -191,10 +191,10 @@ namespace MortenSurvivor
                 foreach (Menu menu in relatedButtons)
                 {
                     
+                    menu.Update();
                     if (menu.CollisionBox.Intersects(InputHandler.Instance.MouseCollisionBox))
                         menu.OnMouseOver();
 
-                    menu.Update();
 
                 }
 

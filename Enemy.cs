@@ -174,7 +174,7 @@ namespace MortenSurvivor
         public override void OnCollision(GameObject other)
         {
 
-            if (damageTimer > damageGracePeriod)
+            if (damageTimer > damageGracePeriod && other is Player)
             {
                 //Player tager sakde
                 Player.Instance.CurrentHealth = Player.Instance.CurrentHealth - damage;

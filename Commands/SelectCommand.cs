@@ -16,25 +16,28 @@ namespace MortenSurvivor.Commands
 {
     public class SelectCommand : ICommand
     {
-            Random rnd = new Random();
+        Random rnd = new Random();
         public void Execute()
         {
-            if (!GameWorld.Instance.GamePaused)
+            if (GameWorld.Instance.GamePaused)
             {
-                Menu activeMenu = new Menu();
-                Menu mousedOverMenu = new Menu();
-                if(GameWorld.Instance.GameMenu != null)
+                Menu activeMenu;
+                if (GameWorld.Instance.GameMenu != null)
                 {
-                activeMenu = GameWorld.Instance.GameMenu.Find(x => x.IsActive == true);
+                    activeMenu = GameWorld.Instance.GameMenu.Find(x => x.IsActive == true);
+                    if (activeMenu != null)
+                    {
+                        Menu mousedOverMenu = activeMenu.relatedButtons.Find(x => x.MousedOver == true);
+                        if (mousedOverMenu != null)
+                        {
+                            mousedOverMenu.SelectionEffect();
+                        }
+                        else
+                        {
+                            Debug.WriteLine("No button found...");
+                        }
+                    }
                 }
-                if(activeMenu.relatedButtons != null)
-                {
-                Menu mousedOverMenu = activeMenu.relatedButtons.Find(x => x.MousedOver == true);
-                mousedOverMenu.SelectionEffect();
-                }
-                
-                int randomUpgrade = rnd.Next(4, 6);
-                Player.Instance.Upgrade((UpgradeType)randomUpgrade);
             }
         }
     }
