@@ -33,7 +33,8 @@
         PopeStaff,
         Mitre,
         GeesusBlood,
-        GeasterEgg
+        GeasterEgg,
+        HolyWater
 
     }
 
