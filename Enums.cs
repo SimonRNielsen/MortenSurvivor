@@ -44,11 +44,9 @@
         Rosary,
         Bible,
         XPCrystal,
-        DamageBoost,
+        //DamageBoost,
         SpeedBoost,
         HealBoost,
-        ConfuseEnemy,
-        ScareEnemy
 
     }
 
