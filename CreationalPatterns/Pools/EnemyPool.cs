@@ -45,12 +45,20 @@ namespace MortenSurvivor.CreationalPatterns.Pools
         #endregion
 
         #region Method
+        /// <summary>
+        /// Opretter et GameObject (Enemy) via EnemyFactory
+        /// </summary>
+        /// <returns></returns>
         protected override GameObject Create()
         {
             GameObject gameObject = new EnemyFactory().Create();
             return gameObject;
         }
 
+        /// <summary>
+        /// Opretter et GameObject (Enemy - Gossifer) via EnemyFactory
+        /// </summary>
+        /// <returns></returns>
         public GameObject CreateGoosifer()
         {
             GameObject gameObject = new EnemyFactory().CreateGoosefer();
