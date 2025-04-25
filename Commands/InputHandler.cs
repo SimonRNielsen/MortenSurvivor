@@ -46,6 +46,15 @@ namespace MortenSurvivor.Commands
 
         }
 
+        public Rectangle MouseCollisionBox
+        {
+            get
+            {
+                Vector2 mousePosition = Mouse.GetState().Position.ToVector2();
+                return new Rectangle((int)mousePosition.X, (int)mousePosition.Y, 1, 1);
+            }
+        }
+
 
         public void AddUpdateCommand(Keys inputKey, ICommand command)
         {

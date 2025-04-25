@@ -21,6 +21,18 @@ namespace MortenSurvivor.Commands
         {
             if (!GameWorld.Instance.GamePaused)
             {
+                Menu activeMenu = new Menu();
+                Menu mousedOverMenu = new Menu();
+                if(GameWorld.Instance.GameMenu != null)
+                {
+                activeMenu = GameWorld.Instance.GameMenu.Find(x => x.IsActive == true);
+                }
+                if(activeMenu.relatedButtons != null)
+                {
+                Menu mousedOverMenu = activeMenu.relatedButtons.Find(x => x.MousedOver == true);
+                mousedOverMenu.SelectionEffect();
+                }
+                
                 int randomUpgrade = rnd.Next(4, 6);
                 Player.Instance.Upgrade((UpgradeType)randomUpgrade);
             }
