@@ -102,17 +102,34 @@ namespace MortenSurvivor
             random = new Random();
 
             #region Environment
+            //Midt
             gameObjects.Add(new Environment(EnvironmentTile.Center, Screensize / 2));
             gameObjects.Add(new Environment(EnvironmentTile.Left, new Vector2(-Screensize.X / 2, Screensize.Y / 2)));
             gameObjects.Add(new Environment(EnvironmentTile.Right, new Vector2(Screensize.X * 1.5f, Screensize.Y / 2)));
 
+            //Top
             gameObjects.Add(new Environment(EnvironmentTile.TopLeft, -Screensize / 2));
             gameObjects.Add(new Environment(EnvironmentTile.TopRight, new Vector2(Screensize.X * 1.5f, -Screensize.Y / 2)));
             gameObjects.Add(new Environment(EnvironmentTile.Top, new Vector2(Screensize.X / 2, -Screensize.Y / 2)));
 
+            //Bottom
             gameObjects.Add(new Environment(EnvironmentTile.BottomLeft, new Vector2(-Screensize.X / 2, Screensize.Y * 1.5f)));
             gameObjects.Add(new Environment(EnvironmentTile.BottomRight, new Vector2(Screensize.X * 1.5f, Screensize.Y * 1.5f)));
             gameObjects.Add(new Environment(EnvironmentTile.Bottom, new Vector2(Screensize.X / 2, Screensize.Y * 1.5f)));
+
+            //AvSurface
+            gameObjects.Add(new Environment(EnvironmentTile.AvSurface, new Vector2(-900, Screensize.Y * 2f - 20)));
+            gameObjects.Add(new Environment(EnvironmentTile.AvSurface, new Vector2(-900 + 3586 * 0.6f, Screensize.Y * 2f - 20)));
+            gameObjects.Add(new Environment(EnvironmentTile.AvSurface, new Vector2(-900 + 3586 * 2 * 0.6f, Screensize.Y * 2f - 20)));
+
+            //Firepit
+            gameObjects.Add(new Environment(EnvironmentTile.Firepit, Vector2.Zero));
+            gameObjects.Add(new Environment(EnvironmentTile.Firepit, Screensize * 1.2f));
+            gameObjects.Add(new Environment(EnvironmentTile.Firepit, new Vector2(2000, 1700)));
+            gameObjects.Add(new Environment(EnvironmentTile.Firepit, new Vector2(400, 1800)));
+            gameObjects.Add(new Environment(EnvironmentTile.Firepit, new Vector2(-50, 160)));
+            gameObjects.Add(new Environment(EnvironmentTile.Firepit, new Vector2(Screensize.X * 1.2f, 900)));
+
             #endregion
 
             gameObjects.Add(Player.Instance);
@@ -124,6 +141,10 @@ namespace MortenSurvivor
             InputHandler.Instance.AddButtonDownCommand(Keys.Escape, new ExitCommand());
             InputHandler.Instance.AddButtonDownCommand(Keys.U, new SelectCommand());
             InputHandler.Instance.AddButtonDownCommand(Keys.P, new PauseCommand());
+            InputHandler.Instance.AddButtonDownCommand(Keys.M, new MuteCommand());
+
+            MediaPlayer.IsRepeating = true;
+            MediaPlayer.Play(Music[MusicTrack.BattleMusic]);
 
             status = new Status();
             Attach(status); //subscribes to observer
@@ -159,12 +180,11 @@ namespace MortenSurvivor
                     DoCollisionCheck(gameObject);
                 }
 
-
-                //Spawne nye gæs
-
-                SpawnEnemies();
+            //Spawne nye gæs
+            SpawnEnemies();
 
                 CleanUp();
+
             }
 
             status.Update(gameTime);
@@ -185,9 +205,9 @@ namespace MortenSurvivor
             foreach (GameObject gameObject in gameObjects)
                 gameObject.Draw(_spriteBatch);
 
-            if(GamePaused)
+            if (GamePaused)
             {
-                _spriteBatch.DrawString(GameFont, "Game Paused", new Vector2(Camera.Position.X-150, Camera.Position.Y+50), Color.Red, 0, Vector2.Zero, 2, SpriteEffects.None, 1);
+                _spriteBatch.DrawString(GameFont, "Game Paused", new Vector2(Camera.Position.X - 150, Camera.Position.Y + 50), Color.Red, 0, Vector2.Zero, 2, SpriteEffects.None, 1);
             }
 
             status.Draw(_spriteBatch);
@@ -275,6 +295,16 @@ namespace MortenSurvivor
 
             Texture2D[] BottomRight = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\tile9") };
             Sprites.Add(EnvironmentTile.BottomRight, BottomRight);
+
+            Texture2D[] firepit = new Texture2D[4];
+            for (int i = 0; i < firepit.Length; i++)
+            {
+                firepit[i] = Content.Load<Texture2D>($"Sprites\\Environment\\firepit{i}");
+            }
+            Sprites.Add(EnvironmentTile.Firepit, firepit);
+
+            Texture2D[] Stone = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\stone") };
+            Sprites.Add(EnvironmentTile.Stone, Stone);
 
             #endregion
             #region Status
@@ -527,7 +557,7 @@ namespace MortenSurvivor
                 //Nulstiller timer
                 lastSpawnEnemy = 0f;
 
-                Debug.WriteLine("Spawner enemy");
+                //Debug.WriteLine("Spawner enemy");
             }
 
             //Spawner Goosifer med sin egen timer
@@ -537,7 +567,7 @@ namespace MortenSurvivor
 
                 lastSpawnGoosifer = 0f;
 
-                Debug.WriteLine("Spawn goosifer");
+                //Debug.WriteLine("Spawn goosifer");
             }
         }
 
@@ -546,12 +576,28 @@ namespace MortenSurvivor
             if (gamePaused)
             {
                 gamePaused = false;
+                MediaPlayer.Play(Music[MusicTrack.BattleMusic]);
             }
             else
             {
                 gamePaused = true;
+                MediaPlayer.Play(Music[MusicTrack.BackgroundMusic]);
             }
 
+        }
+
+        public void Mute()
+        {
+            if (MediaPlayer.IsMuted)
+            {
+                SoundEffect.MasterVolume = 1;
+                MediaPlayer.IsMuted = false;
+            }
+            else
+            {
+                SoundEffect.MasterVolume = 0;
+                MediaPlayer.IsMuted = true;
+            }
         }
 
         #region Observer

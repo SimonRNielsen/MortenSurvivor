@@ -16,17 +16,17 @@ namespace MortenSurvivor
 {
     public class Enemy : Character
     {
-
         #region Fields
 
         private IState<Enemy> currentState;
         private IState<Enemy> originalState;
         private int damage;
         private float damageTimer;
-        private float damageGracePeriod;
+        private float damageGracePeriod = 2f;
         private Color originalColor;
 
         #endregion
+
         #region Properties
 
         public int Damage { get => damage; }
@@ -58,6 +58,7 @@ namespace MortenSurvivor
         public Color OriginalColor { get => originalColor; }
 
         #endregion
+
         #region Constructor
 
         /// <summary>
@@ -71,38 +72,51 @@ namespace MortenSurvivor
             originalState = new ChaseState(this);
             currentState = originalState;
 
+            Types(type);
+
+            drawColor = originalColor;
+        }
+
+        #endregion
+        #region Methods
+
+        public void Types(Enum type)
+        {
+            damage = 1;
+            
             switch (type)
             {
                 case EnemyType.Slow:
                     speed = 125f;
                     originalColor = Color.White;
+                    health = 1;
                     break;
                 case EnemyType.SlowChampion:
                     speed = 125f;
                     originalColor = Color.SlateGray;
+                    health = 2;
                     break;
                 case EnemyType.Fast:
                     speed = 200f;
                     originalColor = Color.White;
+                    health = 1;
                     break;
                 case EnemyType.FastChampion:
                     speed = 200f;
                     originalColor = Color.SlateGray;
+                    health = 2;
                     break;
                 case EnemyType.Goosifer:
                     speed = 165f;
                     originalColor = Color.White;
+                    health = 8;
+                    damage = 3;
                     break;
                 default:
                     break;
             }
-
-            drawColor = originalColor;
-
         }
 
-        #endregion
-        #region Methods
 
         /// <summary>
         /// Kører State's "Execute" metode og base.Update der står for animation
@@ -114,6 +128,9 @@ namespace MortenSurvivor
             if (currentState != null)
                 currentState.Execute();
 
+            //damageTimer til OnCollision
+            damageTimer += GameWorld.Instance.DeltaTime;
+            
             base.Update(gameTime);
 
         }
@@ -156,6 +173,22 @@ namespace MortenSurvivor
 
         public override void OnCollision(GameObject other)
         {
+
+            if (damageTimer > damageGracePeriod)
+            {
+                //Player tager sakde
+                Player.Instance.CurrentHealth = Player.Instance.CurrentHealth - damage;
+
+                Debug.WriteLine(Player.Instance.CurrentHealth);
+
+                //Player tager skade sounds
+                GameWorld.Instance.Sounds[Sound.PlayerTakeDamage].Play();
+
+                //Enemy tager en skade, når de angriber Player
+                CurrentHealth--;
+
+                damageTimer = 0;
+            }
 
             base.OnCollision(other);
 

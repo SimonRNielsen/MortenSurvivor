@@ -37,6 +37,8 @@ namespace MortenSurvivor
         #endregion
         private Weapon weapon;
         private List<Weapon> weapons = new List<Weapon>();
+        private float walkTimer;
+        private SoundEffect currentWalkSound;
 
         #endregion
         #region Properties
@@ -55,6 +57,8 @@ namespace MortenSurvivor
             weapon = new Weapon(WeaponType.Sling);
             weapons.Add(weapon);
             layer = 0.9f;
+
+            health = 10;
         }
 
         #endregion
@@ -63,12 +67,6 @@ namespace MortenSurvivor
 
         public void Move(Vector2 velocity)
         {
-            if (velocity != Vector2.Zero)
-            {
-                velocity.Normalize();
-            }
-            Position += velocity * speed * GameWorld.Instance.DeltaTime;
-
             this.velocity = velocity;
 
             if (velocity.Y == 0)
@@ -81,6 +79,25 @@ namespace MortenSurvivor
                         spriteEffect = SpriteEffects.None;
                         break;
                 }
+
+            switch (velocity)
+            {
+                case (1, 0) when Position.X >= 3800:
+                case (-1, 0) when Position.X <= -1860:
+                case (0, 1) when Position.Y >= 2110:
+                case (0, -1) when Position.Y <= -1000:
+                    velocity = Vector2.Zero;
+                    break;
+                default:
+                    break;
+            }
+
+            if (velocity != Vector2.Zero)
+            {
+                velocity.Normalize();
+            }
+            Position += velocity * speed * GameWorld.Instance.DeltaTime;
+            PlayWalkSound();
         }
 
 
@@ -89,7 +106,7 @@ namespace MortenSurvivor
             foreach (Weapon weapon in weapons)
             {
                 GameWorld.Instance.SpawnObject(ProjectileFactory.Instance.Create(weapon.WeaponProjectile));
-
+                GameWorld.Instance.Sounds[weapon.WeaponSoundEffect].Play();
             }
 
         }
@@ -99,6 +116,7 @@ namespace MortenSurvivor
         {
 
             GameWorld.Instance.Camera.Position = Position;
+            walkTimer += GameWorld.Instance.DeltaTime;
 
             base.Update(gameTime); //Skal blive for at animationen kører
 
@@ -107,7 +125,7 @@ namespace MortenSurvivor
 
         public override void OnCollision(GameObject other)
         {
-
+                       
             base.OnCollision(other);
 
         }
@@ -149,6 +167,33 @@ namespace MortenSurvivor
                     break;
             }
 
+        }
+
+        public void PlayWalkSound()
+        {
+            if (walkTimer > 0.4f)
+            {   
+                walkTimer = 0;
+                if (currentWalkSound == GameWorld.Instance.Sounds[Sound.PlayerWalk2])
+                {
+                    GameWorld.Instance.Sounds[Sound.PlayerWalk1].Play();
+                    currentWalkSound = GameWorld.Instance.Sounds[Sound.PlayerWalk1];
+                }
+                else
+                {
+                    GameWorld.Instance.Sounds[Sound.PlayerWalk2].Play();
+                    currentWalkSound = GameWorld.Instance.Sounds[Sound.PlayerWalk2];
+                }
+            }
+        }
+
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+
+            base.Draw(spriteBatch);
+#if DEBUG
+            //spriteBatch.DrawString(GameWorld.Instance.GameFont, $"X:{Position.X}\nY:{Position.Y}", GameWorld.Instance.Camera.Position - (GameWorld.Instance.Screensize / 8), Color.Black, 0f, Vector2.Zero, 1f, SpriteEffects.None, 1f);
+#endif
         }
 
         #endregion
