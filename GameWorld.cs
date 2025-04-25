@@ -143,6 +143,10 @@ namespace MortenSurvivor
             InputHandler.Instance.AddButtonDownCommand(Keys.Escape, new ExitCommand());
             InputHandler.Instance.AddButtonDownCommand(Keys.U, new SelectCommand());
             InputHandler.Instance.AddButtonDownCommand(Keys.P, new PauseCommand());
+            InputHandler.Instance.AddButtonDownCommand(Keys.M, new MuteCommand());
+
+            MediaPlayer.IsRepeating = true;
+            MediaPlayer.Play(Music[MusicTrack.BattleMusic]);
 
             status = new Status();
             Attach(status); //subscribes to observer
@@ -182,6 +186,7 @@ namespace MortenSurvivor
                 SpawnEnemies();
 
                 CleanUp();
+
             }
             else
                 foreach (Menu item in GameMenu)
@@ -299,12 +304,15 @@ namespace MortenSurvivor
             Texture2D[] BottomRight = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\tile9") };
             Sprites.Add(EnvironmentTile.BottomRight, BottomRight);
 
-            Texture2D[] firepit = new Texture2D[3];
+            Texture2D[] firepit = new Texture2D[4];
             for (int i = 0; i < firepit.Length; i++)
             {
                 firepit[i] = Content.Load<Texture2D>($"Sprites\\Environment\\firepit{i}");
             }
             Sprites.Add(EnvironmentTile.Firepit, firepit);
+
+            Texture2D[] Stone = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Environment\\stone") };
+            Sprites.Add(EnvironmentTile.Stone, Stone);
 
             #endregion
             #region Menu
@@ -554,7 +562,7 @@ namespace MortenSurvivor
                 //Nulstiller timer
                 lastSpawnEnemy = 0f;
 
-                Debug.WriteLine("Spawner enemy");
+                //Debug.WriteLine("Spawner enemy");
             }
 
             //Spawner Goosifer med sin egen timer
@@ -564,7 +572,7 @@ namespace MortenSurvivor
 
                 lastSpawnGoosifer = 0f;
 
-                Debug.WriteLine("Spawn goosifer");
+                //Debug.WriteLine("Spawn goosifer");
             }
         }
 
@@ -573,14 +581,28 @@ namespace MortenSurvivor
             if (gamePaused)
             {
                 gamePaused = false;
+                MediaPlayer.Play(Music[MusicTrack.BattleMusic]);
             }
             else
             {
                 gamePaused = true;
+                MediaPlayer.Play(Music[MusicTrack.BackgroundMusic]);
             }
 
         }
 
+        public void Mute()
+        {
+            if (MediaPlayer.IsMuted)
+            {
+                SoundEffect.MasterVolume = 1;
+                MediaPlayer.IsMuted = false;
+            }
+            else
+            {
+                SoundEffect.MasterVolume = 0;
+                MediaPlayer.IsMuted = true;
+            }
 
         public void Restart()
         {

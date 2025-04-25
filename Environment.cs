@@ -24,7 +24,6 @@ namespace MortenSurvivor
         protected float speed;
         protected float elapsedTime;
         protected float fps = 7;
-        //protected int health = 1;
         protected int currentHealth;
         protected int currentIndex;
         protected Vector2 velocity;
@@ -86,6 +85,9 @@ namespace MortenSurvivor
                 case EnvironmentTile.Firepit:
                     layer = 0.2f;
                     scale = 0.8f;
+                    break;
+                case EnvironmentTile.Stone:
+                    layer = 0.2f;
                     break;
                 default:
                     break;

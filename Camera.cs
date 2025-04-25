@@ -55,7 +55,7 @@ namespace MortenSurvivor
                 }
                 switch(value.Y)
                 {
-                    case > 2160 - screenHalfY:
+                    case > 2240 - screenHalfY:
                         newPos.Y = 2240 - screenHalfY;
                         break;
                     case < -1080 + screenHalfY:

@@ -37,6 +37,8 @@ namespace MortenSurvivor
         #endregion
         private Weapon weapon;
         private List<Weapon> weapons = new List<Weapon>();
+        private float walkTimer;
+        private SoundEffect currentWalkSound;
 
         #endregion
         #region Properties
@@ -55,6 +57,8 @@ namespace MortenSurvivor
             weapon = new Weapon(WeaponType.Sling);
             weapons.Add(weapon);
             layer = 0.9f;
+
+            health = 10;
         }
 
         #endregion
@@ -94,7 +98,7 @@ namespace MortenSurvivor
                 velocity.Normalize();
             }
             Position += velocity * speed * GameWorld.Instance.DeltaTime;
-
+            PlayWalkSound();
         }
 
 
@@ -103,7 +107,7 @@ namespace MortenSurvivor
             foreach (Weapon weapon in weapons)
             {
                 GameWorld.Instance.SpawnObject(ProjectileFactory.Instance.Create(weapon.WeaponProjectile));
-
+                GameWorld.Instance.Sounds[weapon.WeaponSoundEffect].Play();
             }
 
         }
@@ -113,6 +117,7 @@ namespace MortenSurvivor
         {
 
             GameWorld.Instance.Camera.Position = Position;
+            walkTimer += GameWorld.Instance.DeltaTime;
 
             base.Update(gameTime); //Skal blive for at animationen kører
 
@@ -121,7 +126,7 @@ namespace MortenSurvivor
 
         public override void OnCollision(GameObject other)
         {
-
+                       
             base.OnCollision(other);
 
         }
@@ -167,6 +172,24 @@ namespace MortenSurvivor
                     break;
             }
 
+        }
+
+        public void PlayWalkSound()
+        {
+            if (walkTimer > 0.4f)
+            {   
+                walkTimer = 0;
+                if (currentWalkSound == GameWorld.Instance.Sounds[Sound.PlayerWalk2])
+                {
+                    GameWorld.Instance.Sounds[Sound.PlayerWalk1].Play();
+                    currentWalkSound = GameWorld.Instance.Sounds[Sound.PlayerWalk1];
+                }
+                else
+                {
+                    GameWorld.Instance.Sounds[Sound.PlayerWalk2].Play();
+                    currentWalkSound = GameWorld.Instance.Sounds[Sound.PlayerWalk2];
+                }
+            }
         }
 
         public override void Draw(SpriteBatch spriteBatch)
