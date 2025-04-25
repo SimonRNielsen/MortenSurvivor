@@ -407,8 +407,11 @@ namespace MortenSurvivor
             Texture2D[] mitre = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Objects\\mitre") };
             Sprites.Add(UpgradeType.Mitre, mitre);
 
+            Texture2D[] potion = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Objects\\potion") };
+            Sprites.Add(UpgradeType.GeesusBlood, potion);
+
             Texture2D[] healBoost = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Objects\\wallTurkey") };
-            Sprites.Add(UpgradeType.GeesusBlood, healBoost);
+            Sprites.Add(ItemType.HealBoost, healBoost);
 
             Texture2D[] rosary = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Objects\\rosary") };
             Sprites.Add(ItemType.Rosary, rosary);
