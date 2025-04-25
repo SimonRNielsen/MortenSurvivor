@@ -66,9 +66,9 @@ namespace MortenSurvivor.CreationalPatterns.Factories
         public Vector2 SetPosition()
         {
             //Enemies spawner kan spawne fra et tilfældigt hjørne
-            int rndPosition = GameWorld.Instance.Random.Next(1, 6);
+            int rndPosition = GameWorld.Instance.Random.Next(1, 7);
 
-            //int rndPosition = 4;
+            //int rndPosition = 6;
 
             int yPosition = GameWorld.Instance.Random.Next((int)-GameWorld.Instance.Screensize.Y, (int)GameWorld.Instance.Screensize.Y * 2);
             int xPosition = GameWorld.Instance.Random.Next((int)-GameWorld.Instance.Screensize.X, (int)GameWorld.Instance.Screensize.X * 2);
@@ -90,6 +90,9 @@ namespace MortenSurvivor.CreationalPatterns.Factories
                     break;
                 case 5: //Rigth
                     position = new Vector2(GameWorld.Instance.Screensize.X * 2, yPosition);
+                    break;
+                case 6: //Spawner fra en nest
+                    this.position = new Vector2(-50, 160);
                     break;
             }
 

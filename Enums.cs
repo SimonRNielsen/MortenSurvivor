@@ -30,9 +30,9 @@
     public enum UpgradeType
     {
 
-        Mitre,
-        WallGoose,
         PopeStaff,
+        Mitre,
+        GeesusBlood,
         GeasterEgg
 
     }
@@ -41,6 +41,8 @@
     public enum ItemType
     {
 
+        Rosary,
+        Bible,
         XPCrystal,
         DamageBoost,
         SpeedBoost,
@@ -86,7 +88,10 @@
         AvSurface,
         Room,
         Firepit,
-        Stone
+        Stone,
+        HayStack,
+        Hay,
+        Nest
 
     }
 
@@ -126,7 +131,12 @@
 
         StackableButton,
         SingleButton,
-        MouseCursor
+        MouseCursor,
+        Start,
+        Pause,
+        Upgrade,
+        Loss,
+        Win
 
     }
 
