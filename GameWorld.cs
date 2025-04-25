@@ -102,6 +102,36 @@ namespace MortenSurvivor
             camera = new Camera(GraphicsDevice, GameWorld.Instance.Screensize / 2);
             random = new Random();
 
+            gameObjects.Add(Player.Instance);
+            InputHandler.Instance.AddUpdateCommand(Keys.A, new MoveCommand(Player.Instance, new Vector2(-1, 0))); //Move left
+            InputHandler.Instance.AddUpdateCommand(Keys.D, new MoveCommand(Player.Instance, new Vector2(1, 0))); //Move right
+            InputHandler.Instance.AddUpdateCommand(Keys.W, new MoveCommand(Player.Instance, new Vector2(0, -1))); //Move  up
+            InputHandler.Instance.AddUpdateCommand(Keys.S, new MoveCommand(Player.Instance, new Vector2(0, 1))); //Move down
+            InputHandler.Instance.AddOncePerCountdownCommand(MouseKeys.LeftButton, new ShootCommand(Player.Instance)); //Shoot on mouseclick or hold
+            InputHandler.Instance.AddButtonDownCommand(Keys.Escape, new ExitCommand());
+            InputHandler.Instance.AddButtonDownCommand(MouseKeys.LeftButton, new SelectCommand());
+            InputHandler.Instance.AddButtonDownCommand(Keys.P, new PauseCommand());
+            InputHandler.Instance.AddButtonDownCommand(Keys.M, new MuteCommand());
+            InputHandler.Instance.AddButtonDownCommand(Keys.U, new UpgradeCommand());
+
+            MediaPlayer.IsRepeating = true;
+            MediaPlayer.Play(Music[MusicTrack.BattleMusic]);
+
+            //Attach( new Status()); //subscribes to observer
+            //ResetObservers();
+
+            base.Initialize();
+
+        }
+
+
+        protected override void LoadContent()
+        {
+
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
+            Menu.CreateMenus();
+            status = new Status();
+
             #region Environment
             //Midt
             gameObjects.Add(new Environment(EnvironmentTile.Center, Screensize / 2));
@@ -142,7 +172,7 @@ namespace MortenSurvivor
             //Hay stack
             gameObjects.Add(new Environment(EnvironmentTile.HayStack, new Vector2(89, 1335)));
             gameObjects.Add(new Environment(EnvironmentTile.HayStack, new Vector2(-1175, 154)));
-            gameObjects.Add(new Environment(EnvironmentTile.HayStack, new Vector2(3000,625)));
+            gameObjects.Add(new Environment(EnvironmentTile.HayStack, new Vector2(3000, 625)));
             gameObjects.Add(new Environment(EnvironmentTile.HayStack, new Vector2(-770, -885)));
             gameObjects.Add(new Environment(EnvironmentTile.HayStack, new Vector2(3570, 1075)));
 
@@ -167,36 +197,6 @@ namespace MortenSurvivor
 
 
             #endregion
-
-            gameObjects.Add(Player.Instance);
-            InputHandler.Instance.AddUpdateCommand(Keys.A, new MoveCommand(Player.Instance, new Vector2(-1, 0))); //Move left
-            InputHandler.Instance.AddUpdateCommand(Keys.D, new MoveCommand(Player.Instance, new Vector2(1, 0))); //Move right
-            InputHandler.Instance.AddUpdateCommand(Keys.W, new MoveCommand(Player.Instance, new Vector2(0, -1))); //Move  up
-            InputHandler.Instance.AddUpdateCommand(Keys.S, new MoveCommand(Player.Instance, new Vector2(0, 1))); //Move down
-            InputHandler.Instance.AddOncePerCountdownCommand(MouseKeys.LeftButton, new ShootCommand(Player.Instance)); //Shoot on mouseclick or hold
-            InputHandler.Instance.AddButtonDownCommand(Keys.Escape, new ExitCommand());
-            InputHandler.Instance.AddButtonDownCommand(MouseKeys.LeftButton, new SelectCommand());
-            InputHandler.Instance.AddButtonDownCommand(Keys.P, new PauseCommand());
-            InputHandler.Instance.AddButtonDownCommand(Keys.M, new MuteCommand());
-            InputHandler.Instance.AddButtonDownCommand(Keys.U, new UpgradeCommand());
-
-            MediaPlayer.IsRepeating = true;
-            MediaPlayer.Play(Music[MusicTrack.BattleMusic]);
-
-            //Attach( new Status()); //subscribes to observer
-            //ResetObservers();
-
-            base.Initialize();
-
-        }
-
-
-        protected override void LoadContent()
-        {
-
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
-            Menu.CreateMenus();
-            status = new Status();
 
             foreach (GameObject gameObject in gameObjects)
                 gameObject.Load();
