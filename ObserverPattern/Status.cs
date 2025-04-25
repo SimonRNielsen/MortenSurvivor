@@ -22,12 +22,12 @@ namespace MortenSurvivor.ObserverPattern
         private int playerHealth = 0;
         private int levelUp = 1;
         private int upgradeCount = 0; // Will be implemented if there is time
-        private Texture2D sprite;
         private float layer;
         private float elapsedTime = 0f;
+        //private Texture2D spritesHealth;
 
-        public Texture2D Sprite { get => sprite; set => sprite = value; }
         public float Layer { get => layer; set => layer = value; }
+        //public Texture2D SpritesHealth { get => spritesHealth; set => spritesHealth = value; }
 
         #endregion
         #region Properties
@@ -73,22 +73,44 @@ namespace MortenSurvivor.ObserverPattern
                 spriteBatch.Draw(sprite, new Vector2(GameWorld.Instance.Camera.Position.X - 830, GameWorld.Instance.Camera.Position.Y - 508), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 1f);
             }
 
-            // Hent og tegn sprite 
-            if (GameWorld.Instance.Sprites.TryGetValue(StatusType.HealthUpdate, out Texture2D[] spritesHealth))
+            // Hent og tegn sprite healthbar
+            if (GameWorld.Instance.Sprites.TryGetValue(StatusType.HealthTop, out Texture2D[] sprites1))
             {
-                Texture2D sprite = sprites[0]; // Der er kun én i dit array
-                spriteBatch.Draw(sprite, new Vector2(-600, -270), Color.White);
+                Texture2D healthSprite = sprites1[0]; // Der er kun én i dit array
+                spriteBatch.Draw(healthSprite, new Vector2(GameWorld.Instance.Camera.Position.X-60, GameWorld.Instance.Camera.Position.Y - 80), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 1f);
+            }
+
+            // Hent og tegn sprite healthbar
+            if (GameWorld.Instance.Sprites.TryGetValue(StatusType.HealthBottom, out Texture2D[] sprites2))
+            {
+                Texture2D healthSprite2 = sprites2[0]; // Der er kun én i dit array
+                spriteBatch.Draw(healthSprite2, new Vector2(GameWorld.Instance.Camera.Position.X - 60, GameWorld.Instance.Camera.Position.Y - 80), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 1f);
+            }
+
+
+            // Hent og tegn sprite XP bar
+            if (GameWorld.Instance.Sprites.TryGetValue(StatusType.BarBottom, out Texture2D[] spritesXP))
+            {
+                Texture2D spriteXpBar = spritesXP[0]; // Der er kun én i dit array
+                spriteBatch.Draw(spriteXpBar, new Vector2(GameWorld.Instance.Camera.Position.X - 910, GameWorld.Instance.Camera.Position.Y - 500), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.8f);
             }
 
             // Hent og tegn sprite
-            if (GameWorld.Instance.Sprites.TryGetValue(StatusType.XpUp, out Texture2D[] spritesXP))
+            if (GameWorld.Instance.Sprites.TryGetValue(StatusType.BarViolet, out Texture2D[] spritesXP1))
             {
-                Texture2D sprite = sprites[0]; // Der er kun én i dit array
-                spriteBatch.Draw(sprite, new Vector2(-600, -270), Color.White);
+                Texture2D spriteXpBar1 = spritesXP1[0]; // Der er kun én i dit array
+                spriteBatch.Draw(spriteXpBar1, new Vector2(GameWorld.Instance.Camera.Position.X - 910, GameWorld.Instance.Camera.Position.Y - 500), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.9f);
+            }
+
+            // Hent og tegn sprite
+            if (GameWorld.Instance.Sprites.TryGetValue(StatusType.BarTop, out Texture2D[] spritesXP3))
+            {
+                Texture2D spriteBar2 = spritesXP3[0]; // Der er kun én i dit array
+                spriteBatch.Draw(spriteBar2, new Vector2(GameWorld.Instance.Camera.Position.X - 910, GameWorld.Instance.Camera.Position.Y - 500), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 1f);
             }
 
 
-            
+
         }
 
 

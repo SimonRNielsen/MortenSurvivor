@@ -145,7 +145,9 @@
         EnemiesKilled,
         BarTop,
         BarViolet,
-        BarBottom
+        BarBottom, 
+        HealthBottom,
+        HealthTop
     }
 
 }

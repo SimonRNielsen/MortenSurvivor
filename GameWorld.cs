@@ -286,6 +286,12 @@ namespace MortenSurvivor
 
             Texture2D[] barBottom = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Objects\\barBottom") };
             Sprites.Add(StatusType.BarBottom, barBottom);
+
+            Texture2D[] healthBottom = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Objects\\healthBot") };
+            Sprites.Add(StatusType.HealthBottom, healthBottom);
+
+            Texture2D[] healthTop = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Objects\\healthTop") };
+            Sprites.Add(StatusType.HealthTop, healthTop);
             #endregion
             #region Menu
 
