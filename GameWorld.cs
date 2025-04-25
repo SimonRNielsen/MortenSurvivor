@@ -101,7 +101,6 @@ namespace MortenSurvivor
             SetScreenSize(Screensize);
             camera = new Camera(GraphicsDevice, GameWorld.Instance.Screensize / 2);
             random = new Random();
-            Menu.CreateMenus();
 
             #region Environment
             //Midt
@@ -184,7 +183,6 @@ namespace MortenSurvivor
             MediaPlayer.IsRepeating = true;
             MediaPlayer.Play(Music[MusicTrack.BattleMusic]);
 
-            status = new Status();
             //Attach( new Status()); //subscribes to observer
             //ResetObservers();
 
@@ -197,6 +195,8 @@ namespace MortenSurvivor
         {
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+            Menu.CreateMenus();
+            status = new Status();
 
             foreach (GameObject gameObject in gameObjects)
                 gameObject.Load();
@@ -669,7 +669,11 @@ namespace MortenSurvivor
         public void Restart()
         {
 
-
+            gameObjects.Clear();
+            newGameObjects.Clear();
+            GameMenu.Clear();
+            SpawnObject(Player.Instance);
+            LoadContent();
 
         }
 
