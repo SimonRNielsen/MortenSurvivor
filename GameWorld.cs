@@ -696,6 +696,7 @@ namespace MortenSurvivor
         {
             listeners.Remove(observer);
         }
+
         public void Notify(StatusType statusType)
         {
             foreach (IObserver observer in listeners)
@@ -704,7 +705,6 @@ namespace MortenSurvivor
             }
         }
 
-       
         #endregion
 
 

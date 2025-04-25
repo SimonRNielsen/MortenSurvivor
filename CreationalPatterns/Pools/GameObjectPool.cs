@@ -60,7 +60,6 @@ namespace MortenSurvivor.CreationalPatterns.Pools
         {
             if (gameObject is Enemy)
             {
-                GameWorld.Instance.Notify(StatusType.EnemiesKilled);
                 gameObject = new EnemyFactory().Create();
             }
 

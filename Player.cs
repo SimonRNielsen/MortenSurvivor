@@ -34,14 +34,17 @@ namespace MortenSurvivor
             }
         }
 
+
         #endregion
         private Weapon weapon;
         private List<Weapon> weapons = new List<Weapon>();
         private float walkTimer;
         private SoundEffect currentWalkSound;
+        private float xpCounter;
 
         #endregion
         #region Properties
+        public float XpCounter { get => xpCounter; set => xpCounter = value; }
 
 
 
@@ -59,6 +62,7 @@ namespace MortenSurvivor
             layer = 0.9f;
 
             health = 10; //Sæt tilbage til 10
+            
         }
 
         #endregion

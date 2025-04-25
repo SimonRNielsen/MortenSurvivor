@@ -43,6 +43,7 @@ namespace MortenSurvivor
 
                 currentHealth = value;
 
+
                 if (currentHealth <= 0)
                 {
                     IsAlive = false;
@@ -53,6 +54,12 @@ namespace MortenSurvivor
                         GameWorld.Instance.Notify(StatusType.EnemiesKilled);
                     }
 
+                }
+
+                if (currentHealth != value)
+                {
+                    currentHealth = value;
+                    GameWorld.Instance.Notify(StatusType.HealthUpdate);
                 }
 
             }
