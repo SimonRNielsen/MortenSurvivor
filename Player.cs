@@ -139,6 +139,8 @@ namespace MortenSurvivor
             switch (upgradeType)
             {
                 case UpgradeType.Mitre:
+                    this.speed += 50f;
+                    Debug.WriteLine("Speed increased by 50");
                     break;
                 //case UpgradeType.Bible:
                 //    break;
@@ -154,19 +156,20 @@ namespace MortenSurvivor
                     }
                     else
                     {
-                        Debug.WriteLine("Weapon already exists");
+                        ProjectileFactory.Instance.MagicPrototype.Damage += 1;
+                        Debug.WriteLine("PopeStaff damage increased by 1!");
                     }
                     break;
                 case UpgradeType.GeasterEgg:
                     if (!weapons.Contains(weapons.Find(x => x.Type == WeaponType.GeasterSling)))
                     {
                         weapons.Add(new Weapon(WeaponType.GeasterSling));
-
                         Debug.WriteLine("GeasterSling added");
                     }
                     else
                     {
-                        Debug.WriteLine("Weapon already exists");
+                        ProjectileFactory.Instance.GeasterEggPrototype.Damage += 1;
+                        Debug.WriteLine("GeasterEgg damage increased by 1!");
                     }
                     break;
             }
