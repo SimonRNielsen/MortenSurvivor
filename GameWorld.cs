@@ -677,7 +677,6 @@ namespace MortenSurvivor
             GameMenu.Clear();
             SpawnObject(Player.Instance);
             LoadContent();
-
         }
 
 
