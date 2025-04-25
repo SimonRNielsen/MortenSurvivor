@@ -141,10 +141,10 @@
 
     public enum StatusType
     {
+        EnemiesKilled,
         XpUp,
         LevelUp,
         HealthUpdate,
-        EnemiesKilled,
         BarTop,
         BarViolet,
         BarBottom, 

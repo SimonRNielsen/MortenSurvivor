@@ -147,7 +147,8 @@ namespace MortenSurvivor
             MediaPlayer.Play(Music[MusicTrack.BattleMusic]);
 
             status = new Status();
-            Attach(status); //subscribes to observer
+            //Attach( new Status()); //subscribes to observer
+            //ResetObservers();
 
             base.Initialize();
 
@@ -308,8 +309,6 @@ namespace MortenSurvivor
 
             #endregion
             #region Status
-            Texture2D[] barTop = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Objects\\barTop") };
-            Sprites.Add(StatusType.BarTop, barTop);
 
             Texture2D[] barViolet = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Objects\\barViolet") };
             Sprites.Add(StatusType.BarViolet, barViolet);
@@ -617,6 +616,8 @@ namespace MortenSurvivor
                 observer.OnNotify(statusType);
             }
         }
+
+       
         #endregion
 
 

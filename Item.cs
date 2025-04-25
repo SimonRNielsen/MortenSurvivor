@@ -16,20 +16,6 @@ namespace MortenSurvivor
 {
     public class Item : GameObject
     {
-        //public enum ItemType
-        //{
-
-        //    XPCrystal,
-        //    DamageBoost,
-        //    SpeedBoost,
-        //    HealBoost,
-        //    ConfuseEnemy,
-        //    ScareEnemy
-
-        //}
-
-        ////Notifies Status about when an enemy is killed
-        //GameWorld.Instance.Notify(StatusType.EnemiesKilled);
 
         private int xpUp; //xpcrystal
         private int healUp; //roast goode

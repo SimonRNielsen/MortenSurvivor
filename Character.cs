@@ -49,11 +49,12 @@ namespace MortenSurvivor
                     if (this is Enemy)
                     {
                         GameWorld.Instance.Sounds[Sound.EnemyHonk].Play();
+                        //Notifies Status about when an enemy is killed
+                        GameWorld.Instance.Notify(StatusType.EnemiesKilled);
                     }
+
                 }
 
-                //Notifies Status about when an enemy is killed
-                GameWorld.Instance.Notify(StatusType.EnemiesKilled);
             }
 
         }

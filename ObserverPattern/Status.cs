@@ -18,7 +18,7 @@ namespace MortenSurvivor.ObserverPattern
     {
         #region Fields
         private int xpCounter = 0;
-        private int enemiesKilled = 0;
+        private int kills = 0;
         private int playerHealth = 0;
         private int levelUp = 1;
         private int upgradeCount = 0; // Will be implemented if there is time
@@ -27,6 +27,8 @@ namespace MortenSurvivor.ObserverPattern
         //private Texture2D spritesHealth;
 
         public float Layer { get => layer; set => layer = value; }
+        public int Kills { get => kills; set => kills = value; }
+
         //public Texture2D SpritesHealth { get => spritesHealth; set => spritesHealth = value; }
 
         #endregion
@@ -45,8 +47,10 @@ namespace MortenSurvivor.ObserverPattern
         public void Update(GameTime gameTime)
         {
             elapsedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            playerHealth = Player.Instance.CurrentHealth;
+
         }
-        
+
 
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -59,7 +63,7 @@ namespace MortenSurvivor.ObserverPattern
 
 
             spriteBatch.DrawString(GameWorld.Instance.GameFont, $"LvL: {levelUp}", new Vector2(GameWorld.Instance.Camera.Position.X - 910, GameWorld.Instance.Camera.Position.Y - 500), Color.White, 0f, Vector2.Zero, 0.15f, SpriteEffects.None, 1f);
-            spriteBatch.DrawString(GameWorld.Instance.GameFont, $"Kills: {enemiesKilled}", new Vector2(GameWorld.Instance.Camera.Position.X - 780, GameWorld.Instance.Camera.Position.Y - 500), Color.White, 0f, Vector2.Zero, 0.15f, SpriteEffects.None, 1f); //new Vector2(-550, -270)
+            spriteBatch.DrawString(GameWorld.Instance.GameFont, $"Kills: {Kills}", new Vector2(GameWorld.Instance.Camera.Position.X - 770, GameWorld.Instance.Camera.Position.Y - 500), Color.White, 0f, Vector2.Zero, 0.15f, SpriteEffects.None, 1f); //new Vector2(-550, -270)
             
             //teksten skjules, bruges bare til at se om det virker
             spriteBatch.DrawString(GameWorld.Instance.GameFont, $"Upgrades: {upgradeCount}", new Vector2(GameWorld.Instance.Camera.Position.X - 900, GameWorld.Instance.Camera.Position.Y - 120), Color.White, 0f, Vector2.Zero, 0.15f, SpriteEffects.None, 1f);
@@ -70,21 +74,7 @@ namespace MortenSurvivor.ObserverPattern
             if (GameWorld.Instance.Sprites.TryGetValue(StatusType.EnemiesKilled, out Texture2D[] sprites))
             {
                 Texture2D sprite = sprites[0]; // Der er kun én sprite i array
-                spriteBatch.Draw(sprite, new Vector2(GameWorld.Instance.Camera.Position.X - 830, GameWorld.Instance.Camera.Position.Y - 508), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 1f);
-            }
-
-            // Hent og tegn sprite healthbar
-            if (GameWorld.Instance.Sprites.TryGetValue(StatusType.HealthTop, out Texture2D[] sprites1))
-            {
-                Texture2D healthSprite = sprites1[0]; // Der er kun én i dit array
-                spriteBatch.Draw(healthSprite, new Vector2(GameWorld.Instance.Camera.Position.X-60, GameWorld.Instance.Camera.Position.Y - 80), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 1f);
-            }
-
-            // Hent og tegn sprite healthbar
-            if (GameWorld.Instance.Sprites.TryGetValue(StatusType.HealthBottom, out Texture2D[] sprites2))
-            {
-                Texture2D healthSprite2 = sprites2[0]; // Der er kun én i dit array
-                spriteBatch.Draw(healthSprite2, new Vector2(GameWorld.Instance.Camera.Position.X - 60, GameWorld.Instance.Camera.Position.Y - 80), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 1f);
+                spriteBatch.Draw(sprite, new Vector2(GameWorld.Instance.Camera.Position.X - 820, GameWorld.Instance.Camera.Position.Y - 508), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 1f);
             }
 
 
@@ -92,23 +82,34 @@ namespace MortenSurvivor.ObserverPattern
             if (GameWorld.Instance.Sprites.TryGetValue(StatusType.BarBottom, out Texture2D[] spritesXP))
             {
                 Texture2D spriteXpBar = spritesXP[0]; // Der er kun én i dit array
-                spriteBatch.Draw(spriteXpBar, new Vector2(GameWorld.Instance.Camera.Position.X - 910, GameWorld.Instance.Camera.Position.Y - 500), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.8f);
+                spriteBatch.Draw(spriteXpBar, new Vector2(GameWorld.Instance.Camera.Position.X - 910, GameWorld.Instance.Camera.Position.Y - 460), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.8f);
             }
 
-            // Hent og tegn sprite
             if (GameWorld.Instance.Sprites.TryGetValue(StatusType.BarViolet, out Texture2D[] spritesXP1))
             {
                 Texture2D spriteXpBar1 = spritesXP1[0]; // Der er kun én i dit array
-                spriteBatch.Draw(spriteXpBar1, new Vector2(GameWorld.Instance.Camera.Position.X - 910, GameWorld.Instance.Camera.Position.Y - 500), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.9f);
+                spriteBatch.Draw(spriteXpBar1, new Vector2(GameWorld.Instance.Camera.Position.X - 910, GameWorld.Instance.Camera.Position.Y - 460), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.9f);
             }
 
-            // Hent og tegn sprite
-            if (GameWorld.Instance.Sprites.TryGetValue(StatusType.BarTop, out Texture2D[] spritesXP3))
+
+            // Hent og tegn sprite healthbar
+            if (GameWorld.Instance.Sprites.TryGetValue(StatusType.HealthBottom, out Texture2D[] sprites2))
             {
-                Texture2D spriteBar2 = spritesXP3[0]; // Der er kun én i dit array
-                spriteBatch.Draw(spriteBar2, new Vector2(GameWorld.Instance.Camera.Position.X - 910, GameWorld.Instance.Camera.Position.Y - 500), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 1f);
+                Texture2D healthSprite2 = sprites2[0]; // Der er kun én i dit array
+                spriteBatch.Draw(healthSprite2, new Vector2(Player.Instance.Position.X - 60, Player.Instance.Position.Y - 80), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.9f);
             }
 
+            //Dynamisk healthbar
+            if (GameWorld.Instance.Sprites.TryGetValue(StatusType.HealthTop, out Texture2D[] fill))
+            {
+                Texture2D fillSprite = fill[0];
+
+                float healthPercent = MathHelper.Clamp(playerHealth / 10f, 0f, 1f); // max HP = 100
+                Rectangle sourceRectangle = new Rectangle(0, 0, (int)(fillSprite.Width * healthPercent), fillSprite.Height);
+                Vector2 healthBarPosition = new Vector2(Player.Instance.Position.X - 60, Player.Instance.Position.Y - 80);
+
+                spriteBatch.Draw(fillSprite, healthBarPosition, sourceRectangle, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.95f);
+            }
 
 
         }
@@ -129,8 +130,8 @@ namespace MortenSurvivor.ObserverPattern
                     HealthBar();
                     break;
                 case StatusType.EnemiesKilled:
-                    
-                    enemiesKilled += 1000;
+                    //int kage = kills++;
+                    Kills++;
                     break;
                 default:
                     break;
@@ -139,7 +140,8 @@ namespace MortenSurvivor.ObserverPattern
         }
 
         public void HealthBar()
-        { 
+        {
+            //playerHealth = Player.Instance.CurrentHealth;
             
         }
 
