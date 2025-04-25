@@ -30,11 +30,9 @@
     public enum UpgradeType
     {
 
-        Mitre,
-        Rosary,
-        Bible,
         PopeStaff,
-        WallGoose,
+        Mitre,
+        GeesusBlood,
         GeasterEgg
 
     }
@@ -43,6 +41,8 @@
     public enum ItemType
     {
 
+        Rosary,
+        Bible,
         XPCrystal,
         DamageBoost,
         SpeedBoost,

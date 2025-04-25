@@ -93,17 +93,17 @@ namespace MortenSurvivor
                 case MenuItem.Start:
                     isActive = true;
                     relatedButtons = new List<Menu>();
-                    relatedButtons.Add(new Menu(this, MenuItem.SingleButton, "Start"));
+                    relatedButtons.Add(new Menu(this, MenuItem.SingleButton, "Start", true));
                     break;
                 case MenuItem.Pause:
                     relatedButtons = new List<Menu>();
-                    relatedButtons.Add(new Menu(this, MenuItem.SingleButton, "Continue"));
+                    relatedButtons.Add(new Menu(this, MenuItem.SingleButton, "Continue", false));
                     break;
                 case MenuItem.Win:
                 case MenuItem.Loss:
                     relatedButtons = new List<Menu>();
-                    relatedButtons.Add(new Menu(this, MenuItem.SingleButton, "Restart"));
-                    relatedButtons.Add(new Menu(this, MenuItem.SingleButton, "Exit"));
+                    relatedButtons.Add(new Menu(this, MenuItem.SingleButton, "Restart", false));
+                    relatedButtons.Add(new Menu(this, MenuItem.SingleButton, "Exit", false));
                     break;
                 case MenuItem.Upgrade:
                     relatedButtons = new List<Menu>();
@@ -114,7 +114,7 @@ namespace MortenSurvivor
         }
 
 
-        public Menu(Menu parent, MenuItem type, string buttonText)
+        public Menu(Menu parent, MenuItem type, string buttonText, bool activate)
         {
 
             sprite = GameWorld.Instance.Sprites[type][0];
@@ -122,6 +122,7 @@ namespace MortenSurvivor
             this.parent = parent;
             this.type = type;
             text = buttonText;
+            isActive = activate;
 
             switch (type)
             {
@@ -190,7 +191,7 @@ namespace MortenSurvivor
                 foreach (Menu menu in relatedButtons)
                 {
                     
-                    if (menu.CollisionBox.Intersects(InputHandler.Instance.CollisionBox))
+                    if (menu.CollisionBox.Intersects(InputHandler.Instance.MouseCollisionBox))
                         menu.OnMouseOver();
 
                     menu.Update();
@@ -205,7 +206,7 @@ namespace MortenSurvivor
                 while (ints.Count < 3)
                 {
 
-                    int i = GameWorld.Instance.Random.Next(0, 4);                               // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! KIG PÅ DEN HER !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    int i = GameWorld.Instance.Random.Next(0, 5);
 
                     if (ints.Contains(i))
                         continue;
@@ -238,6 +239,9 @@ namespace MortenSurvivor
             if (isUpgrade)
             {
 
+                spriteBatch.Draw(GameWorld.Instance.Sprites[relatedButtons[0].UpgradeType][0], new Vector2(position.X - 500, position.Y - 300), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, layer + 0.02f);
+                spriteBatch.Draw(GameWorld.Instance.Sprites[relatedButtons[1].UpgradeType][0], new Vector2(position.X, position.Y - 300), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, layer + 0.02f);
+                spriteBatch.Draw(GameWorld.Instance.Sprites[relatedButtons[2].UpgradeType][0], new Vector2(position.X + 500, position.Y - 300), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, layer + 0.02f);
                 string firstChoice = SetString(relatedButtons[0].UpgradeType);
                 string secondChoice = SetString(relatedButtons[1].UpgradeType);
                 string thirdChoice = SetString(relatedButtons[2].UpgradeType);

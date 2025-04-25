@@ -136,12 +136,12 @@ namespace MortenSurvivor
             {
                 case UpgradeType.Mitre:
                     break;
-                case UpgradeType.Bible:
-                    break;
-                case UpgradeType.Rosary:
-                    break;
-                case UpgradeType.WallGoose:
-                    break;
+                //case UpgradeType.Bible:
+                //    break;
+                //case UpgradeType.Rosary:
+                //    break;
+                //case UpgradeType.WallGoose:
+                //    break;
                 case UpgradeType.PopeStaff:
                     if (!weapons.Contains(weapons.Find(x => x.Type == WeaponType.PopeStaff)))
                     {

@@ -47,7 +47,7 @@ namespace MortenSurvivor.Commands
         }
 
 
-        public Rectangle CollisionBox
+        public Rectangle MouseCollisionBox
         {
             get
             {
