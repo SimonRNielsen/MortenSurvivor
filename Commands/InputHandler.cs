@@ -47,6 +47,15 @@ namespace MortenSurvivor.Commands
         }
 
 
+        public Rectangle MouseCollisionBox
+        {
+            get
+            {
+                return new Rectangle();
+            }
+        }
+
+
         public void AddUpdateCommand(Keys inputKey, ICommand command)
         {
             keybindsUpdate.Add(inputKey, command);
