@@ -191,9 +191,9 @@ namespace MortenSurvivor
 
 
             //Nest
-            GameObjects.Add(new Environment(EnvironmentTile.Nest, new Vector2(-50, 160))); //Kan spawne gæs her også
+            GameObjects.Add(new Environment(EnvironmentTile.Nest, new Vector2(-50, 160))); 
             GameObjects.Add(new Environment(EnvironmentTile.Nest, new Vector2(Screensize.X * 1.2f, 900)));
-            GameObjects.Add(new Environment(EnvironmentTile.Nest, new Vector2(1590, 134)));
+            GameObjects.Add(new Environment(EnvironmentTile.Nest, new Vector2(1590, 134))); //Kan spawne gæs her også
             GameObjects.Add(new Environment(EnvironmentTile.Nest, new Vector2(-1455, 1670)));
             GameObjects.Add(new Environment(EnvironmentTile.Nest, new Vector2(2940, 0)));
             GameObjects.Add(new Environment(EnvironmentTile.Nest, new Vector2(3205, 1905)));
@@ -201,31 +201,12 @@ namespace MortenSurvivor
 
             #endregion
 
-            GameObjects.Add(Player.Instance);
-            InputHandler.Instance.AddUpdateCommand(Keys.A, new MoveCommand(Player.Instance, new Vector2(-1, 0))); //Move left
-            InputHandler.Instance.AddUpdateCommand(Keys.D, new MoveCommand(Player.Instance, new Vector2(1, 0))); //Move right
-            InputHandler.Instance.AddUpdateCommand(Keys.W, new MoveCommand(Player.Instance, new Vector2(0, -1))); //Move  up
-            InputHandler.Instance.AddUpdateCommand(Keys.S, new MoveCommand(Player.Instance, new Vector2(0, 1))); //Move down
-            InputHandler.Instance.AddOncePerCountdownCommand(MouseKeys.LeftButton, new ShootCommand(Player.Instance)); //Shoot on mouseclick or hold
-            InputHandler.Instance.AddButtonDownCommand(Keys.Escape, new ExitCommand());
-            InputHandler.Instance.AddButtonDownCommand(MouseKeys.LeftButton, new SelectCommand());
-            InputHandler.Instance.AddButtonDownCommand(Keys.P, new PauseCommand());
-            InputHandler.Instance.AddButtonDownCommand(Keys.M, new MuteCommand());
+            //status = new Status();
+            ////Attach( new Status()); //subscribes to observer
+            ////ResetObservers();
 
-            MediaPlayer.IsRepeating = true;
-            MediaPlayer.Play(Music[MusicTrack.BattleMusic]);
+            //base.Initialize();
 
-            status = new Status();
-            //Attach( new Status()); //subscribes to observer
-            //ResetObservers();
-
-            base.Initialize();
-
-        }
-
-
-        protected override void LoadContent()
-        {
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
@@ -442,7 +423,7 @@ namespace MortenSurvivor
             Sprites.Add(UpgradeType.GeesusBlood, potion);
 
             Texture2D[] healBoost = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Objects\\wallTurkey") };
-            Sprites.Add(UpgradeType.GeesusBlood, healBoost);
+            //Sprites.Add(UpgradeType.GeesusBlood, healBoost);
             Sprites.Add(ItemType.HealBoost, healBoost);
 
             Texture2D[] rosary = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Objects\\rosary") };
