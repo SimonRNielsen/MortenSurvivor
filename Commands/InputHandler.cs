@@ -155,13 +155,7 @@ namespace MortenSurvivor.Commands
                 {
                     command.Execute();
                 }
-                if (!previousPressedMouseKeys.Contains(mouseKey) && pressedMouseKeys.Contains(mouseKey))
-                {
-                    if (mouseKeyBindsButtonDown.TryGetValue(mouseKey, out ICommand commandButtonDown))
-                    {
-                        commandButtonDown.Execute();
-                    }
-                }
+
                 if (timeElapsed > countdown)
                 {
                     if (mouseKeybindsOncePerCoundown.TryGetValue(mouseKey, out ICommand commandCountdown))
@@ -170,6 +164,13 @@ namespace MortenSurvivor.Commands
                         timeElapsed = 0;
                     }
 
+                }
+                if (!previousPressedMouseKeys.Contains(mouseKey) && pressedMouseKeys.Contains(mouseKey))
+                {
+                    if (mouseKeyBindsButtonDown.TryGetValue(mouseKey, out ICommand commandButtonDown))
+                    {
+                        commandButtonDown.Execute();
+                    }
                 }
             }
             previousPressedMouseKeys = pressedMouseKeys;
