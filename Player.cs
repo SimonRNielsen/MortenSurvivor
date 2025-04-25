@@ -39,6 +39,7 @@ namespace MortenSurvivor
         private List<Weapon> weapons = new List<Weapon>();
         private float walkTimer;
         private SoundEffect currentWalkSound;
+        private float originalSpeed = 300f;
 
         #endregion
         #region Properties
@@ -53,7 +54,7 @@ namespace MortenSurvivor
         {
             this.fps = 15;
             velocity = Vector2.One; //Til at bevare animation indtil anden form implementeres
-            this.speed = 300;
+            this.speed = originalSpeed;
             weapon = new Weapon(WeaponType.Sling);
             weapons.Add(weapon);
             layer = 0.9f;
@@ -64,6 +65,17 @@ namespace MortenSurvivor
         #endregion
         #region Methods
 
+        public override void Load()
+        {
+            weapons.Clear();
+            weapons.Add(weapon);
+            ProjectileFactory.Instance.Prototype = (Projectile)ProjectileFactory.Instance.ProjectileStat(ProjectileType.Eggs);
+            ProjectileFactory.Instance.MagicPrototype = (Projectile)ProjectileFactory.Instance.ProjectileStat(ProjectileType.Magic);
+            ProjectileFactory.Instance.GeasterEggPrototype = (Projectile)ProjectileFactory.Instance.ProjectileStat(ProjectileType.GeasterEgg);
+            speed = originalSpeed;
+            InputHandler.Instance.Countdown = 1f;
+            base.Load();
+        }
 
         public void Move(Vector2 velocity)
         {
