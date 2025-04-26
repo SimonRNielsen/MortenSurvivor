@@ -22,7 +22,7 @@ namespace MortenSurvivor
         private int speed; //boots
         private bool isConfused; //bible
         private bool isFleeing; //rosary
-        private bool isPickedUp = false;
+        private bool isSpeed = false;
         private Texture2D sprite;
         private Vector2 position;
         private float speedTimer;
@@ -91,7 +91,6 @@ namespace MortenSurvivor
         {
             if (other is Player)
             {
-                speedTimer += GameWorld.Instance.DeltaTime;
 
                 switch (this.type)
                 {
@@ -100,8 +99,10 @@ namespace MortenSurvivor
                         break;
 
                     case ItemType.SpeedBoost:
-
-                        Player.Instance.AddSpeed(); //30 i speedboost
+                        Player.Instance.AddSpeed(300);
+                        //isSpeed = true;
+                        //speedTimer += GameWorld.Instance.DeltaTime;
+                        //Speedy();
                         break;
 
                     case ItemType.HealBoost:
@@ -138,10 +139,32 @@ namespace MortenSurvivor
             //base.OnCollision(other);
         }
 
+        public override void Update(GameTime gameTime)
+        {
+            if (isSpeed == true)
+            {
+
+                
+                
+            }
+            base.Update(gameTime);
+        }
 
 
+        public void Speedy()
+        {
+
+            if (speedTimer > 5f)
+            {
+                Player.Instance.AddSpeed(-300);
+                speedTimer = 0;
+
+            }
+
+            isSpeed = false;
 
 
+        }
 
 
         //public override void Draw(SpriteBatch spriteBatch)
@@ -160,11 +183,6 @@ namespace MortenSurvivor
 
 
         //    base.Draw(spriteBatch);
-        //}
-
-        //public void ItemPickup()
-        //{
-        //    isPickedUp = true;
         //}
 
 

@@ -41,6 +41,8 @@ namespace MortenSurvivor
         private SoundEffect currentWalkSound;
         private float originalSpeed = 300f;
 
+        private float speedTimer;
+        private bool speedBool = false;
         #endregion
         #region Properties
 
@@ -129,6 +131,18 @@ namespace MortenSurvivor
 
             GameWorld.Instance.Camera.Position = Position;
             walkTimer += GameWorld.Instance.DeltaTime;
+
+            if (speedBool == true)
+            {
+                speedTimer += GameWorld.Instance.DeltaTime;
+
+                if (speedTimer > 3)
+                {
+                    AddSpeed(-300);
+                    speedTimer = 0;
+                    speedBool = false;
+                }
+            }
 
             base.Update(gameTime); //Skal blive for at animationen kører
 
@@ -219,9 +233,11 @@ namespace MortenSurvivor
 #endif
         }
 
-        public void AddSpeed()
+        public void AddSpeed(int speedboost)
         {
-            this.speed += 300;
+            speedBool = true;
+            this.speed += speedboost;
+
         }
 
         #endregion

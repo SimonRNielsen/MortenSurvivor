@@ -133,7 +133,7 @@ namespace MortenSurvivor
             Menu.CreateMenus();
             status = new Status();
 
-            //gameObjects.Add(new Item(ItemType.HealBoost, Vector2.Zero));
+            gameObjects.Add(new Item(ItemType.SpeedBoost, Vector2.Zero));
 
             #region Environment
             //Midt
