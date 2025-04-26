@@ -201,13 +201,6 @@ namespace MortenSurvivor
 
             #endregion
 
-            //status = new Status();
-            ////Attach( new Status()); //subscribes to observer
-            ////ResetObservers();
-
-            //base.Initialize();
-
-
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             foreach (GameObject gameObject in GameObjects)
