@@ -34,9 +34,9 @@ namespace MortenSurvivor.CreationalPatterns.Factories
         #endregion
 
         #region Fields
-        private GameObject prototype;
-        private GameObject magicPrototype;
-        private GameObject geasterEggPrototype;
+        private Projectile prototype;
+        private Projectile magicPrototype;
+        private Projectile geasterEggPrototype;
         private float speed;
         private int damage;
 
@@ -44,9 +44,9 @@ namespace MortenSurvivor.CreationalPatterns.Factories
         #endregion
 
         #region Properties
-        public GameObject Prototype { get => prototype; set => prototype = value; }
-        public GameObject MagicPrototype { get => magicPrototype; set => magicPrototype = value; }
-        public GameObject GeasterEggPrototype { get => geasterEggPrototype; set => geasterEggPrototype = value; }
+        public Projectile Prototype { get => prototype; set => prototype = value; }
+        public Projectile MagicPrototype { get => magicPrototype; set => magicPrototype = value; }
+        public Projectile GeasterEggPrototype { get => geasterEggPrototype; set => geasterEggPrototype = value; }
 
         #endregion
 
@@ -54,9 +54,9 @@ namespace MortenSurvivor.CreationalPatterns.Factories
         public ProjectileFactory()
         {
             //Skal have lavet det, så det passer med det rigtige projektil
-            Prototype = ProjectileStat(ProjectileType.Eggs);
-            MagicPrototype = ProjectileStat(ProjectileType.Magic);
-            GeasterEggPrototype = ProjectileStat(ProjectileType.GeasterEgg);
+            Prototype = (Projectile)ProjectileStat(ProjectileType.Eggs);
+            MagicPrototype = (Projectile)ProjectileStat(ProjectileType.Magic);
+            GeasterEggPrototype = (Projectile)ProjectileStat(ProjectileType.GeasterEgg);
         }
 
         #endregion
