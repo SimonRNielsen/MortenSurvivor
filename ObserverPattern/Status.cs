@@ -17,11 +17,11 @@ namespace MortenSurvivor.ObserverPattern
     public class Status : IObserver
     {
         #region Fields
-        private float xpCounter = 0;
         private int kills = 0;
         private int playerHealth;
         private int currentLVL = 1; 
         private int xpToLevelUp = 50;
+        private float xpCounter = 0;
         private int upgradeCount = 0; // Will be implemented if there is time
         private float layer;
         private float elapsedTime = 0f;
@@ -49,7 +49,7 @@ namespace MortenSurvivor.ObserverPattern
             elapsedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
             playerHealth = Player.Instance.CurrentHealth;
             //xpCounter = Player.Instance.XpCounter;
-            xpCounter++;
+            GameWorld.Instance.Notify(StatusType.XpUp);
 
         }
 
@@ -91,7 +91,7 @@ namespace MortenSurvivor.ObserverPattern
             {
                 Texture2D spriteXpBar1 = spritesXP1[0];
 
-                float xpProgress = MathHelper.Clamp((float)xpCounter / xpToLevel, 0f, 1f); // Hvor fyldt baren er
+                float xpProgress = MathHelper.Clamp((float)xpCounter / xpToLevelUp, 0f, 1f); // Hvor fyldt baren er
                 Rectangle sourceRectangle = new Rectangle(0, 0, (int)(spriteXpBar1.Width * xpProgress), spriteXpBar1.Height);
                 Vector2 xpBarPosition = new Vector2(GameWorld.Instance.Camera.Position.X - 910, GameWorld.Instance.Camera.Position.Y - 460);
 
@@ -128,7 +128,7 @@ namespace MortenSurvivor.ObserverPattern
             switch (statusType)
             {
                 case StatusType.XpUp:
-                    //XPBar();
+                    XPBar();
                     break;
                 case StatusType.LevelUp:
                     currentLVL++;
@@ -155,9 +155,9 @@ namespace MortenSurvivor.ObserverPattern
 
         public void XPBar()
         {
-            if (true)
+            if (xpCounter > xpToLevelUp)
             {
-
+                currentLVL++;
             }
         }
 
