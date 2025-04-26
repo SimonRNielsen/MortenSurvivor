@@ -38,15 +38,17 @@ namespace MortenSurvivor.ObserverPattern
         #region Constructor
         #endregion
         #region Methods
-        public Status() 
+        public Status()
         {
             GameWorld.Instance.Attach(this);
         }
 
         public void Update(GameTime gameTime)
         {
-
-            elapsedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (!GameWorld.Instance.GamePaused)
+            {
+                elapsedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            }
             playerHealth = Player.Instance.CurrentHealth;
             //xpCounter = Player.Instance.XpCounter;
             GameWorld.Instance.Notify(StatusType.XpUp);
@@ -69,8 +71,11 @@ namespace MortenSurvivor.ObserverPattern
             
             //teksten skjules, bruges bare til at se om det virker
             //spriteBatch.DrawString(GameWorld.Instance.GameFont, $"Upgrades: {upgradeCount}", new Vector2(GameWorld.Instance.Camera.Position.X - 900, GameWorld.Instance.Camera.Position.Y - 120), Color.White, 0f, Vector2.Zero, 0.15f, SpriteEffects.None, 0.8f);
-            spriteBatch.DrawString(GameWorld.Instance.GameFont, $"Health: {playerHealth}", new Vector2(GameWorld.Instance.Camera.Position.X - 900, GameWorld.Instance.Camera.Position.Y - 90), Color.White, 0f, Vector2.Zero, 0.15f, SpriteEffects.None, 0.9f);
-            spriteBatch.DrawString(GameWorld.Instance.GameFont, $"XP: {xpCounter}", new Vector2(GameWorld.Instance.Camera.Position.X - 900, GameWorld.Instance.Camera.Position.Y - 30), Color.White, 0f, Vector2.Zero, 0.19f, SpriteEffects.None, 1f); //new Vector2(-550, -300)
+            //spriteBatch.DrawString(GameWorld.Instance.GameFont, $"Health: {playerHealth}", new Vector2(GameWorld.Instance.Camera.Position.X - 900, GameWorld.Instance.Camera.Position.Y - 90), Color.White, 0f, Vector2.Zero, 0.15f, SpriteEffects.None, 0.9f);
+            spriteBatch.DrawString(GameWorld.Instance.GameFont, $"XP: {xpCounter}", new Vector2(GameWorld.Instance.Camera.Position.X - 900, GameWorld.Instance.Camera.Position.Y - 50), Color.White, 0f, Vector2.Zero, 0.19f, SpriteEffects.None, 1f); //new Vector2(-550, -300)
+
+            spriteBatch.DrawString(GameWorld.Instance.GameFont, $"SPEED: {Player.Instance.Speed}", new Vector2(GameWorld.Instance.Camera.Position.X - 900, GameWorld.Instance.Camera.Position.Y - 30), Color.White, 0f, Vector2.Zero, 0.15f, SpriteEffects.None, 1f); //new Vector2(-550, -300)
+
 
             // Hent og tegn sprite for enemies killed
             if (GameWorld.Instance.Sprites.TryGetValue(StatusType.EnemiesKilled, out Texture2D[] sprites))
@@ -150,7 +155,7 @@ namespace MortenSurvivor.ObserverPattern
         public void HealthBar()
         {
             //playerHealth = Player.Instance.CurrentHealth;
-            
+
         }
 
         public void XPBar()
@@ -165,6 +170,6 @@ namespace MortenSurvivor.ObserverPattern
 
         #endregion
 
-    } 
+    }
 
 }

@@ -92,7 +92,7 @@ namespace MortenSurvivor.CreationalPatterns.Factories
                     position = new Vector2(GameWorld.Instance.Screensize.X * 2, yPosition);
                     break;
                 case 6: //Spawner fra en nest
-                    this.position = new Vector2(-50, 160);
+                    this.position = new Vector2(1590, 134);
                     break;
             }
 

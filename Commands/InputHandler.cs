@@ -46,14 +46,18 @@ namespace MortenSurvivor.Commands
 
         }
 
-
         public Rectangle MouseCollisionBox
         {
             get
             {
-                return new Rectangle();
+                Vector2 mousePosition = Mouse.GetState().Position.ToVector2();
+                Matrix inverseTransform = Matrix.Invert(GameWorld.Instance.Camera.GetTransformation()); //Danner en invers-matrice til at modvirke kameraets zoom effekt
+                mousePosition = Vector2.Transform(mousePosition, inverseTransform); //Omdanner muse-positionen til den reelle position
+                return new Rectangle((int)mousePosition.X, (int)mousePosition.Y, 1, 1);
             }
         }
+
+        public float Countdown { get => countdown; set => countdown = value; }
 
 
         public void AddUpdateCommand(Keys inputKey, ICommand command)
@@ -156,13 +160,7 @@ namespace MortenSurvivor.Commands
                 {
                     command.Execute();
                 }
-                if (!previousPressedMouseKeys.Contains(mouseKey) && pressedMouseKeys.Contains(mouseKey))
-                {
-                    if (mouseKeyBindsButtonDown.TryGetValue(mouseKey, out ICommand commandButtonDown))
-                    {
-                        commandButtonDown.Execute();
-                    }
-                }
+
                 if (timeElapsed > countdown)
                 {
                     if (mouseKeybindsOncePerCoundown.TryGetValue(mouseKey, out ICommand commandCountdown))
@@ -171,6 +169,13 @@ namespace MortenSurvivor.Commands
                         timeElapsed = 0;
                     }
 
+                }
+                if (!previousPressedMouseKeys.Contains(mouseKey) && pressedMouseKeys.Contains(mouseKey))
+                {
+                    if (mouseKeyBindsButtonDown.TryGetValue(mouseKey, out ICommand commandButtonDown))
+                    {
+                        commandButtonDown.Execute();
+                    }
                 }
             }
             previousPressedMouseKeys = pressedMouseKeys;

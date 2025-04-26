@@ -33,7 +33,8 @@
         PopeStaff,
         Mitre,
         GeesusBlood,
-        GeasterEgg
+        GeasterEgg,
+        HolyWater
 
     }
 
@@ -44,11 +45,9 @@
         Rosary,
         Bible,
         XPCrystal,
-        DamageBoost,
+        //DamageBoost,
         SpeedBoost,
         HealBoost,
-        ConfuseEnemy,
-        ScareEnemy
 
     }
 

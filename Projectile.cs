@@ -27,10 +27,12 @@ namespace MortenSurvivor
         private readonly Vector2 screenHalfs;
 
         #endregion
+
         #region Properties
 
 
         public float Speed { get => speed; }
+        public int Damage { get => damage; set => damage = value; }
 
 
         //public int Damage { get => damage; set => damage = value; }
@@ -39,6 +41,7 @@ namespace MortenSurvivor
         //public Vector2 Velocity { get => velocity; }
 
         #endregion
+
         #region Constuctor
 
         /// <summary>
@@ -100,6 +103,12 @@ namespace MortenSurvivor
             {
                 (other as Enemy).CurrentHealth -= damage;
                 collidedWith.Add(other);
+
+                int changeOfItemDrop = GameWorld.Instance.Random.Next(0, 10);
+                if ((other is Enemy && changeOfItemDrop == 1) || other.GetEnumType() is EnemyType.Goosifer)
+                {
+                    GameWorld.Instance.SpawnItem(Position);
+                }
             }
 
         }

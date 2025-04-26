@@ -151,6 +151,11 @@ namespace MortenSurvivor
             return clone;
         }
 
+        public Enum GetEnumType()
+        {
+            return type;
+        }
+
         #endregion
 
     }

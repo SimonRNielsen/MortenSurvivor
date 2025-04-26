@@ -52,7 +52,7 @@ namespace MortenSurvivor
         public List<Menu> GameMenu = new List<Menu>();
 
         private float deltaTime;
-        private bool gamePaused = false;
+        private bool gamePaused = true;
 
         private float lastSpawnEnemy = 2f; //Spawner en gås, når man starter op for spillet 
         private float spawnEnemyTime = 1f;
@@ -75,6 +75,7 @@ namespace MortenSurvivor
 
 
         public Random Random { get => random; }
+        public List<GameObject> GameObjects { get => gameObjects; set => gameObjects = value; }
 
         #endregion
         #region Constructor
@@ -101,73 +102,6 @@ namespace MortenSurvivor
             SetScreenSize(Screensize);
             camera = new Camera(GraphicsDevice, GameWorld.Instance.Screensize / 2);
             random = new Random();
-            Menu.CreateMenus();
-
-            #region Environment
-            //Midt
-            gameObjects.Add(new Environment(EnvironmentTile.Center, Screensize / 2));
-            gameObjects.Add(new Environment(EnvironmentTile.Left, new Vector2(-Screensize.X / 2, Screensize.Y / 2)));
-            gameObjects.Add(new Environment(EnvironmentTile.Right, new Vector2(Screensize.X * 1.5f, Screensize.Y / 2)));
-
-            //Top
-            gameObjects.Add(new Environment(EnvironmentTile.TopLeft, -Screensize / 2));
-            gameObjects.Add(new Environment(EnvironmentTile.TopRight, new Vector2(Screensize.X * 1.5f, -Screensize.Y / 2)));
-            gameObjects.Add(new Environment(EnvironmentTile.Top, new Vector2(Screensize.X / 2, -Screensize.Y / 2)));
-
-            //Bottom
-            gameObjects.Add(new Environment(EnvironmentTile.BottomLeft, new Vector2(-Screensize.X / 2, Screensize.Y * 1.5f)));
-            gameObjects.Add(new Environment(EnvironmentTile.BottomRight, new Vector2(Screensize.X * 1.5f, Screensize.Y * 1.5f)));
-            gameObjects.Add(new Environment(EnvironmentTile.Bottom, new Vector2(Screensize.X / 2, Screensize.Y * 1.5f)));
-
-            //AvSurface
-            gameObjects.Add(new Environment(EnvironmentTile.AvSurface, new Vector2(-900, Screensize.Y * 2f - 20)));
-            gameObjects.Add(new Environment(EnvironmentTile.AvSurface, new Vector2(-900 + 3586 * 0.6f, Screensize.Y * 2f - 20)));
-            gameObjects.Add(new Environment(EnvironmentTile.AvSurface, new Vector2(-900 + 3586 * 2 * 0.6f, Screensize.Y * 2f - 20)));
-
-            //Firepit
-            gameObjects.Add(new Environment(EnvironmentTile.Firepit, Vector2.Zero)); //Kan spawne gæs her
-            gameObjects.Add(new Environment(EnvironmentTile.Firepit, Screensize * 1.2f));
-            gameObjects.Add(new Environment(EnvironmentTile.Firepit, new Vector2(2000, 1700)));
-            gameObjects.Add(new Environment(EnvironmentTile.Firepit, new Vector2(400, 1800)));
-            gameObjects.Add(new Environment(EnvironmentTile.Firepit, new Vector2(-165, 940)));
-
-
-            //Hay
-            gameObjects.Add(new Environment(EnvironmentTile.Hay, new Vector2(420, 1030)));
-            gameObjects.Add(new Environment(EnvironmentTile.Hay, new Vector2(-1230, 1095)));
-            gameObjects.Add(new Environment(EnvironmentTile.Hay, new Vector2(1775, -360)));
-            gameObjects.Add(new Environment(EnvironmentTile.Hay, new Vector2(575, -390)));
-            gameObjects.Add(new Environment(EnvironmentTile.Hay, new Vector2(940, 1775)));
-
-
-            //Hay stack
-            gameObjects.Add(new Environment(EnvironmentTile.HayStack, new Vector2(89, 1335)));
-            gameObjects.Add(new Environment(EnvironmentTile.HayStack, new Vector2(-1175, 154)));
-            gameObjects.Add(new Environment(EnvironmentTile.HayStack, new Vector2(3000,625)));
-            gameObjects.Add(new Environment(EnvironmentTile.HayStack, new Vector2(-770, -885)));
-            gameObjects.Add(new Environment(EnvironmentTile.HayStack, new Vector2(3570, 1075)));
-
-
-            //Stone
-            gameObjects.Add(new Environment(EnvironmentTile.Stone, new Vector2(-710, 1860)));
-            gameObjects.Add(new Environment(EnvironmentTile.Stone, new Vector2(825, 540)));
-            gameObjects.Add(new Environment(EnvironmentTile.Stone, new Vector2(2940, 109)));
-            gameObjects.Add(new Environment(EnvironmentTile.Stone, new Vector2(-1420, -245)));
-            gameObjects.Add(new Environment(EnvironmentTile.Stone, new Vector2(1280, 1310)));
-            gameObjects.Add(new Environment(EnvironmentTile.Stone, new Vector2(3210, 15355)));
-            gameObjects.Add(new Environment(EnvironmentTile.Stone, new Vector2(3535, -215)));
-
-
-            //Nest
-            gameObjects.Add(new Environment(EnvironmentTile.Nest, new Vector2(-50, 160))); //Kan spawne gæs her også
-            gameObjects.Add(new Environment(EnvironmentTile.Nest, new Vector2(Screensize.X * 1.2f, 900)));
-            gameObjects.Add(new Environment(EnvironmentTile.Nest, new Vector2(1590, 134)));
-            gameObjects.Add(new Environment(EnvironmentTile.Nest, new Vector2(-1455, 1670)));
-            gameObjects.Add(new Environment(EnvironmentTile.Nest, new Vector2(2940, 0)));
-            gameObjects.Add(new Environment(EnvironmentTile.Nest, new Vector2(3205, 1905)));
-
-
-            #endregion
 
             gameObjects.Add(Player.Instance);
             InputHandler.Instance.AddUpdateCommand(Keys.A, new MoveCommand(Player.Instance, new Vector2(-1, 0))); //Move left
@@ -176,14 +110,14 @@ namespace MortenSurvivor
             InputHandler.Instance.AddUpdateCommand(Keys.S, new MoveCommand(Player.Instance, new Vector2(0, 1))); //Move down
             InputHandler.Instance.AddOncePerCountdownCommand(MouseKeys.LeftButton, new ShootCommand(Player.Instance)); //Shoot on mouseclick or hold
             InputHandler.Instance.AddButtonDownCommand(Keys.Escape, new ExitCommand());
-            InputHandler.Instance.AddButtonDownCommand(Keys.U, new SelectCommand());
+            InputHandler.Instance.AddButtonDownCommand(MouseKeys.LeftButton, new SelectCommand());
             InputHandler.Instance.AddButtonDownCommand(Keys.P, new PauseCommand());
             InputHandler.Instance.AddButtonDownCommand(Keys.M, new MuteCommand());
+            InputHandler.Instance.AddButtonDownCommand(Keys.U, new UpgradeCommand());
 
             MediaPlayer.IsRepeating = true;
             MediaPlayer.Play(Music[MusicTrack.BattleMusic]);
 
-            status = new Status();
             //Attach( new Status()); //subscribes to observer
             //ResetObservers();
 
@@ -196,8 +130,80 @@ namespace MortenSurvivor
         {
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+            Menu.CreateMenus();
+            status = new Status();
 
-            foreach (GameObject gameObject in gameObjects)
+            //gameObjects.Add(new Item(ItemType.SpeedBoost, Vector2.Zero));
+
+            #region Environment
+            //Midt
+            GameObjects.Add(new Environment(EnvironmentTile.Center, Screensize / 2));
+            GameObjects.Add(new Environment(EnvironmentTile.Left, new Vector2(-Screensize.X / 2, Screensize.Y / 2)));
+            GameObjects.Add(new Environment(EnvironmentTile.Right, new Vector2(Screensize.X * 1.5f, Screensize.Y / 2)));
+
+            //Top
+            GameObjects.Add(new Environment(EnvironmentTile.TopLeft, -Screensize / 2));
+            GameObjects.Add(new Environment(EnvironmentTile.TopRight, new Vector2(Screensize.X * 1.5f, -Screensize.Y / 2)));
+            GameObjects.Add(new Environment(EnvironmentTile.Top, new Vector2(Screensize.X / 2, -Screensize.Y / 2)));
+
+            //Bottom
+            GameObjects.Add(new Environment(EnvironmentTile.BottomLeft, new Vector2(-Screensize.X / 2, Screensize.Y * 1.5f)));
+            GameObjects.Add(new Environment(EnvironmentTile.BottomRight, new Vector2(Screensize.X * 1.5f, Screensize.Y * 1.5f)));
+            GameObjects.Add(new Environment(EnvironmentTile.Bottom, new Vector2(Screensize.X / 2, Screensize.Y * 1.5f)));
+
+            //AvSurface
+            GameObjects.Add(new Environment(EnvironmentTile.AvSurface, new Vector2(-900, Screensize.Y * 2f - 20)));
+            GameObjects.Add(new Environment(EnvironmentTile.AvSurface, new Vector2(-900 + 3586 * 0.6f, Screensize.Y * 2f - 20)));
+            GameObjects.Add(new Environment(EnvironmentTile.AvSurface, new Vector2(-900 + 3586 * 2 * 0.6f, Screensize.Y * 2f - 20)));
+
+            //Firepit
+            GameObjects.Add(new Environment(EnvironmentTile.Firepit, Vector2.Zero)); //Kan spawne gæs her
+            GameObjects.Add(new Environment(EnvironmentTile.Firepit, Screensize * 1.2f));
+            GameObjects.Add(new Environment(EnvironmentTile.Firepit, new Vector2(2000, 1700)));
+            GameObjects.Add(new Environment(EnvironmentTile.Firepit, new Vector2(400, 1800)));
+            GameObjects.Add(new Environment(EnvironmentTile.Firepit, new Vector2(-165, 940)));
+
+
+            //Hay
+            GameObjects.Add(new Environment(EnvironmentTile.Hay, new Vector2(420, 1030)));
+            GameObjects.Add(new Environment(EnvironmentTile.Hay, new Vector2(-1230, 1095)));
+            GameObjects.Add(new Environment(EnvironmentTile.Hay, new Vector2(1775, -360)));
+            GameObjects.Add(new Environment(EnvironmentTile.Hay, new Vector2(575, -390)));
+            GameObjects.Add(new Environment(EnvironmentTile.Hay, new Vector2(940, 1775)));
+
+
+            //Hay stack
+            gameObjects.Add(new Environment(EnvironmentTile.HayStack, new Vector2(89, 1335)));
+            gameObjects.Add(new Environment(EnvironmentTile.HayStack, new Vector2(-1175, 154)));
+            gameObjects.Add(new Environment(EnvironmentTile.HayStack, new Vector2(3000, 625)));
+            gameObjects.Add(new Environment(EnvironmentTile.HayStack, new Vector2(-770, -885)));
+            gameObjects.Add(new Environment(EnvironmentTile.HayStack, new Vector2(3570, 1075)));
+
+
+            //Stone
+            GameObjects.Add(new Environment(EnvironmentTile.Stone, new Vector2(-710, 1860)));
+            GameObjects.Add(new Environment(EnvironmentTile.Stone, new Vector2(825, 540)));
+            GameObjects.Add(new Environment(EnvironmentTile.Stone, new Vector2(2940, 109)));
+            GameObjects.Add(new Environment(EnvironmentTile.Stone, new Vector2(-1420, -245)));
+            GameObjects.Add(new Environment(EnvironmentTile.Stone, new Vector2(1280, 1310)));
+            GameObjects.Add(new Environment(EnvironmentTile.Stone, new Vector2(3210, 15355)));
+            GameObjects.Add(new Environment(EnvironmentTile.Stone, new Vector2(3535, -215)));
+
+
+            //Nest
+            GameObjects.Add(new Environment(EnvironmentTile.Nest, new Vector2(-50, 160))); 
+            GameObjects.Add(new Environment(EnvironmentTile.Nest, new Vector2(Screensize.X * 1.2f, 900)));
+            GameObjects.Add(new Environment(EnvironmentTile.Nest, new Vector2(1590, 134))); //Kan spawne gæs her også
+            GameObjects.Add(new Environment(EnvironmentTile.Nest, new Vector2(-1455, 1670)));
+            GameObjects.Add(new Environment(EnvironmentTile.Nest, new Vector2(2940, 0)));
+            GameObjects.Add(new Environment(EnvironmentTile.Nest, new Vector2(3205, 1905)));
+
+
+            #endregion
+
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            foreach (GameObject gameObject in GameObjects)
                 gameObject.Load();
 
         }
@@ -208,11 +214,12 @@ namespace MortenSurvivor
 
             deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
+
             InputHandler.Instance.Execute();
 
             if (!gamePaused)
             {
-                foreach (GameObject gameObject in gameObjects)
+                foreach (GameObject gameObject in GameObjects)
                 {
                     gameObject.Update(gameTime);
                     DoCollisionCheck(gameObject);
@@ -244,13 +251,8 @@ namespace MortenSurvivor
 
             _spriteBatch.Begin(transformMatrix: Camera.GetTransformation(), samplerState: SamplerState.PointClamp, sortMode: SpriteSortMode.FrontToBack);
 
-            foreach (GameObject gameObject in gameObjects)
+            foreach (GameObject gameObject in GameObjects)
                 gameObject.Draw(_spriteBatch);
-
-            if (GamePaused)
-            {
-                _spriteBatch.DrawString(GameFont, "Game Paused", new Vector2(Camera.Position.X - 150, Camera.Position.Y + 50), Color.Red, 0, Vector2.Zero, 2, SpriteEffects.None, 1);
-            }
 
             status.Draw(_spriteBatch);
 
@@ -410,8 +412,12 @@ namespace MortenSurvivor
             Texture2D[] mitre = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Objects\\mitre") };
             Sprites.Add(UpgradeType.Mitre, mitre);
 
+            Texture2D[] potion = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Objects\\potion") };
+            Sprites.Add(UpgradeType.GeesusBlood, potion);
+
             Texture2D[] healBoost = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Objects\\wallTurkey") };
-            Sprites.Add(UpgradeType.GeesusBlood, healBoost);
+            //Sprites.Add(UpgradeType.GeesusBlood, healBoost);
+            Sprites.Add(ItemType.HealBoost, healBoost);
 
             Texture2D[] rosary = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\Objects\\rosary") };
             Sprites.Add(ItemType.Rosary, rosary);
@@ -437,6 +443,9 @@ namespace MortenSurvivor
 
             Texture2D[] deadEnemy = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\enemy\\deadEnemy") };
             Sprites.Add(StatusType.EnemiesKilled, deadEnemy);
+
+            Texture2D[] holyWater = new Texture2D[1] { Content.Load<Texture2D>("Sprites\\objects\\holyWater") };
+            Sprites.Add(UpgradeType.HolyWater, holyWater);
 
             #endregion
             #region Player
@@ -516,7 +525,7 @@ namespace MortenSurvivor
         private void CleanUp()
         {
 
-            int remove = gameObjects.RemoveAll(x => !x.IsAlive);
+            int remove = GameObjects.RemoveAll(x => !x.IsAlive);
             if (remove > 0)
                 Debug.WriteLine($"{remove} objects removed from gameObjects");
 
@@ -526,7 +535,7 @@ namespace MortenSurvivor
                 foreach (GameObject gameObject in newGameObjects)
                     gameObject.Load();
 
-                gameObjects.AddRange(newGameObjects);
+                GameObjects.AddRange(newGameObjects);
                 Debug.WriteLine($"{newGameObjects.Count} objects added to gameObjects");
                 newGameObjects.Clear();
 
@@ -543,7 +552,7 @@ namespace MortenSurvivor
 
             HashSet<(GameObject, GameObject)> collisions = new HashSet<(GameObject, GameObject)>();
 
-            foreach (GameObject other in gameObjects)
+            foreach (GameObject other in GameObjects)
             {
 
                 if (gameObject == other || collisions.Contains((gameObject, other)) || (gameObject is Enemy && other is Enemy))
@@ -640,6 +649,11 @@ namespace MortenSurvivor
             }
         }
 
+        public void SpawnItem(Vector2 spawnPosition)
+        {
+            SpawnObject(new ItemFactory().Create(spawnPosition));
+        }
+
         public void Pause()
         {
             if (gamePaused)
@@ -672,8 +686,11 @@ namespace MortenSurvivor
         public void Restart()
         {
 
-
-
+            gameObjects.Clear();
+            newGameObjects.Clear();
+            GameMenu.Clear();
+            SpawnObject(Player.Instance);
+            LoadContent();
         }
 
 
@@ -704,6 +721,7 @@ namespace MortenSurvivor
                 observer.OnNotify(statusType);
             }
         }
+
 
         #endregion
 

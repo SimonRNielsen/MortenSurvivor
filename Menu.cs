@@ -11,7 +11,6 @@ using MortenSurvivor.Commands.States;
 using MortenSurvivor.CreationalPatterns.Factories;
 using MortenSurvivor.CreationalPatterns.Pools;
 using MortenSurvivor.ObserverPattern;
-using SharpDX.Direct3D9;
 
 namespace MortenSurvivor
 {
@@ -35,6 +34,7 @@ namespace MortenSurvivor
         private float scale = 1f;
         private float rotation = 0f;
         private float layer = 0.9f;
+        private float textSize = 0.2f;
         private bool isActive = false;
         private bool isButton = false;
         private bool isUpgrade = false;
@@ -160,6 +160,7 @@ namespace MortenSurvivor
             this.parent = parent;
             this.type = type;
             upgradeType = upgrade;
+            isActive = true;
             text = "Select";
 
             switch (type)
@@ -190,11 +191,11 @@ namespace MortenSurvivor
             if (relatedButtons != null)
                 foreach (Menu menu in relatedButtons)
                 {
-                    
+
+                    menu.Update();
                     if (menu.CollisionBox.Intersects(InputHandler.Instance.MouseCollisionBox))
                         menu.OnMouseOver();
 
-                    menu.Update();
 
                 }
 
@@ -232,22 +233,25 @@ namespace MortenSurvivor
                 spriteBatch.Draw(sprite, position, null, Color.White, rotation, origin, scale, SpriteEffects.None, layer);
 
                 if (!string.IsNullOrEmpty(text))
-                    spriteBatch.DrawString(GameWorld.Instance.GameFont, text, origin, color, 0f, Vector2.Zero, 1f, SpriteEffects.None, layer + 0.02f);
+                    spriteBatch.DrawString(GameWorld.Instance.GameFont, text, new Vector2(position.X - (text.Length * 6), position.Y - 10), color, 0f, Vector2.Zero, textSize, SpriteEffects.None, layer + 0.02f);
 
             }
 
             if (isUpgrade)
             {
 
-                spriteBatch.Draw(GameWorld.Instance.Sprites[relatedButtons[0].UpgradeType][0], new Vector2(position.X - 500, position.Y - 300), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, layer + 0.02f);
-                spriteBatch.Draw(GameWorld.Instance.Sprites[relatedButtons[1].UpgradeType][0], new Vector2(position.X, position.Y - 300), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, layer + 0.02f);
-                spriteBatch.Draw(GameWorld.Instance.Sprites[relatedButtons[2].UpgradeType][0], new Vector2(position.X + 500, position.Y - 300), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, layer + 0.02f);
+                Texture2D firstObj = GameWorld.Instance.Sprites[relatedButtons[0].UpgradeType][0];
+                Texture2D secondObj = GameWorld.Instance.Sprites[relatedButtons[1].UpgradeType][0];
+                Texture2D thridObj = GameWorld.Instance.Sprites[relatedButtons[2].UpgradeType][0];
+                spriteBatch.Draw(firstObj, new Vector2(position.X - 635, position.Y - 300), null, Color.White, 0f, new Vector2(firstObj.Width / 2, firstObj.Height /2), 1f, SpriteEffects.None, layer + 0.02f);
+                spriteBatch.Draw(secondObj, new Vector2(position.X - 25, position.Y - 300), null, Color.White, 0f, new Vector2(secondObj.Width / 2, secondObj.Height / 2), 1f, SpriteEffects.None, layer + 0.02f);
+                spriteBatch.Draw(thridObj, new Vector2(position.X + 600, position.Y - 300), null, Color.White, 0f, new Vector2(thridObj.Width / 2, thridObj.Height / 2), 1f, SpriteEffects.None, layer + 0.02f);
                 string firstChoice = SetString(relatedButtons[0].UpgradeType);
                 string secondChoice = SetString(relatedButtons[1].UpgradeType);
                 string thirdChoice = SetString(relatedButtons[2].UpgradeType);
-                spriteBatch.DrawString(GameWorld.Instance.GameFont, firstChoice, new Vector2(position.X - 500, position.Y - 200), Color.Black, 0f, Vector2.Zero, 1f, SpriteEffects.None, layer + 0.02f);
-                spriteBatch.DrawString(GameWorld.Instance.GameFont, secondChoice, new Vector2(position.X, position.Y - 200), Color.Black, 0f, Vector2.Zero, 1f, SpriteEffects.None, layer + 0.02f);
-                spriteBatch.DrawString(GameWorld.Instance.GameFont, thirdChoice, new Vector2(position.X + 500, position.Y - 200), Color.Black, 0f, Vector2.Zero, 1f, SpriteEffects.None, layer + 0.02f);
+                spriteBatch.DrawString(GameWorld.Instance.GameFont, firstChoice, new Vector2(position.X - 825, position.Y - 200), Color.Black, 0f, Vector2.Zero, textSize, SpriteEffects.None, layer + 0.02f);
+                spriteBatch.DrawString(GameWorld.Instance.GameFont, secondChoice, new Vector2(position.X - 200, position.Y - 200), Color.Black, 0f, Vector2.Zero, textSize, SpriteEffects.None, layer + 0.02f);
+                spriteBatch.DrawString(GameWorld.Instance.GameFont, thirdChoice, new Vector2(position.X + 400, position.Y - 200), Color.Black, 0f, Vector2.Zero, textSize, SpriteEffects.None, layer + 0.02f);
 
             }
 
@@ -257,16 +261,16 @@ namespace MortenSurvivor
                 switch (relatedButtons.Count)
                 {
                     case 1:
-                        relatedButtons[0].Position = new Vector2(position.X, position.Y + 350);
+                        relatedButtons[0].Position = new Vector2(position.X, position.Y + 200);
                         break;
                     case 2:
-                        relatedButtons[0].Position = new Vector2(position.X - 300, position.Y + 350);
-                        relatedButtons[1].Position = new Vector2(position.X + 300, position.Y + 350);
+                        relatedButtons[0].Position = new Vector2(position.X - 300, position.Y - 350);
+                        relatedButtons[1].Position = new Vector2(position.X + 300, position.Y - 350);
                         break;
                     case 3:
-                        relatedButtons[0].Position = new Vector2(position.X - 500, position.Y + 350);
-                        relatedButtons[1].Position = new Vector2(position.X, position.Y + 350);
-                        relatedButtons[2].Position = new Vector2(position.X + 500, position.Y + 350);
+                        relatedButtons[0].Position = new Vector2(position.X - 635, position.Y + 225);
+                        relatedButtons[1].Position = new Vector2(position.X - 25, position.Y + 225);
+                        relatedButtons[2].Position = new Vector2(position.X + 600, position.Y + 225);
                         break;
                 }
 
@@ -300,7 +304,7 @@ namespace MortenSurvivor
             if (parent.IsUpgrade)
                 parent.relatedButtons.Clear();
 
-            Deactivate();
+            parent.Deactivate();
 
         }
 
@@ -331,8 +335,11 @@ namespace MortenSurvivor
         {
 
             isActive = false;
-            foreach (Menu menu in parent.relatedButtons)
+            foreach (Menu menu in relatedButtons)
                 menu.IsActive = false;
+
+            if (isUpgrade)
+                GameWorld.Instance.Pause();
 
         }
 
@@ -341,7 +348,7 @@ namespace MortenSurvivor
         {
 
             isActive = true;
-            foreach (Menu menu in parent.relatedButtons)
+            foreach (Menu menu in relatedButtons)
                 menu.IsActive = true;
 
         }
@@ -354,6 +361,21 @@ namespace MortenSurvivor
 
             switch (upgrade)
             {
+                case UpgradeType.PopeStaff:
+                    text = "Creates a halo orbiting Morten\n\nIf already owned, increases damage";
+                    break;
+                case UpgradeType.Mitre:
+                    text = "Increases movement speed";
+                    break;
+                case UpgradeType.GeesusBlood:
+                    text = "Heals player fully";
+                    break;
+                case UpgradeType.GeasterEgg:
+                    text = "Makes Morten also shoot a geasteregg\n\nIf already owned, increases damage";
+                    break;
+                case UpgradeType.HolyWater:
+                    text = "Increases firerate to a certain point";
+                    break;
                 default:
                     text = upgrade.ToString();
                     break;
