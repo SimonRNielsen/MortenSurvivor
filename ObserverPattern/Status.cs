@@ -71,8 +71,8 @@ namespace MortenSurvivor.ObserverPattern
             
             //teksten skjules, bruges bare til at se om det virker
             //spriteBatch.DrawString(GameWorld.Instance.GameFont, $"Upgrades: {upgradeCount}", new Vector2(GameWorld.Instance.Camera.Position.X - 900, GameWorld.Instance.Camera.Position.Y - 120), Color.White, 0f, Vector2.Zero, 0.15f, SpriteEffects.None, 0.8f);
-            spriteBatch.DrawString(GameWorld.Instance.GameFont, $"Health: {playerHealth}", new Vector2(GameWorld.Instance.Camera.Position.X - 900, GameWorld.Instance.Camera.Position.Y - 90), Color.White, 0f, Vector2.Zero, 0.15f, SpriteEffects.None, 0.9f);
-            spriteBatch.DrawString(GameWorld.Instance.GameFont, $"XP: {xpCounter}", new Vector2(GameWorld.Instance.Camera.Position.X - 900, GameWorld.Instance.Camera.Position.Y - 30), Color.White, 0f, Vector2.Zero, 0.19f, SpriteEffects.None, 1f); //new Vector2(-550, -300)
+            //spriteBatch.DrawString(GameWorld.Instance.GameFont, $"Health: {playerHealth}", new Vector2(GameWorld.Instance.Camera.Position.X - 900, GameWorld.Instance.Camera.Position.Y - 90), Color.White, 0f, Vector2.Zero, 0.15f, SpriteEffects.None, 0.9f);
+            spriteBatch.DrawString(GameWorld.Instance.GameFont, $"XP: {xpCounter}", new Vector2(GameWorld.Instance.Camera.Position.X - 900, GameWorld.Instance.Camera.Position.Y - 50), Color.White, 0f, Vector2.Zero, 0.19f, SpriteEffects.None, 1f); //new Vector2(-550, -300)
 
             spriteBatch.DrawString(GameWorld.Instance.GameFont, $"SPEED: {Player.Instance.Speed}", new Vector2(GameWorld.Instance.Camera.Position.X - 900, GameWorld.Instance.Camera.Position.Y - 30), Color.White, 0f, Vector2.Zero, 0.15f, SpriteEffects.None, 1f); //new Vector2(-550, -300)
 
@@ -96,7 +96,7 @@ namespace MortenSurvivor.ObserverPattern
             {
                 Texture2D spriteXpBar1 = spritesXP1[0];
 
-                float xpProgress = MathHelper.Clamp((float)xpCounter / xpToLevel, 0f, 1f); // Hvor fyldt baren er
+                float xpProgress = MathHelper.Clamp((float)xpCounter / xpToLevelUp, 0f, 1f); // Hvor fyldt baren er
                 Rectangle sourceRectangle = new Rectangle(0, 0, (int)(spriteXpBar1.Width * xpProgress), spriteXpBar1.Height);
                 Vector2 xpBarPosition = new Vector2(GameWorld.Instance.Camera.Position.X - 910, GameWorld.Instance.Camera.Position.Y - 460);
 
