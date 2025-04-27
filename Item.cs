@@ -49,38 +49,6 @@ namespace MortenSurvivor
                 origin = new Vector2(Sprite.Width / 2, Sprite.Height / 2);
 
 
-            //switch (itemType)
-            //{
-            //    case ItemType.XPCrystal:
-
-            //        break;
-            //    case ItemType.DamageBoost:
-
-            //        break;
-            //    case ItemType.SpeedBoost:
-
-            //        break;
-            //    case ItemType.HealBoost:
-
-            //        break;
-            //    case ItemType.ConfuseEnemy:
-            //        foreach (Enemy enemy in GameWorld.Instance.GameObjects)
-            //        {
-            //            enemy.CurrentState = new ConfusedState(enemy,5f);
-            //        }
-
-
-
-            //        break;
-            //    case ItemType.ScareEnemy:
-
-            //        break;
-            //    case ItemType.Rosary:
-
-            //        break;
-            //    default:
-            //        break;
-            //}
         }
 
         #endregion
@@ -95,6 +63,9 @@ namespace MortenSurvivor
                 switch (this.type)
                 {
                     case ItemType.XPCrystal:
+                        //Player.Instance.XpCounter++;
+                        //GameWorld.Instance.Notify(StatusType.XpUp);
+
                         //Player.Instance.
                         break;
 

@@ -150,9 +150,8 @@
     {
         EnemiesKilled,
         XpUp,
-        LevelUp,
+        //LevelUp,
         HealthUpdate,
-        BarTop,
         BarViolet,
         BarBottom, 
         HealthBottom,
