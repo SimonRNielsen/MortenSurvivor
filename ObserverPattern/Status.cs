@@ -147,8 +147,12 @@ namespace MortenSurvivor.ObserverPattern
                     XPBar();
                     //currentLVL++;
                     break;
-                //case StatusType.LevelUp:
-                //    break;
+                case StatusType.LevelUp:
+
+                    break;
+                case StatusType.Upgrade:
+                    new UpgradeCommand();
+                    break;
                 case StatusType.HealthUpdate:
                     break;
                 case StatusType.EnemiesKilled:
@@ -169,6 +173,9 @@ namespace MortenSurvivor.ObserverPattern
                 currentLVL++;
                 xpCounter = 0; //nulstiller xpcounter, til næste lvl
                 xpToLevelUp += 5;
+
+                GameWorld.Instance.Notify(StatusType.Upgrade);
+
 
             }
         }
