@@ -68,7 +68,7 @@ namespace MortenSurvivor.ObserverPattern
             int seconds = (int)(elapsedTime % 60);
 
             string timeText = $"{minutes:D2}:{seconds:D2}";
-            spriteBatch.DrawString(GameWorld.Instance.GameFont, $"Tid: {timeText}", new Vector2(GameWorld.Instance.Camera.Position.X, GameWorld.Instance.Camera.Position.Y - 500), Color.White, 0f, Vector2.Zero, 0.15f, SpriteEffects.None, 1f);
+            spriteBatch.DrawString(GameWorld.Instance.GameFont, $"Tid: {timeText}", new Vector2(GameWorld.Instance.Camera.Position.X, GameWorld.Instance.Camera.Position.Y - 500), Color.White, 0f, Vector2.Zero, 0.15f, SpriteEffects.None, 0.8f);
             #endregion
 
             spriteBatch.DrawString(GameWorld.Instance.GameFont, $"LvL: {currentLVL}", new Vector2(GameWorld.Instance.Camera.Position.X - 910, GameWorld.Instance.Camera.Position.Y - 500), Color.White, 0f, Vector2.Zero, 0.15f, SpriteEffects.None, 0.8f);

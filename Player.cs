@@ -64,7 +64,7 @@ namespace MortenSurvivor
             weapons.Add(weapon);
             layer = 0.7f;
 
-            health = 1; //Sæt tilbage til 10
+            health = 10; //Sæt tilbage til 10
             
         }
 
