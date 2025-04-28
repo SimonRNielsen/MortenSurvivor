@@ -60,7 +60,7 @@ namespace MortenSurvivor.CreationalPatterns.Factories
         {
             //Enemy type udfra Enum
             int itemTypeLength = Enum.GetNames(typeof(ItemType)).Length;
-            int rndType = GameWorld.Instance.Random.Next(0, itemTypeLength + 1);
+            int rndType = GameWorld.Instance.Random.Next(0, itemTypeLength);
 
             //Samler position og ItemType til en enemy
             itemGO = new Item((ItemType)rndType, GameWorld.Instance.Screensize / 2);
@@ -77,7 +77,7 @@ namespace MortenSurvivor.CreationalPatterns.Factories
         {
             //Enemy type udfra Enum
             int itemTypeLength = Enum.GetNames(typeof(ItemType)).Length;
-            int rndType = GameWorld.Instance.Random.Next(0, itemTypeLength + 1);
+            int rndType = GameWorld.Instance.Random.Next(0, itemTypeLength);
 
             //Samler position og ItemType til en enemy
             itemGO = new Item((ItemType)rndType, spawnPosition);
