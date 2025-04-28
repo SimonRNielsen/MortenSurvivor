@@ -261,7 +261,7 @@ namespace MortenSurvivor
                 switch (relatedButtons.Count)
                 {
                     case 1:
-                        relatedButtons[0].Position = new Vector2(position.X, position.Y + 200);
+                        relatedButtons[0].Position = GameWorld.Instance.Camera.Position;
                         break;
                     case 2:
                         relatedButtons[0].Position = new Vector2(position.X - 300, position.Y - 350);
