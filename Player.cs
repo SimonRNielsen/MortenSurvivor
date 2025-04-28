@@ -40,7 +40,6 @@ namespace MortenSurvivor
         private List<Weapon> weapons = new List<Weapon>();
         private float walkTimer;
         private SoundEffect currentWalkSound;
-        private float originalSpeed = 300f;
         private float xpCounter;
         private float originalSpeed = 200f;
 

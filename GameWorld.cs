@@ -131,7 +131,6 @@ namespace MortenSurvivor
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             Menu.CreateMenus();
             status = new Status();
-            //Attach(status);
 
             #region Environment
             //Midt
@@ -234,8 +233,6 @@ namespace MortenSurvivor
                 foreach (Menu item in GameMenu)
                     if (item.IsActive)
                         item.Update();
-
-
 
             base.Update(gameTime);
 
