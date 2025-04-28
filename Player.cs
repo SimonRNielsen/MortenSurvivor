@@ -136,6 +136,7 @@ namespace MortenSurvivor
             GameWorld.Instance.Camera.Position = Position;
             walkTimer += GameWorld.Instance.DeltaTime;
 
+            //Når AddSpeed bliver kaldt skal speedTimer starte, og efter 3 sekunder bliver speed og speedTimer nulstillet igen 
             if (speedBool == true)
             {
                 speedTimer += GameWorld.Instance.DeltaTime;
@@ -237,8 +238,13 @@ namespace MortenSurvivor
 #endif
         }
 
+        /// <summary>
+        /// Øger speed med speedboost
+        /// </summary>
+        /// <param name="speedboost"></param>
         public void AddSpeed(int speedboost)
         {
+            //Starter speedTimer i Update metoden til at tælle op
             speedBool = true;
             this.speed += speedboost;
 

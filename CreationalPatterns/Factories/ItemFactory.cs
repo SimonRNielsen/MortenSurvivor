@@ -17,8 +17,25 @@ namespace MortenSurvivor.CreationalPatterns.Factories
 {
     public class ItemFactory : GameObjectFactory
     {
+        #region Singelton
+        private static ItemFactory instance;
+
+        public static ItemFactory Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new ItemFactory();
+                }
+                return instance;
+            }
+        }
+        #endregion
+
         #region Fields
         private Item itemGO;
+
 
         #endregion
 
@@ -27,6 +44,9 @@ namespace MortenSurvivor.CreationalPatterns.Factories
         #endregion
 
         #region Constructor
+        private ItemFactory()
+        {
+        }
 
         #endregion
 
@@ -40,7 +60,7 @@ namespace MortenSurvivor.CreationalPatterns.Factories
         {
             //Enemy type udfra Enum
             int itemTypeLength = Enum.GetNames(typeof(ItemType)).Length;
-            int rndType = GameWorld.Instance.Random.Next(0, itemTypeLength + 1); 
+            int rndType = GameWorld.Instance.Random.Next(0, itemTypeLength + 1);
 
             //Samler position og ItemType til en enemy
             itemGO = new Item((ItemType)rndType, GameWorld.Instance.Screensize / 2);
@@ -57,7 +77,7 @@ namespace MortenSurvivor.CreationalPatterns.Factories
         {
             //Enemy type udfra Enum
             int itemTypeLength = Enum.GetNames(typeof(ItemType)).Length;
-            int rndType = GameWorld.Instance.Random.Next(0, itemTypeLength + 1); 
+            int rndType = GameWorld.Instance.Random.Next(0, itemTypeLength + 1);
 
             //Samler position og ItemType til en enemy
             itemGO = new Item((ItemType)rndType, spawnPosition);
