@@ -22,6 +22,11 @@ namespace MortenSurvivor.ObserverPattern
         private int currentLVL = 1; 
         private int xpToLevelUp = 5;
         private float xpCounter = 0;
+        private int scoreKills;
+        private int scoreTime;
+        private int scoreXP;
+        private bool playerDead = false;
+
         private int upgradeCount = 0; // Will be implemented if there is time
         private float layer;
         private float elapsedTime = 0f;
@@ -68,6 +73,14 @@ namespace MortenSurvivor.ObserverPattern
 
             spriteBatch.DrawString(GameWorld.Instance.GameFont, $"LvL: {currentLVL}", new Vector2(GameWorld.Instance.Camera.Position.X - 910, GameWorld.Instance.Camera.Position.Y - 500), Color.White, 0f, Vector2.Zero, 0.15f, SpriteEffects.None, 0.8f);
             spriteBatch.DrawString(GameWorld.Instance.GameFont, $"Kills: {Kills}", new Vector2(GameWorld.Instance.Camera.Position.X - 770, GameWorld.Instance.Camera.Position.Y - 500), Color.White, 0f, Vector2.Zero, 0.15f, SpriteEffects.None, 0.8f); //new Vector2(-550, -270)
+
+            if (playerDead == true) 
+            {
+            spriteBatch.DrawString(GameWorld.Instance.GameFont, $"Kills: {scoreKills}", new Vector2(GameWorld.Instance.Camera.Position.X - 670, GameWorld.Instance.Camera.Position.Y - 110), Color.Black, 0f, Vector2.Zero, 0.35f, SpriteEffects.None, 1f); //new Vector2(-550, -270)
+            spriteBatch.DrawString(GameWorld.Instance.GameFont, $"Time: {timeText}", new Vector2(GameWorld.Instance.Camera.Position.X - 670, GameWorld.Instance.Camera.Position.Y +50), Color.Black, 0f, Vector2.Zero, 0.35f, SpriteEffects.None, 1f); //new Vector2(-550, -270)
+            spriteBatch.DrawString(GameWorld.Instance.GameFont, $"Level: {scoreXP}", new Vector2(GameWorld.Instance.Camera.Position.X - 670, GameWorld.Instance.Camera.Position.Y +210 ), Color.Black, 0f, Vector2.Zero, 0.35f, SpriteEffects.None, 1f); //new Vector2(-550, -270)
+            }
+
 
             //teksten skjules, bruges bare til at se om det virker
             //spriteBatch.DrawString(GameWorld.Instance.GameFont, $"Upgrades: {upgradeCount}", new Vector2(GameWorld.Instance.Camera.Position.X - 900, GameWorld.Instance.Camera.Position.Y - 50), Color.White, 0f, Vector2.Zero, 0.19f, SpriteEffects.None, 1f);
@@ -139,6 +152,8 @@ namespace MortenSurvivor.ObserverPattern
             }
 
 
+
+
         }
 
 
@@ -153,6 +168,7 @@ namespace MortenSurvivor.ObserverPattern
                     break;
                 case StatusType.LevelUp:
                     GameWorld.Instance.Notify(StatusType.Upgrade);
+                    scoreXP = currentLVL;
                     break;
                 case StatusType.Upgrade:
                     GameWorld.Instance.ActivateMenu(MenuItem.Upgrade);
@@ -162,6 +178,10 @@ namespace MortenSurvivor.ObserverPattern
                     break;
                 case StatusType.EnemiesKilled:
                     Kills++;
+                    scoreKills = Kills;
+                    break;
+                case StatusType.PlayerDead:
+                    playerDead = true;
                     break;
                 default:
                     break;

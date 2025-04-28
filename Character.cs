@@ -55,8 +55,12 @@ namespace MortenSurvivor
                         GameWorld.Instance.Notify(StatusType.XpUp); //fjernes
 
                     }
+
                     if (this is Player)
+                    {
                         GameWorld.Instance.ActivateMenu(MenuItem.Loss);
+                        GameWorld.Instance.Notify(StatusType.PlayerDead);
+                    }
 
                 }
 

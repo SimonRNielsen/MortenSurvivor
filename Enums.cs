@@ -156,7 +156,8 @@
         BarViolet,
         BarBottom, 
         HealthBottom,
-        HealthTop
+        HealthTop,
+        PlayerDead
     }
 
 }
