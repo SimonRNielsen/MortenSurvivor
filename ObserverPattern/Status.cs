@@ -9,7 +9,7 @@ namespace MortenSurvivor.ObserverPattern
         private int kills = 0;
         private int playerHealth;
         private int currentLVL = 1; 
-        private int xpToLevelUp = 10;
+        private int xpToLevelUp = 5;
         private float xpCounter = 0;
         private int scoreKills;
         private int scoreTime;
@@ -175,6 +175,8 @@ namespace MortenSurvivor.ObserverPattern
                     break;
                 case StatusType.XpCrystalUp:
                     xpCounter += 5;
+                    XPBar();
+
                     break;
                 default:
                     break;
