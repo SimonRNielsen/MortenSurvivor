@@ -685,6 +685,7 @@ namespace MortenSurvivor
             newGameObjects.Clear();
             GameMenu.Clear();
             SpawnObject(Player.Instance);
+            ResetObservers();
             LoadContent();
         }
 
