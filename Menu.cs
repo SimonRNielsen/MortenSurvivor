@@ -237,7 +237,7 @@ namespace MortenSurvivor
 
             }
 
-            if (isUpgrade)
+            if (isUpgrade && relatedButtons.Count != 0)
             {
 
                 Texture2D firstObj = GameWorld.Instance.Sprites[relatedButtons[0].UpgradeType][0];

@@ -131,6 +131,7 @@ namespace MortenSurvivor
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             Menu.CreateMenus();
             status = new Status();
+            //Attach(status);
 
             #region Environment
             //Midt
@@ -211,6 +212,7 @@ namespace MortenSurvivor
 
             deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
+            status.Update(gameTime);
 
             InputHandler.Instance.Execute();
 
@@ -233,7 +235,6 @@ namespace MortenSurvivor
                     if (item.IsActive)
                         item.Update();
 
-            status.Update(gameTime);
 
 
             base.Update(gameTime);
@@ -711,12 +712,18 @@ namespace MortenSurvivor
         {
             listeners.Remove(observer);
         }
+
         public void Notify(StatusType statusType)
         {
             foreach (IObserver observer in listeners)
             {
                 observer.OnNotify(statusType);
             }
+        }
+
+        public void ResetObservers()
+        {
+            listeners.Clear();
         }
 
 

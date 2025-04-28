@@ -105,13 +105,18 @@ namespace MortenSurvivor
                 collidedWith.Add(other);
 
                 int changeOfItemDrop = GameWorld.Instance.Random.Next(0, 10);
-                if ((other is Enemy && changeOfItemDrop == 1) || other.GetEnumType() is EnemyType.Goosifer)
+                if ((other is Enemy && changeOfItemDrop == 1 && (other as Enemy).IsAlive == false))
+                {
+                    GameWorld.Instance.SpawnItem(Position);
+                }
+                if ((other.GetEnumType() is EnemyType.Goosifer && (other as Enemy).IsAlive == false))
                 {
                     GameWorld.Instance.SpawnItem(Position);
                 }
             }
-
         }
+
+        
 
         /// <summary>
         /// Bevæger projektilet på dens vektor, og fjerner det fra update-listen hvis den kommer udenfor skærmen
