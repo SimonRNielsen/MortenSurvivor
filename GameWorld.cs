@@ -118,6 +118,7 @@ namespace MortenSurvivor
             MediaPlayer.IsRepeating = true;
             MediaPlayer.Play(Music[MusicTrack.BattleMusic]);
 
+            ResetObservers();
             //Attach( new Status()); //subscribes to observer
             //ResetObservers();
 
@@ -132,6 +133,7 @@ namespace MortenSurvivor
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             Menu.CreateMenus();
             status = new Status();
+            //Attach(status);
 
             //gameObjects.Add(new Item(ItemType.XPCrystal, Vector2.Zero));
 
@@ -214,6 +216,7 @@ namespace MortenSurvivor
 
             deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
+            status.Update(gameTime);
 
             InputHandler.Instance.Execute();
 
@@ -236,7 +239,6 @@ namespace MortenSurvivor
                     if (item.IsActive)
                         item.Update();
 
-            status.Update(gameTime);
 
 
             base.Update(gameTime);
@@ -713,12 +715,18 @@ namespace MortenSurvivor
         {
             listeners.Remove(observer);
         }
+
         public void Notify(StatusType statusType)
         {
             foreach (IObserver observer in listeners)
             {
                 observer.OnNotify(statusType);
             }
+        }
+
+        public void ResetObservers()
+        {
+            listeners.Clear();
         }
 
 

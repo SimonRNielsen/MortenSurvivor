@@ -12,6 +12,7 @@ namespace MortenSurvivor.Commands
         public void Execute()
         {
             GameWorld.Instance.ActivateMenu(MenuItem.Upgrade);
+            GameWorld.Instance.Notify(StatusType.Upgrade);
         }
     }
 }
