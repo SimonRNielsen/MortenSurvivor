@@ -40,8 +40,8 @@ namespace MortenSurvivor
         private List<Weapon> weapons = new List<Weapon>();
         private float walkTimer;
         private SoundEffect currentWalkSound;
-        private float originalSpeed = 300f;
         private float xpCounter;
+        private float originalSpeed = 200f;
 
         private float speedTimer;
         private bool speedBool = false;
@@ -62,7 +62,7 @@ namespace MortenSurvivor
             this.speed = originalSpeed;
             weapon = new Weapon(WeaponType.Sling);
             weapons.Add(weapon);
-            layer = 0.9f;
+            layer = 0.7f;
 
             health = 1; //Sæt tilbage til 10
             
@@ -144,8 +144,8 @@ namespace MortenSurvivor
                 if (speedTimer > 3)
                 {
                     AddSpeed(-300);
-                    speedTimer = 0;
                     speedBool = false;
+                    speedTimer = 0;
                 }
             }
 
@@ -245,8 +245,15 @@ namespace MortenSurvivor
         public void AddSpeed(int speedboost)
         {
             //Starter speedTimer i Update metoden til at tælle op
+            if(!speedBool || speedboost<0)
+            {
             speedBool = true;
             this.speed += speedboost;
+            }
+            else
+            {
+                speedTimer = 0;
+            }
 
         }
 

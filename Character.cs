@@ -41,6 +41,9 @@ namespace MortenSurvivor
             set
             {
 
+                if (value > health)
+                    value = health;
+
                 currentHealth = value;
 
 

@@ -99,7 +99,7 @@ namespace MortenSurvivor.CreationalPatterns.Factories
             switch (projectile)
             {
                 case ProjectileType.Eggs:
-                    speed = 200f;
+                    speed = 300f;
                     damage = 1;
                     break;
                 case ProjectileType.GeasterEgg:

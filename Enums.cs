@@ -45,7 +45,6 @@
         Rosary,
         Bible,
         XPCrystal,
-        //DamageBoost,
         SpeedBoost,
         HealBoost,
 

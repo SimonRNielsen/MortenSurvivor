@@ -34,7 +34,7 @@ namespace MortenSurvivor
         private float scale = 1f;
         private float rotation = 0f;
         private float layer = 0.9f;
-        private float textSize = 0.2f;
+        private float textSize = 0.175f;
         private bool isActive = false;
         private bool isButton = false;
         private bool isUpgrade = false;
@@ -102,7 +102,7 @@ namespace MortenSurvivor
                 case MenuItem.Win:
                 case MenuItem.Loss:
                     relatedButtons = new List<Menu>();
-                    relatedButtons.Add(new Menu(this, MenuItem.SingleButton, "Restart", false));
+                    relatedButtons.Add(new Menu(this, MenuItem.SingleButton, "Resurrect", false));
                     relatedButtons.Add(new Menu(this, MenuItem.SingleButton, "Exit", false));
                     break;
                 case MenuItem.Upgrade:
@@ -142,7 +142,7 @@ namespace MortenSurvivor
                 case "Start":
                     action = () => GameWorld.Instance.Pause();
                     break;
-                case "Restart":
+                case "Resurrect":
                     action = () => GameWorld.Instance.Restart();
                     break;
                 default:
@@ -233,7 +233,7 @@ namespace MortenSurvivor
                 spriteBatch.Draw(sprite, position, null, Color.White, rotation, origin, scale, SpriteEffects.None, layer);
 
                 if (!string.IsNullOrEmpty(text))
-                    spriteBatch.DrawString(GameWorld.Instance.GameFont, text, new Vector2(position.X - (text.Length * 6), position.Y - 10), color, 0f, Vector2.Zero, textSize, SpriteEffects.None, layer + 0.02f);
+                    spriteBatch.DrawString(GameWorld.Instance.GameFont, text, new Vector2(position.X - (text.Length * 5), position.Y - 10), color, 0f, Vector2.Zero, textSize, SpriteEffects.None, layer + 0.02f);
 
             }
 
@@ -261,7 +261,7 @@ namespace MortenSurvivor
                 switch (relatedButtons.Count)
                 {
                     case 1:
-                        relatedButtons[0].Position = new Vector2(position.X, position.Y + 200);
+                        relatedButtons[0].Position = GameWorld.Instance.Camera.Position;
                         break;
                     case 2:
                         relatedButtons[0].Position = new Vector2(position.X - 300, position.Y - 350);
@@ -271,6 +271,8 @@ namespace MortenSurvivor
                         relatedButtons[0].Position = new Vector2(position.X - 635, position.Y + 225);
                         relatedButtons[1].Position = new Vector2(position.X - 25, position.Y + 225);
                         relatedButtons[2].Position = new Vector2(position.X + 600, position.Y + 225);
+                        break;
+                    default:
                         break;
                 }
 

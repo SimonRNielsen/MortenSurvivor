@@ -85,7 +85,7 @@ namespace MortenSurvivor
 
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            IsMouseVisible = true;
+            IsMouseVisible = false;
 
         }
 
@@ -113,14 +113,12 @@ namespace MortenSurvivor
             InputHandler.Instance.AddButtonDownCommand(MouseKeys.LeftButton, new SelectCommand());
             InputHandler.Instance.AddButtonDownCommand(Keys.P, new PauseCommand());
             InputHandler.Instance.AddButtonDownCommand(Keys.M, new MuteCommand());
+#if DEBUG
             InputHandler.Instance.AddButtonDownCommand(Keys.U, new UpgradeCommand());
+#endif
 
             MediaPlayer.IsRepeating = true;
             MediaPlayer.Play(Music[MusicTrack.BattleMusic]);
-
-            ResetObservers();
-            //Attach( new Status()); //subscribes to observer
-            //ResetObservers();
 
             base.Initialize();
 
@@ -133,9 +131,6 @@ namespace MortenSurvivor
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             Menu.CreateMenus();
             status = new Status();
-            //Attach(status);
-
-            //gameObjects.Add(new Item(ItemType.XPCrystal, Vector2.Zero));
 
             #region Environment
             //Midt
@@ -239,8 +234,6 @@ namespace MortenSurvivor
                     if (item.IsActive)
                         item.Update();
 
-
-
             base.Update(gameTime);
 
         }
@@ -257,6 +250,7 @@ namespace MortenSurvivor
                 gameObject.Draw(_spriteBatch);
 
             status.Draw(_spriteBatch);
+            InputHandler.Instance.Draw(_spriteBatch);
 
             if (gamePaused)
                 foreach (Menu item in GameMenu)
