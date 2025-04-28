@@ -25,8 +25,9 @@ namespace MortenSurvivor.Commands
         private Dictionary<MouseKeys, ICommand> mouseKeybindsOncePerCoundown = new Dictionary<MouseKeys, ICommand>();
         private KeyboardState previousKeyState;
         private List<MouseKeys> previousPressedMouseKeys;
+        private Vector2 mousePos;
 
-        private float timeElapsed;
+        private float timeElapsed = 1;
         private float countdown = 1;
 
         public static InputHandler Instance
@@ -50,10 +51,7 @@ namespace MortenSurvivor.Commands
         {
             get
             {
-                Vector2 mousePosition = Mouse.GetState().Position.ToVector2();
-                Matrix inverseTransform = Matrix.Invert(GameWorld.Instance.Camera.GetTransformation()); //Danner en invers-matrice til at modvirke kameraets zoom effekt
-                mousePosition = Vector2.Transform(mousePosition, inverseTransform); //Omdanner muse-positionen til den reelle position
-                return new Rectangle((int)mousePosition.X, (int)mousePosition.Y, 1, 1);
+                return new Rectangle((int)mousePos.X, (int)mousePos.Y, 1, 1);
             }
         }
 
@@ -126,6 +124,9 @@ namespace MortenSurvivor.Commands
         {
             KeyboardState keyboardState = Keyboard.GetState();
             MouseState mouseState = Mouse.GetState();
+            Vector2 mousePosition = mouseState.Position.ToVector2();
+            Matrix inverseTransform = Matrix.Invert(GameWorld.Instance.Camera.GetTransformation()); //Danner en invers-matrice til at modvirke kameraets zoom effekt
+            mousePos = Vector2.Transform(mousePosition, inverseTransform); //Omdanner muse-positionen til den reelle position
             List<MouseKeys> pressedMouseKeys = GetPressedMouseKeys(mouseState);
             timeElapsed += GameWorld.Instance.DeltaTime;
             foreach (var pressedKey in keyboardState.GetPressedKeys())
@@ -179,6 +180,14 @@ namespace MortenSurvivor.Commands
                 }
             }
             previousPressedMouseKeys = pressedMouseKeys;
+        }
+
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+
+            spriteBatch.Draw(GameWorld.Instance.Sprites[MenuItem.MouseCursor][0], mousePos, null, Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 1f);
+
         }
 
     }
