@@ -135,7 +135,7 @@ namespace MortenSurvivor
             status = new Status();
             //Attach(status);
 
-            gameObjects.Add(new Item(ItemType.XPCrystal, Vector2.Zero));
+            //gameObjects.Add(new Item(ItemType.XPCrystal, Vector2.Zero));
 
             #region Environment
             //Midt
