@@ -25,6 +25,8 @@ namespace MortenSurvivor.ObserverPattern
         private int upgradeCount = 0; // Will be implemented if there is time
         private float layer;
         private float elapsedTime = 0f;
+        //private ICommand upgradeCommand = new UpgradeCommand();
+
 
         public float Layer { get => layer; set => layer = value; }
         public int Kills { get => kills; set => kills = value; }
@@ -39,6 +41,8 @@ namespace MortenSurvivor.ObserverPattern
         public Status()
         {
             GameWorld.Instance.Attach(this);
+            xpCounter = Player.Instance.XpCounter;
+            //upgradeCommand = new UpgradeCommand();
         }
 
         public void Update(GameTime gameTime)
@@ -64,9 +68,9 @@ namespace MortenSurvivor.ObserverPattern
 
             spriteBatch.DrawString(GameWorld.Instance.GameFont, $"LvL: {currentLVL}", new Vector2(GameWorld.Instance.Camera.Position.X - 910, GameWorld.Instance.Camera.Position.Y - 500), Color.White, 0f, Vector2.Zero, 0.15f, SpriteEffects.None, 0.8f);
             spriteBatch.DrawString(GameWorld.Instance.GameFont, $"Kills: {Kills}", new Vector2(GameWorld.Instance.Camera.Position.X - 770, GameWorld.Instance.Camera.Position.Y - 500), Color.White, 0f, Vector2.Zero, 0.15f, SpriteEffects.None, 0.8f); //new Vector2(-550, -270)
-            
+
             //teksten skjules, bruges bare til at se om det virker
-            //spriteBatch.DrawString(GameWorld.Instance.GameFont, $"Upgrades: {upgradeCount}", new Vector2(GameWorld.Instance.Camera.Position.X - 900, GameWorld.Instance.Camera.Position.Y - 120), Color.White, 0f, Vector2.Zero, 0.15f, SpriteEffects.None, 0.8f);
+            //spriteBatch.DrawString(GameWorld.Instance.GameFont, $"Upgrades: {upgradeCount}", new Vector2(GameWorld.Instance.Camera.Position.X - 900, GameWorld.Instance.Camera.Position.Y - 50), Color.White, 0f, Vector2.Zero, 0.19f, SpriteEffects.None, 1f);
             //spriteBatch.DrawString(GameWorld.Instance.GameFont, $"Health: {playerHealth}", new Vector2(GameWorld.Instance.Camera.Position.X - 900, GameWorld.Instance.Camera.Position.Y - 90), Color.White, 0f, Vector2.Zero, 0.15f, SpriteEffects.None, 0.9f);
             //spriteBatch.DrawString(GameWorld.Instance.GameFont, $"XP: {xpCounter}", new Vector2(GameWorld.Instance.Camera.Position.X - 900, GameWorld.Instance.Camera.Position.Y - 50), Color.White, 0f, Vector2.Zero, 0.19f, SpriteEffects.None, 1f); //new Vector2(-550, -300)
 
@@ -112,24 +116,26 @@ namespace MortenSurvivor.ObserverPattern
                 spriteBatch.Draw(spriteXpBar1, xpBarPosition, sourceRectangle, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.81f);
             }
 
-
-            // Hent og tegn sprite healthbar
-            if (GameWorld.Instance.Sprites.TryGetValue(StatusType.HealthBottom, out Texture2D[] sprites2))
+            if (Player.Instance.IsAlive == true)
             {
-                Texture2D healthSprite2 = sprites2[0]; // Der er kun én i dit array
-                spriteBatch.Draw(healthSprite2, new Vector2(Player.Instance.Position.X - 60, Player.Instance.Position.Y - 80), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.8f);
-            }
+                // Hent og tegn sprite healthbar
+                if (GameWorld.Instance.Sprites.TryGetValue(StatusType.HealthBottom, out Texture2D[] sprites2))
+                {
+                    Texture2D healthSprite2 = sprites2[0]; // Der er kun én i dit array
+                    spriteBatch.Draw(healthSprite2, new Vector2(Player.Instance.Position.X - 60, Player.Instance.Position.Y - 80), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.8f);
+                }
 
-            //Dynamisk healthbar
-            if (GameWorld.Instance.Sprites.TryGetValue(StatusType.HealthTop, out Texture2D[] fill))
-            {
-                Texture2D fillSprite = fill[0];
+                //Dynamisk healthbar
+                if (GameWorld.Instance.Sprites.TryGetValue(StatusType.HealthTop, out Texture2D[] fill))
+                {
+                    Texture2D fillSprite = fill[0];
 
-                float healthPercent = MathHelper.Clamp(playerHealth / 10f, 0f, 1f); // max HP = 100
-                Rectangle sourceRectangle = new Rectangle(0, 0, (int)(fillSprite.Width * healthPercent), fillSprite.Height);
-                Vector2 healthBarPosition = new Vector2(Player.Instance.Position.X - 60, Player.Instance.Position.Y - 80);
+                    float healthPercent = MathHelper.Clamp(playerHealth / 10f, 0f, 1f); // max HP = 100
+                    Rectangle sourceRectangle = new Rectangle(0, 0, (int)(fillSprite.Width * healthPercent), fillSprite.Height);
+                    Vector2 healthBarPosition = new Vector2(Player.Instance.Position.X - 60, Player.Instance.Position.Y - 80);
 
-                spriteBatch.Draw(fillSprite, healthBarPosition, sourceRectangle, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.81f);
+                    spriteBatch.Draw(fillSprite, healthBarPosition, sourceRectangle, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.81f);
+                }
             }
 
 
@@ -143,15 +149,14 @@ namespace MortenSurvivor.ObserverPattern
             {
                 case StatusType.XpUp:
                     xpCounter++;
-
                     XPBar();
-                    //currentLVL++;
                     break;
                 case StatusType.LevelUp:
-
+                    GameWorld.Instance.Notify(StatusType.Upgrade);
                     break;
                 case StatusType.Upgrade:
-                    new UpgradeCommand();
+                    GameWorld.Instance.ActivateMenu(MenuItem.Upgrade);
+                    //upgradeCount++;
                     break;
                 case StatusType.HealthUpdate:
                     break;
@@ -173,9 +178,7 @@ namespace MortenSurvivor.ObserverPattern
                 currentLVL++;
                 xpCounter = 0; //nulstiller xpcounter, til næste lvl
                 xpToLevelUp += 5;
-
-                GameWorld.Instance.Notify(StatusType.Upgrade);
-
+                GameWorld.Instance.Notify(StatusType.LevelUp);
 
             }
         }

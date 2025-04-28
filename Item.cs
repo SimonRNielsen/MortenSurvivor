@@ -63,7 +63,7 @@ namespace MortenSurvivor
                 switch (this.type)
                 {
                     case ItemType.XPCrystal:
-                        Player.Instance.XpCounter++;
+                        Player.Instance.XpCounter += 5 ;
                         GameWorld.Instance.Notify(StatusType.XpUp);
 
                         break;
