@@ -272,6 +272,8 @@ namespace MortenSurvivor
                         relatedButtons[1].Position = new Vector2(position.X - 25, position.Y + 225);
                         relatedButtons[2].Position = new Vector2(position.X + 600, position.Y + 225);
                         break;
+                    default:
+                        break;
                 }
 
                 foreach (Menu button in relatedButtons)
