@@ -194,7 +194,7 @@ namespace MortenSurvivor
             GameObjects.Add(new Environment(EnvironmentTile.Nest, new Vector2(2940, 0)));
             GameObjects.Add(new Environment(EnvironmentTile.Nest, new Vector2(3205, 1905)));
 
-
+            //gameObjects.Add(new Item(ItemType.XPCrystal, Vector2.Zero));
             #endregion
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);

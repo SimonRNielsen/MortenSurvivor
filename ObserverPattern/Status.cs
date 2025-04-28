@@ -9,7 +9,7 @@ namespace MortenSurvivor.ObserverPattern
         private int kills = 0;
         private int playerHealth;
         private int currentLVL = 1; 
-        private int xpToLevelUp = 5;
+        private int xpToLevelUp = 10;
         private float xpCounter = 0;
         private int scoreKills;
         private int scoreTime;
@@ -35,7 +35,7 @@ namespace MortenSurvivor.ObserverPattern
         public Status()
         {
             GameWorld.Instance.Attach(this);
-            xpCounter = Player.Instance.XpCounter;
+            //xpCounter = Player.Instance.XpCounter;
             //upgradeCommand = new UpgradeCommand();
         }
 
@@ -74,7 +74,7 @@ namespace MortenSurvivor.ObserverPattern
             //teksten skjules, bruges bare til at se om det virker
             //spriteBatch.DrawString(GameWorld.Instance.GameFont, $"Upgrades: {upgradeCount}", new Vector2(GameWorld.Instance.Camera.Position.X - 900, GameWorld.Instance.Camera.Position.Y - 50), Color.White, 0f, Vector2.Zero, 0.19f, SpriteEffects.None, 1f);
             //spriteBatch.DrawString(GameWorld.Instance.GameFont, $"Health: {playerHealth}", new Vector2(GameWorld.Instance.Camera.Position.X - 900, GameWorld.Instance.Camera.Position.Y - 90), Color.White, 0f, Vector2.Zero, 0.15f, SpriteEffects.None, 0.9f);
-            //spriteBatch.DrawString(GameWorld.Instance.GameFont, $"XP: {xpCounter}", new Vector2(GameWorld.Instance.Camera.Position.X - 900, GameWorld.Instance.Camera.Position.Y - 50), Color.White, 0f, Vector2.Zero, 0.19f, SpriteEffects.None, 1f); //new Vector2(-550, -300)
+            spriteBatch.DrawString(GameWorld.Instance.GameFont, $"XP: {xpCounter}", new Vector2(GameWorld.Instance.Camera.Position.X - 900, GameWorld.Instance.Camera.Position.Y - 50), Color.White, 0f, Vector2.Zero, 0.19f, SpriteEffects.None, 1f); //new Vector2(-550, -300)
 
             //spriteBatch.DrawString(GameWorld.Instance.GameFont, $"SPEED: {Player.Instance.Speed}", new Vector2(GameWorld.Instance.Camera.Position.X - 900, GameWorld.Instance.Camera.Position.Y - 30), Color.White, 0f, Vector2.Zero, 0.15f, SpriteEffects.None, 1f); //new Vector2(-550, -300)
 
@@ -153,6 +153,7 @@ namespace MortenSurvivor.ObserverPattern
             {
                 case StatusType.XpUp:
                     xpCounter++;
+
                     XPBar();
                     break;
                 case StatusType.LevelUp:
@@ -172,6 +173,9 @@ namespace MortenSurvivor.ObserverPattern
                 case StatusType.PlayerDead:
                     playerDead = true;
                     break;
+                case StatusType.XpCrystalUp:
+                    xpCounter += 5;
+                    break;
                 default:
                     break;
             }
@@ -181,14 +185,12 @@ namespace MortenSurvivor.ObserverPattern
 
         public void XPBar()
         {
-
             if (xpCounter >= xpToLevelUp)
             {
                 currentLVL++;
                 xpCounter = 0; //nulstiller xpcounter, til næste lvl
                 xpToLevelUp += 5;
                 GameWorld.Instance.Notify(StatusType.LevelUp);
-
             }
         }
 

@@ -18,6 +18,7 @@ namespace MortenSurvivor
         private Vector2 position;
         private float speedTimer;
 
+
         #endregion
 
         #region Properties
@@ -54,8 +55,7 @@ namespace MortenSurvivor
                 switch (this.type)
                 {
                     case ItemType.XPCrystal:
-                        Player.Instance.XpCounter += 5 ;
-                        GameWorld.Instance.Notify(StatusType.XpUp);
+                        GameWorld.Instance.Notify(StatusType.XpCrystalUp);
 
                         break;
 

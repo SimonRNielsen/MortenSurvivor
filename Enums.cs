@@ -156,7 +156,8 @@
         BarBottom, 
         HealthBottom,
         HealthTop,
-        PlayerDead
+        PlayerDead,
+        XpCrystalUp
     }
 
 }

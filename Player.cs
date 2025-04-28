@@ -34,14 +34,14 @@ namespace MortenSurvivor
         private List<Weapon> weapons = new List<Weapon>();
         private float walkTimer;
         private SoundEffect currentWalkSound;
-        private float xpCounter;
+        //private float xpCounter;
         private float originalSpeed = 200f;
 
         private float speedTimer;
         private bool speedBool = false;
         #endregion
         #region Properties
-        public float XpCounter { get => xpCounter; set => xpCounter = value; }
+        //public float XpCounter { get => xpCounter; set => xpCounter = value; }
 
 
 
