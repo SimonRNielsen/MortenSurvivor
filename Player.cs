@@ -144,8 +144,8 @@ namespace MortenSurvivor
                 if (speedTimer > 3)
                 {
                     AddSpeed(-300);
-                    speedTimer = 0;
                     speedBool = false;
+                    speedTimer = 0;
                 }
             }
 
@@ -245,8 +245,15 @@ namespace MortenSurvivor
         public void AddSpeed(int speedboost)
         {
             //Starter speedTimer i Update metoden til at tælle op
+            if(!speedBool || speedboost<0)
+            {
             speedBool = true;
             this.speed += speedboost;
+            }
+            else
+            {
+                speedTimer = 0;
+            }
 
         }
 
