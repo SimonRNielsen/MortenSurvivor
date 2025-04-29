@@ -94,15 +94,13 @@ namespace MortenSurvivor
         protected override void Initialize()
         {
 
-            Screensize = new Vector2(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height);
             LoadSprites();
             LoadSounds();
             LoadMusic();
             GameFont = Content.Load<SpriteFont>("gameFont");
-            SetScreenSize(Screensize);
-            Screensize = new Vector2(1920, 1080);
+            SetScreenSize(new Vector2(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height));
             camera = new Camera(GraphicsDevice, GameWorld.Instance.Screensize / 2);
-            camera.Zoom = (float)GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width / 1920;
+            camera.Zoom = (float)_graphics.PreferredBackBufferWidth / 1920;
             random = new Random();
 
             gameObjects.Add(Player.Instance);
