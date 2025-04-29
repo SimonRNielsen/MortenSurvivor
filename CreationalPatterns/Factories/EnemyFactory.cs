@@ -4,6 +4,22 @@ namespace MortenSurvivor.CreationalPatterns.Factories
 {
     public class EnemyFactory : GameObjectFactory
     {
+        #region Singelton
+        private static EnemyFactory instance;
+
+        public static EnemyFactory Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new EnemyFactory();
+                }
+                return instance;
+            }
+        }
+        #endregion
+
         #region Fields
         private Enemy enemyGO;
         private Vector2 position;

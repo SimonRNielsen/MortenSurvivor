@@ -39,7 +39,7 @@ namespace MortenSurvivor.CreationalPatterns.Pools
         /// <returns></returns>
         protected override GameObject Create()
         {
-            GameObject gameObject = new EnemyFactory().Create();
+            GameObject gameObject = EnemyFactory.Instance.Create();
             return gameObject;
         }
 
@@ -49,7 +49,7 @@ namespace MortenSurvivor.CreationalPatterns.Pools
         /// <returns></returns>
         public GameObject CreateGoosifer()
         {
-            GameObject gameObject = new EnemyFactory().CreateGoosefer();
+            GameObject gameObject = EnemyFactory.Instance.CreateGoosefer();
             return gameObject;
         }
 
