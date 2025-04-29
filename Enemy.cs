@@ -158,6 +158,9 @@ namespace MortenSurvivor
         public override void Load()
         {
 
+            if (!(currentState is ChaseState))
+                currentState = originalState;
+
             base.Load();
 
         }
@@ -168,10 +171,10 @@ namespace MortenSurvivor
             if (other is Player)
             {
 
-            if (damageTimer > damageGracePeriod && other is Player)
-            {
-                //Player tager sakde
-                Player.Instance.CurrentHealth = Player.Instance.CurrentHealth - damage;
+                if (damageTimer > damageGracePeriod && other is Player)
+                {
+                    //Player tager sakde
+                    Player.Instance.CurrentHealth = Player.Instance.CurrentHealth - damage;
 
                     Debug.WriteLine(Player.Instance.CurrentHealth);
 
