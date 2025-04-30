@@ -100,7 +100,7 @@ namespace MortenSurvivor
             GameFont = Content.Load<SpriteFont>("gameFont");
             SetScreenSize(new Vector2(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height));
             camera = new Camera(GraphicsDevice, GameWorld.Instance.Screensize / 2);
-            camera.Zoom = (float)_graphics.PreferredBackBufferWidth / 1920;
+            camera.Zoom = (float)_graphics.PreferredBackBufferWidth / Screensize.X;
             random = new Random();
 
             gameObjects.Add(Player.Instance);
