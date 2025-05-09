@@ -104,6 +104,7 @@ namespace MortenSurvivor
             random = new Random();
 
             gameObjects.Add(Player.Instance);
+            gameObjects.Add(new Test(EnemyType.Goosifer, Player.Instance.Position));
             InputHandler.Instance.AddUpdateCommand(Keys.A, new MoveCommand(Player.Instance, new Vector2(-1, 0))); //Move left
             InputHandler.Instance.AddUpdateCommand(Keys.D, new MoveCommand(Player.Instance, new Vector2(1, 0))); //Move right
             InputHandler.Instance.AddUpdateCommand(Keys.W, new MoveCommand(Player.Instance, new Vector2(0, -1))); //Move  up
